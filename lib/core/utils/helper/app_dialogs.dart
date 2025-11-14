@@ -69,7 +69,7 @@ class AppDialogs {
   //           width: context.width * 0.8,
   //           color: context.theme.colorScheme.white,
   //           style: context.textTheme.button.copyWith(
-  //             color: context.theme.colorScheme.primaryOrange,
+  //             color: context.theme.colorScheme.primaryColor,
   //           ),
   //           onTap: () {
   //             Modular.to.pop();

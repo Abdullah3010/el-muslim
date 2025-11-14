@@ -49,8 +49,8 @@ class WSharedAppBar extends StatelessWidget {
                       width: 16.w,
                       height: 28.h,
                       child: SvgPicture.asset(
-                        Assets.icons.newIcons.backIcon.path,
-                        colorFilter: ColorFilter.mode(context.theme.colorScheme.primaryOrange, BlendMode.srcIn),
+                        Assets.icons.backGold.path,
+                        colorFilter: ColorFilter.mode(context.theme.colorScheme.primaryColor, BlendMode.srcIn),
                       ),
                     ),
                   ),

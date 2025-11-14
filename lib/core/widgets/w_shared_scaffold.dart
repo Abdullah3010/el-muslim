@@ -76,7 +76,7 @@ class _WSharedScaffoldState extends State<WSharedScaffold> {
                         child: widget.body,
                       ),
                     ),
-                    if (widget.withNavBar == true) const Positioned(bottom: 10, child: WSharedNavBar()),
+                    if (widget.withNavBar == true) const Positioned(bottom: 0, child: WSharedNavBar()),
                   ],
                 ),
               ),

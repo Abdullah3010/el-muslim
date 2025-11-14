@@ -13,7 +13,4 @@ class FontFamily {
 
   /// Font family: Arial
   static const String arial = 'Arial';
-
-  /// Font family: Dubai
-  static const String dubai = 'Dubai';
 }

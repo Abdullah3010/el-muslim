@@ -71,8 +71,8 @@ class WAppBottomSheet extends StatelessWidget {
                     child: Transform.rotate(
                       angle: context.languageCode == 'ar' ? 180 * 3.14 / 180 : 0,
                       child: SvgPicture.asset(
-                        Assets.icons.backArrow.path,
-                        colorFilter: ColorFilter.mode(context.theme.colorScheme.secondaryBlue, BlendMode.srcIn),
+                        Assets.icons.backGold.path,
+                        colorFilter: ColorFilter.mode(context.theme.colorScheme.secondaryColor, BlendMode.srcIn),
                       ),
                     ),
                   ),

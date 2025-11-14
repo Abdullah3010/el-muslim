@@ -1,3 +1,4 @@
+import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/modules/core/managers/mg_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,38 +23,40 @@ class _WSharedNavBarState extends State<WSharedNavBar> {
       child: Consumer<MgCore>(
         builder: (context, manager, _) {
           return Container(
-            height: 63.h,
-            width: context.width * 0.8,
-            padding: EdgeInsets.symmetric(horizontal: 36.w, vertical: 20.h),
-            margin: EdgeInsets.symmetric(horizontal: 40.w, vertical: 15.h),
-            decoration: BoxDecoration(
-              color: context.theme.colorScheme.secondaryBlue,
-              borderRadius: BorderRadius.circular(32.r),
-              boxShadow: [
-                BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10.r, offset: Offset(0, -1.h)),
-              ],
-            ),
+            height: 105.h,
+            width: context.width,
+            padding: EdgeInsets.symmetric(horizontal: 18.w),
+            decoration: BoxDecoration(color: context.theme.colorScheme.primaryColor),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: List.generate(manager.activeIcons.length, (index) {
-                return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 18.w),
-                  child: InkWell(
-                    onTap: () => manager.setNavBarIndex(index),
-                    child: SvgPicture.asset(
-                      manager.navIndex == index ? manager.activeIcons[index] : manager.inactiveIcons[index],
-                      width: 24.w,
-                      height: 24.h,
-                      colorFilter:
-                          manager.navIndex != 1
-                              ? ColorFilter.mode(
-                                manager.navIndex == index
-                                    ? context.theme.colorScheme.primaryOrange
-                                    : context.theme.colorScheme.white,
-                                BlendMode.srcIn,
-                              )
-                              : null,
+              children: List.generate(manager.navBarItems.length, (index) {
+                return InkWell(
+                  onTap: () => manager.setNavBarIndex(index),
+                  child: SizedBox(
+                    width: (context.width / manager.navBarItems.length) - 18.w,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          (manager.navIndex == index
+                                  ? manager.navBarItems[index].activeIcon
+                                  : manager.navBarItems[index].inactiveIcon) ??
+                              '',
+                          width: 30.w,
+                          height: 30.h,
+                        ),
+                        6.heightBox,
+                        Text(
+                          manager.navBarItems[index].label ?? '',
+                          style: context.theme.textTheme.bodyMedium?.copyWith(
+                            color: context.theme.colorScheme.onPrimary,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                   ),
                 );
