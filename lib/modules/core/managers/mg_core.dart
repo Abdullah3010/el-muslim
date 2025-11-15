@@ -18,7 +18,7 @@ class MgCore extends ChangeNotifier {
       route: RoutesNames.more.moreMain,
     ),
     MNavBarItem(
-      label: 'Pray Time'.translated,
+      label: 'Prayer Times'.translated,
       activeIcon: Assets.icons.prayActive.path,
       inactiveIcon: Assets.icons.prayInactive.path,
       route: RoutesNames.prayTime.prayTimeMain,

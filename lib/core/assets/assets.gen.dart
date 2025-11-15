@@ -68,20 +68,12 @@ class $AssetsIconsGen {
   SvgGenImage get compassBigBackground =>
       const SvgGenImage('assets/icons/compass_big_background.svg');
 
-  /// File path: assets/icons/compass_circle_correct.png
-  AssetGenImage get compassCircleCorrectPng =>
-      const AssetGenImage('assets/icons/compass_circle_correct.png');
-
   /// File path: assets/icons/compass_circle_correct.svg
-  SvgGenImage get compassCircleCorrectSvg =>
+  SvgGenImage get compassCircleCorrect =>
       const SvgGenImage('assets/icons/compass_circle_correct.svg');
 
-  /// File path: assets/icons/compass_circle_wrong.png
-  AssetGenImage get compassCircleWrongPng =>
-      const AssetGenImage('assets/icons/compass_circle_wrong.png');
-
   /// File path: assets/icons/compass_circle_wrong.svg
-  SvgGenImage get compassCircleWrongSvg =>
+  SvgGenImage get compassCircleWrong =>
       const SvgGenImage('assets/icons/compass_circle_wrong.svg');
 
   /// File path: assets/icons/compass_pin_correct.svg
@@ -165,7 +157,7 @@ class $AssetsIconsGen {
       const SvgGenImage('assets/icons/werd_inactive.svg');
 
   /// List of all assets
-  List<dynamic> get values => [
+  List<SvgGenImage> get values => [
     azkarActive,
     azkarInactive,
     backBlack,
@@ -173,10 +165,8 @@ class $AssetsIconsGen {
     clock,
     close,
     compassBigBackground,
-    compassCircleCorrectPng,
-    compassCircleCorrectSvg,
-    compassCircleWrongPng,
-    compassCircleWrongSvg,
+    compassCircleCorrect,
+    compassCircleWrong,
     compassPinCorrect,
     compassPinWrong,
     compassSmallBackground,

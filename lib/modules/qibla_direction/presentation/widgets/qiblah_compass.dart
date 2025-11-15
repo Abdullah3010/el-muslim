@@ -88,11 +88,9 @@ class QiblahCompassWidget extends StatelessWidget {
                 Transform.translate(
                   offset: const Offset(0, 8),
                   child:
-                      isQiblahCorrect
-                          ? Assets.icons.compassCircleCorrectSvg.svg()
-                          : Assets.icons.compassCircleWrongSvg.svg(),
+                      isQiblahCorrect ? Assets.icons.compassCircleCorrect.svg() : Assets.icons.compassCircleWrong.svg(),
                 ),
-                isQiblahCorrect ? Assets.icons.compassCircleCorrectSvg.svg() : Assets.icons.compassCircleWrongSvg.svg(),
+                isQiblahCorrect ? Assets.icons.compassCircleCorrect.svg() : Assets.icons.compassCircleWrong.svg(),
               ],
             ),
             Container(
