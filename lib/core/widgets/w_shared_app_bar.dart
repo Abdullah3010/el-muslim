@@ -14,6 +14,7 @@ class WSharedAppBar extends StatelessWidget {
     super.key,
     this.title,
     this.action,
+    this.leading,
     this.withBack = true,
     this.withScaffoldBackground = false,
     this.onBackTap,
@@ -23,6 +24,7 @@ class WSharedAppBar extends StatelessWidget {
   final bool withBack;
   final bool withScaffoldBackground;
   final Widget? action;
+  final Widget? leading;
   final void Function()? onBackTap;
   @override
   Widget build(BuildContext context) {
@@ -32,11 +34,11 @@ class WSharedAppBar extends StatelessWidget {
         alignment: Alignment.center,
         clipBehavior: Clip.none,
         children: [
-          Center(child: Text(title ?? '', style: context.textTheme.orange24w700Arial, textAlign: TextAlign.center)),
+          Center(child: Text(title ?? '', style: context.textTheme.primary20W500, textAlign: TextAlign.center)),
           Row(
             children: [
               12.widthBox,
-              if (withBack) ...[
+              if (withBack && leading == null) ...[
                 InkWell(
                   onTap:
                       onBackTap ??
@@ -46,8 +48,8 @@ class WSharedAppBar extends StatelessWidget {
                   child: Transform.rotate(
                     angle: context.languageCode == 'ar' ? 180 * 3.14 / 180 : 0,
                     child: SizedBox(
-                      width: 16.w,
-                      height: 28.h,
+                      width: 14.w,
+                      height: 25.h,
                       child: SvgPicture.asset(
                         Assets.icons.backGold.path,
                         colorFilter: ColorFilter.mode(context.theme.colorScheme.primaryColor, BlendMode.srcIn),
@@ -56,6 +58,7 @@ class WSharedAppBar extends StatelessWidget {
                   ),
                 ),
               ],
+              if (leading != null) leading!,
               const Spacer(),
               if (action != null) action! else 40.widthBox,
             ],

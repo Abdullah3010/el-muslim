@@ -4,6 +4,7 @@ import 'package:al_muslim/modules/index/presentation/screens/sn_index.dart';
 import 'package:al_muslim/modules/more/presentation/screens/sn_more.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_pray_time.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_werd.dart';
+import 'package:al_muslim/modules/qibla_direction/presentation/screens/sn_qibla_direction.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/services/routes/guards/guards_ensuer_keyboard.dart';
@@ -66,6 +67,14 @@ class Routes {
       RoutesNames.index.indexMain,
       transition: TransitionType.fadeIn,
       child: (_) => const SnIndex(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+
+    /// ================= Qibla Direction ================= ///
+    r.child(
+      RoutesNames.qibla.qiblaMain,
+      transition: TransitionType.fadeIn,
+      child: (_) => const SnQiblaDirection(),
       guards: [EnsureKeyboardDismissed()],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:al_muslim/core/config/box_app_config/box_app_config.dart';
 import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
 import 'package:al_muslim/modules/core/managers/mg_core.dart';
+import 'package:al_muslim/modules/qibla_direction/managers/mg_qibla.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 /// [Binds] is a class that contains all the dependencies that will be used in the app.
@@ -12,5 +13,6 @@ class Binds {
 
     /// ================= Core ================= ///
     i.addLazySingleton(MgCore.new);
+    i.addLazySingleton(MgQibla.new);
   }
 }

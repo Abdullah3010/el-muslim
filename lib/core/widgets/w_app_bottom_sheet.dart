@@ -80,7 +80,7 @@ class WAppBottomSheet extends StatelessWidget {
               if (titleWidget != null) titleWidget ?? const SizedBox(),
               if (titleText != null && titleWidget == null && titleText?.isEmpty == false)
                 Expanded(
-                  child: Text(titleText ?? '', style: context.textTheme.blue16w500, textAlign: TextAlign.center),
+                  child: Text(titleText ?? '', style: context.textTheme.darkGrey14w500, textAlign: TextAlign.center),
                 ),
               40.widthBox,
             ],

@@ -64,6 +64,41 @@ class $AssetsIconsGen {
   /// File path: assets/icons/close.svg
   SvgGenImage get close => const SvgGenImage('assets/icons/close.svg');
 
+  /// File path: assets/icons/compass_big_background.svg
+  SvgGenImage get compassBigBackground =>
+      const SvgGenImage('assets/icons/compass_big_background.svg');
+
+  /// File path: assets/icons/compass_circle_correct.png
+  AssetGenImage get compassCircleCorrectPng =>
+      const AssetGenImage('assets/icons/compass_circle_correct.png');
+
+  /// File path: assets/icons/compass_circle_correct.svg
+  SvgGenImage get compassCircleCorrectSvg =>
+      const SvgGenImage('assets/icons/compass_circle_correct.svg');
+
+  /// File path: assets/icons/compass_circle_wrong.png
+  AssetGenImage get compassCircleWrongPng =>
+      const AssetGenImage('assets/icons/compass_circle_wrong.png');
+
+  /// File path: assets/icons/compass_circle_wrong.svg
+  SvgGenImage get compassCircleWrongSvg =>
+      const SvgGenImage('assets/icons/compass_circle_wrong.svg');
+
+  /// File path: assets/icons/compass_pin_correct.svg
+  SvgGenImage get compassPinCorrect =>
+      const SvgGenImage('assets/icons/compass_pin_correct.svg');
+
+  /// File path: assets/icons/compass_pin_wrong.svg
+  SvgGenImage get compassPinWrong =>
+      const SvgGenImage('assets/icons/compass_pin_wrong.svg');
+
+  /// File path: assets/icons/compass_small_background.svg
+  SvgGenImage get compassSmallBackground =>
+      const SvgGenImage('assets/icons/compass_small_background.svg');
+
+  /// File path: assets/icons/kaaba.svg
+  SvgGenImage get kaaba => const SvgGenImage('assets/icons/kaaba.svg');
+
   /// File path: assets/icons/list_active.svg
   SvgGenImage get listActive =>
       const SvgGenImage('assets/icons/list_active.svg');
@@ -108,6 +143,10 @@ class $AssetsIconsGen {
   SvgGenImage get requiredField =>
       const SvgGenImage('assets/icons/required_field.svg');
 
+  /// File path: assets/icons/rotate_right_icon.svg
+  SvgGenImage get rotateRightIcon =>
+      const SvgGenImage('assets/icons/rotate_right_icon.svg');
+
   /// File path: assets/icons/settings.svg
   SvgGenImage get settings => const SvgGenImage('assets/icons/settings.svg');
 
@@ -126,13 +165,22 @@ class $AssetsIconsGen {
       const SvgGenImage('assets/icons/werd_inactive.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [
+  List<dynamic> get values => [
     azkarActive,
     azkarInactive,
     backBlack,
     backGold,
     clock,
     close,
+    compassBigBackground,
+    compassCircleCorrectPng,
+    compassCircleCorrectSvg,
+    compassCircleWrongPng,
+    compassCircleWrongSvg,
+    compassPinCorrect,
+    compassPinWrong,
+    compassSmallBackground,
+    kaaba,
     listActive,
     listInactive,
     moon,
@@ -145,6 +193,7 @@ class $AssetsIconsGen {
     prayInactive,
     qipla,
     requiredField,
+    rotateRightIcon,
     settings,
     share,
     sun,
@@ -167,6 +216,10 @@ class $AssetsImagesGen {
   AssetGenImage get profilePlaceholder =>
       const AssetGenImage('assets/images/profile_placeholder.jpg');
 
+  /// File path: assets/images/quipla_bg.png
+  AssetGenImage get quiplaBg =>
+      const AssetGenImage('assets/images/quipla_bg.png');
+
   /// File path: assets/images/splash.png
   AssetGenImage get splash => const AssetGenImage('assets/images/splash.png');
 
@@ -179,6 +232,7 @@ class $AssetsImagesGen {
     appLogo,
     logo,
     profilePlaceholder,
+    quiplaBg,
     splash,
     syriaFlag,
   ];

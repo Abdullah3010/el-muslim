@@ -7,6 +7,7 @@ class AppThemes {
     fontFamily: FontFamily.arial,
     highlightColor: Colors.transparent,
     splashColor: Colors.transparent,
+    useMaterial3: false,
     scaffoldBackgroundColor: const Color(0xFFFAFAFA),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: Color(0xFFF2AF29),

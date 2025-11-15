@@ -7,6 +7,7 @@ class RoutesNames {
   static IndexRoutes index = IndexRoutes();
   static AzkarRoutes azkar = AzkarRoutes();
   static WerdRoutes werd = WerdRoutes();
+  static QiblaRoutes qibla = QiblaRoutes();
 }
 
 class CoreRoutes {
@@ -45,4 +46,10 @@ class WerdRoutes {
   static String get baseUrl => '${RoutesNames.baseUrl}werd/';
 
   String get werdMain => baseUrl;
+}
+
+class QiblaRoutes {
+  static String get baseUrl => '${RoutesNames.baseUrl}qibla/';
+
+  String get qiblaMain => baseUrl;
 }

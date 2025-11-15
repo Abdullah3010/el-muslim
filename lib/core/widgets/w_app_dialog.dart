@@ -56,7 +56,11 @@ class WAppDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(titleText ?? '', textAlign: TextAlign.center, style: titleStyle ?? context.textTheme.blue16w500),
+                Text(
+                  titleText ?? '',
+                  textAlign: TextAlign.center,
+                  style: titleStyle ?? context.textTheme.darkGrey14w500,
+                ),
                 if (description != null) ...[
                   16.heightBox,
                   Text(description!, textAlign: TextAlign.center, style: context.textTheme.darkGrey14w500),
