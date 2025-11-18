@@ -17,17 +17,37 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsFontsGen {
   const $AssetsFontsGen();
 
-  /// File path: assets/fonts/Arial_Bold.ttf
-  String get arialBold => 'assets/fonts/Arial_Bold.ttf';
+  /// File path: assets/fonts/Changa-Bold.ttf
+  String get changaBold => 'assets/fonts/Changa-Bold.ttf';
 
-  /// File path: assets/fonts/Arial_Medium.ttf
-  String get arialMedium => 'assets/fonts/Arial_Medium.ttf';
+  /// File path: assets/fonts/Changa-ExtraBold.ttf
+  String get changaExtraBold => 'assets/fonts/Changa-ExtraBold.ttf';
 
-  /// File path: assets/fonts/Arial_Regular.ttf
-  String get arialRegular => 'assets/fonts/Arial_Regular.ttf';
+  /// File path: assets/fonts/Changa-ExtraLight.ttf
+  String get changaExtraLight => 'assets/fonts/Changa-ExtraLight.ttf';
+
+  /// File path: assets/fonts/Changa-Light.ttf
+  String get changaLight => 'assets/fonts/Changa-Light.ttf';
+
+  /// File path: assets/fonts/Changa-Medium.ttf
+  String get changaMedium => 'assets/fonts/Changa-Medium.ttf';
+
+  /// File path: assets/fonts/Changa-Regular.ttf
+  String get changaRegular => 'assets/fonts/Changa-Regular.ttf';
+
+  /// File path: assets/fonts/Changa-SemiBold.ttf
+  String get changaSemiBold => 'assets/fonts/Changa-SemiBold.ttf';
 
   /// List of all assets
-  List<String> get values => [arialBold, arialMedium, arialRegular];
+  List<String> get values => [
+    changaBold,
+    changaExtraBold,
+    changaExtraLight,
+    changaLight,
+    changaMedium,
+    changaRegular,
+    changaSemiBold,
+  ];
 }
 
 class $AssetsGifsGen {
@@ -116,6 +136,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/mute.svg
   SvgGenImage get mute => const SvgGenImage('assets/icons/mute.svg');
 
+  /// File path: assets/icons/next_icon_white.svg
+  SvgGenImage get nextIconWhite =>
+      const SvgGenImage('assets/icons/next_icon_white.svg');
+
   /// File path: assets/icons/notification.svg
   SvgGenImage get notification =>
       const SvgGenImage('assets/icons/notification.svg');
@@ -178,6 +202,7 @@ class $AssetsIconsGen {
     moreInactive,
     mosque,
     mute,
+    nextIconWhite,
     notification,
     prayActive,
     prayInactive,
@@ -228,6 +253,42 @@ class $AssetsImagesGen {
   ];
 }
 
+class $AssetsJsonGen {
+  const $AssetsJsonGen();
+
+  /// File path: assets/json/after_pray.json
+  String get afterPray => 'assets/json/after_pray.json';
+
+  /// File path: assets/json/azkar_catigories.json
+  String get azkarCatigories => 'assets/json/azkar_catigories.json';
+
+  /// File path: assets/json/evening.json
+  String get evening => 'assets/json/evening.json';
+
+  /// File path: assets/json/masged.json
+  String get masged => 'assets/json/masged.json';
+
+  /// File path: assets/json/morning.json
+  String get morning => 'assets/json/morning.json';
+
+  /// File path: assets/json/sleeping.json
+  String get sleeping => 'assets/json/sleeping.json';
+
+  /// File path: assets/json/wakeing_up.json
+  String get wakeingUp => 'assets/json/wakeing_up.json';
+
+  /// List of all assets
+  List<String> get values => [
+    afterPray,
+    azkarCatigories,
+    evening,
+    masged,
+    morning,
+    sleeping,
+    wakeingUp,
+  ];
+}
+
 class $AssetsLangGen {
   const $AssetsLangGen();
 
@@ -248,6 +309,7 @@ class Assets {
   static const $AssetsGifsGen gifs = $AssetsGifsGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsJsonGen json = $AssetsJsonGen();
   static const $AssetsLangGen lang = $AssetsLangGen();
 }
 

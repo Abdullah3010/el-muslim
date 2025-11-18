@@ -11,6 +11,6 @@
 class FontFamily {
   FontFamily._();
 
-  /// Font family: Arial
-  static const String arial = 'Arial';
+  /// Font family: Changa
+  static const String changa = 'Changa';
 }

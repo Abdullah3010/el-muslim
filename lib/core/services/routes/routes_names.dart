@@ -40,6 +40,8 @@ class AzkarRoutes {
   static String get baseUrl => '${RoutesNames.baseUrl}azkar/';
 
   String get azkarMain => baseUrl;
+  String get zekrbase => '${baseUrl}zekr/:categoryId';
+  String zekr(int categoryId) => '${baseUrl}zekr/$categoryId';
 }
 
 class WerdRoutes {

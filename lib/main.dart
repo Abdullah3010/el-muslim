@@ -28,6 +28,8 @@ void main() {
       supportedLanguageCodes: ['ar', 'en'],
     );
 
+    LocalizeAndTranslate.setLanguageCode('ar');
+
     try {
       await Hive.initFlutter('al_muslim_data');
     } catch (e) {

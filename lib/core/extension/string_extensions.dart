@@ -1,4 +1,3 @@
-import 'package:al_muslim/core/utils/enums.dart';
 import 'package:collection/collection.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
@@ -64,32 +63,6 @@ extension StringExtensions on String {
 }
 
 extension StringNullExtensions on String? {
-  MediaType getMediaType() {
-    // Get the extension in lower case
-    final url = Uri.tryParse(this ?? '');
-
-    if (url == null) {
-      return MediaType.error;
-    }
-
-    final fileExtension = url.pathSegments.lastOrNull?.split('.').lastOrNull?.toLowerCase();
-
-    // Define lists of known extensions for each media type
-    const audioExtensions = ['mp3', 'wav', 'aac', 'flac', 'ogg'];
-    const videoExtensions = ['mp4', 'mov', 'avi', 'mkv', 'webm'];
-    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
-
-    if (audioExtensions.contains(fileExtension)) {
-      return MediaType.audio;
-    } else if (videoExtensions.contains(fileExtension)) {
-      return MediaType.video;
-    } else if (imageExtensions.contains(fileExtension)) {
-      return MediaType.image;
-    } else {
-      return MediaType.error;
-    }
-  }
-
   String addParamsToRoute(Map<String, dynamic> params) {
     if (this == null || this!.isEmpty) return '';
     final uri = Uri.parse(this ?? '');

@@ -1,3 +1,4 @@
+import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/modules/core/managers/mg_core.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _WSharedNavBarState extends State<WSharedNavBar> {
       child: Consumer<MgCore>(
         builder: (context, manager, _) {
           return Container(
-            height: 105.h,
+            height: Constants.navbarHeight.h,
             width: context.width,
             padding: EdgeInsets.symmetric(horizontal: 18.w),
             decoration: BoxDecoration(color: context.theme.colorScheme.primaryColor),

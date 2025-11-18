@@ -1,4 +1,5 @@
-import 'package:al_muslim/modules/azkar/presentation/screens/sn_azkar.dart';
+import 'package:al_muslim/modules/azkar/presentation/screens/sn_azkar_list.dart';
+import 'package:al_muslim/modules/azkar/presentation/screens/sn_zekr.dart';
 import 'package:al_muslim/modules/core/presentation/screens/sn_splash.dart';
 import 'package:al_muslim/modules/index/presentation/screens/sn_index.dart';
 import 'package:al_muslim/modules/more/presentation/screens/sn_more.dart';
@@ -58,7 +59,14 @@ class Routes {
     r.child(
       RoutesNames.azkar.azkarMain,
       transition: TransitionType.fadeIn,
-      child: (_) => const SnAzkar(),
+      child: (_) => const SnAzkarList(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+
+    r.child(
+      RoutesNames.azkar.zekrbase,
+      transition: TransitionType.fadeIn,
+      child: (_) => SnZekr(categoryId: int.tryParse(r.args.params['categoryId']) ?? 0),
       guards: [EnsureKeyboardDismissed()],
     );
 

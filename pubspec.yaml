@@ -93,24 +93,25 @@ flutter:
     - assets/images/
     - assets/lang/
     - assets/fonts/
+    - assets/json/
 
   
   fonts:
-    - family: Arial
+    - family: Changa
       fonts:
-        - asset: assets/fonts/Arial_Regular.ttf
+        - asset: assets/fonts/Changa-ExtraLight.ttf
           weight: 200
-        - asset: assets/fonts/Arial_Regular.ttf
+        - asset: assets/fonts/Changa-Light.ttf
           weight: 300
-        - asset: assets/fonts/Arial_Regular.ttf
+        - asset: assets/fonts/Changa-Regular.ttf
           weight: 400
-        - asset: assets/fonts/Arial_Medium.ttf
+        - asset: assets/fonts/Changa-Regular.ttf
           weight: 500
-        - asset: assets/fonts/Arial_Medium.ttf
+        - asset: assets/fonts/Changa-Medium.ttf
           weight: 600
-        - asset: assets/fonts/Arial_Medium.ttf
+        - asset: assets/fonts/Changa-SemiBold.ttf
           weight: 700
-        - asset: assets/fonts/Arial_Bold.ttf
+        - asset: assets/fonts/Changa-Bold.ttf
           weight: 800
-        - asset: assets/fonts/Arial_Bold.ttf
+        - asset: assets/fonts/Changa-ExtraBold.ttf
           weight: 900

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppThemes {
   static ThemeData get light => ThemeData(
-    fontFamily: FontFamily.arial,
+    fontFamily: FontFamily.changa,
     highlightColor: Colors.transparent,
     splashColor: Colors.transparent,
     useMaterial3: false,

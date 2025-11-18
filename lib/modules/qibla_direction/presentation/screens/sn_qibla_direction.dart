@@ -82,7 +82,7 @@ class _SnQiblaDirectionState extends State<SnQiblaDirection> {
               return Center(
                 child: Text(
                   'Your device does not support compass functionality.'.translated,
-                  style: context.textTheme.primary16W500?.copyWith(color: Colors.red),
+                  style: context.textTheme.primary16W500.copyWith(color: Colors.red),
                   textAlign: TextAlign.center,
                 ),
               );
