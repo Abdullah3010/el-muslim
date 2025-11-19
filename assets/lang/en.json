@@ -57,5 +57,8 @@
     "Dhuhr": "Dhuhr",
     "Asr": "Asr",
     "Maghrib": "Maghrib",
-    "Isha": "Isha"
+    "Isha": "Isha",
+    "Hour": "Hour",
+    "Minutes": "Minutes",
+    "Seconds": "Seconds"
 }

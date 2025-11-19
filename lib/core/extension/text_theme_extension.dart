@@ -13,6 +13,14 @@ extension TextStyleExtension on TextTheme {
   );
 
   /// [primary]
+  TextStyle get primary16W400 => TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 16.sp,
+    color: const Color(0xFFD8B74E),
+    height: 1.8,
+    fontFamily: FontFamily.changa,
+  );
+
   TextStyle get primary16W500 => TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 16.sp,

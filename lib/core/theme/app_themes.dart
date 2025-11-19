@@ -7,12 +7,30 @@ class AppThemes {
     fontFamily: FontFamily.changa,
     highlightColor: Colors.transparent,
     splashColor: Colors.transparent,
-    useMaterial3: false,
+
     scaffoldBackgroundColor: const Color(0xFFFAFAFA),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: Color(0xFFF2AF29),
       circularTrackColor: Color(0xFFE0E0E0),
       linearTrackColor: Color(0xFFE0E0E0),
+    ),
+    switchTheme: SwitchThemeData(
+      thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
+        // if (states.contains(WidgetState.selected)) {
+        return const Color(0xFFFFFFFF);
+        // }
+        // return const Color(0xFFBDBDBD);
+      }),
+      trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((states) {
+        return Colors.transparent;
+      }),
+
+      trackColor: WidgetStateProperty.resolveWith<Color>((states) {
+        // if (states.contains(WidgetState.selected)) {
+        return const Color(0xFFD8B74E);
+        // }
+        // return const Color(0xFFFFFAF0);
+      }),
     ),
     bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Color(0xFFfdfbf6)),
     inputDecorationTheme: InputDecorationTheme(
