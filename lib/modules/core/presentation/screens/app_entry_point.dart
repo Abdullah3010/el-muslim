@@ -1,5 +1,6 @@
 import 'package:al_muslim/modules/azkar/managers/mg_azkar.dart';
 import 'package:al_muslim/modules/core/managers/mg_core.dart';
+import 'package:al_muslim/modules/index/managers/mg_index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,6 +32,7 @@ class _AppEntryPointState extends State<AppEntryPoint> with WidgetsBindingObserv
       providers: [
         ChangeNotifierProvider(create: (_) => Modular.get<MgCore>()),
         ChangeNotifierProvider(create: (_) => Modular.get<MgAzkar>()),
+        ChangeNotifierProvider(create: (_) => Modular.get<MgIndex>()),
       ],
       child: OrientationBuilder(
         builder: (context, orientation) {

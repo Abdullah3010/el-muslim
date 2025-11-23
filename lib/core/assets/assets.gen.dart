@@ -315,11 +315,11 @@ class $AssetsJsonAzkarGen {
 class $AssetsJsonQuranGen {
   const $AssetsJsonQuranGen();
 
-  /// File path: assets/json/quran/metadata.json
-  String get metadata => 'assets/json/quran/metadata.json';
+  /// File path: assets/json/quran/quran_index.json
+  String get quranIndex => 'assets/json/quran/quran_index.json';
 
   /// List of all assets
-  List<String> get values => [metadata];
+  List<String> get values => [quranIndex];
 }
 
 class Assets {

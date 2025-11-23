@@ -86,4 +86,12 @@ extension TextStyleExtension on TextTheme {
     height: 1.8,
     fontFamily: FontFamily.changa,
   );
+
+  TextStyle get white16W400 => TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 16.sp,
+    color: Colors.white,
+    height: 1.8,
+    fontFamily: FontFamily.changa,
+  );
 }

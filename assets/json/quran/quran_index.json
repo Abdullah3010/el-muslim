@@ -12,7 +12,11 @@
     },
     "verses_count": 7,
     "words_count": 29,
-    "letters_count": 139
+    "letters_count": 139,
+    "first_page": {
+      "madani": 1,
+      "indopak": 6
+    }
   },
   {
     "number": 2,
@@ -27,7 +31,11 @@
     },
     "verses_count": 286,
     "words_count": 6144,
-    "letters_count": 25613
+    "letters_count": 25613,
+    "first_page": {
+      "madani": 2,
+      "indopak": 7
+    }
   },
   {
     "number": 3,
@@ -42,7 +50,11 @@
     },
     "verses_count": 200,
     "words_count": 3503,
-    "letters_count": 14605
+    "letters_count": 14605,
+    "first_page": {
+      "madani": 50,
+      "indopak": 47
+    }
   },
   {
     "number": 4,
@@ -57,7 +69,11 @@
     },
     "verses_count": 176,
     "words_count": 3745,
-    "letters_count": 16030
+    "letters_count": 16030,
+    "first_page": {
+      "madani": 77,
+      "indopak": 69
+    }
   },
   {
     "number": 5,
@@ -72,7 +88,11 @@
     },
     "verses_count": 120,
     "words_count": 2837,
-    "letters_count": 11892
+    "letters_count": 11892,
+    "first_page": {
+      "madani": 106,
+      "indopak": 94
+    }
   },
   {
     "number": 6,
@@ -87,7 +107,11 @@
     },
     "verses_count": 165,
     "words_count": 3055,
-    "letters_count": 12418
+    "letters_count": 12418,
+    "first_page": {
+      "madani": 128,
+      "indopak": 113
+    }
   },
   {
     "number": 7,
@@ -102,7 +126,11 @@
     },
     "verses_count": 206,
     "words_count": 3344,
-    "letters_count": 14071
+    "letters_count": 14071,
+    "first_page": {
+      "madani": 151,
+      "indopak": 133
+    }
   },
   {
     "number": 8,
@@ -116,14 +144,18 @@
       "en": "medinan"
     },
     "verses_count": 75,
-    "words_count": 1243,
-    "letters_count": 5299
+    "words_count": 3343,
+    "letters_count": 12386,
+    "first_page": {
+      "madani": 177,
+      "indopak": 154
+    }
   },
   {
     "number": 9,
     "name": {
       "ar": "التوبة",
-      "en": "The Repentance",
+      "en": "Repentance",
       "transliteration": "At-Tawbah"
     },
     "revelation_place": {
@@ -132,13 +164,17 @@
     },
     "verses_count": 129,
     "words_count": 2506,
-    "letters_count": 10873
+    "letters_count": 10714,
+    "first_page": {
+      "madani": 187,
+      "indopak": 163
+    }
   },
   {
     "number": 10,
     "name": {
       "ar": "يونس",
-      "en": "Jonas",
+      "en": "Jonah",
       "transliteration": "Yunus"
     },
     "revelation_place": {
@@ -147,7 +183,11 @@
     },
     "verses_count": 109,
     "words_count": 1841,
-    "letters_count": 7425
+    "letters_count": 7469,
+    "first_page": {
+      "madani": 208,
+      "indopak": 114
+    }
   },
   {
     "number": 11,
@@ -161,8 +201,12 @@
       "en": "meccan"
     },
     "verses_count": 123,
-    "words_count": 1947,
-    "letters_count": 7633
+    "words_count": 1943,
+    "letters_count": 7825,
+    "first_page": {
+      "madani": 221,
+      "indopak": 122
+    }
   },
   {
     "number": 12,
@@ -177,7 +221,11 @@
     },
     "verses_count": 111,
     "words_count": 1795,
-    "letters_count": 7125
+    "letters_count": 7125,
+    "first_page": {
+      "madani": 235,
+      "indopak": 132
+    }
   },
   {
     "number": 13,
@@ -192,7 +240,11 @@
     },
     "verses_count": 43,
     "words_count": 854,
-    "letters_count": 3450
+    "letters_count": 3450,
+    "first_page": {
+      "madani": 249,
+      "indopak": 139
+    }
   },
   {
     "number": 14,
@@ -207,13 +259,17 @@
     },
     "verses_count": 52,
     "words_count": 831,
-    "letters_count": 3461
+    "letters_count": 3460,
+    "first_page": {
+      "madani": 255,
+      "indopak": 143
+    }
   },
   {
     "number": 15,
     "name": {
       "ar": "الحجر",
-      "en": "The Rock",
+      "en": "The Rocky Path",
       "transliteration": "Al-Hijr"
     },
     "revelation_place": {
@@ -222,7 +278,11 @@
     },
     "verses_count": 99,
     "words_count": 658,
-    "letters_count": 2797
+    "letters_count": 2674,
+    "first_page": {
+      "madani": 262,
+      "indopak": 147
+    }
   },
   {
     "number": 16,
@@ -236,8 +296,12 @@
       "en": "meccan"
     },
     "verses_count": 128,
-    "words_count": 1845,
-    "letters_count": 7642
+    "words_count": 1851,
+    "letters_count": 7426,
+    "first_page": {
+      "madani": 267,
+      "indopak": 151
+    }
   },
   {
     "number": 17,
@@ -251,8 +315,12 @@
       "en": "meccan"
     },
     "verses_count": 111,
-    "words_count": 1559,
-    "letters_count": 6480
+    "words_count": 1556,
+    "letters_count": 6424,
+    "first_page": {
+      "madani": 282,
+      "indopak": 159
+    }
   },
   {
     "number": 18,
@@ -267,7 +335,11 @@
     },
     "verses_count": 110,
     "words_count": 1583,
-    "letters_count": 6425
+    "letters_count": 6425,
+    "first_page": {
+      "madani": 293,
+      "indopak": 166
+    }
   },
   {
     "number": 19,
@@ -282,37 +354,49 @@
     },
     "verses_count": 98,
     "words_count": 972,
-    "letters_count": 3835
+    "letters_count": 3835,
+    "first_page": {
+      "madani": 305,
+      "indopak": 174
+    }
   },
   {
     "number": 20,
     "name": {
       "ar": "طه",
-      "en": "Taahaa",
-      "transliteration": "Taha"
+      "en": "Ta-Ha",
+      "transliteration": "Ta-Ha"
     },
     "revelation_place": {
       "ar": "مكية",
       "en": "meccan"
     },
     "verses_count": 135,
-    "words_count": 1354,
-    "letters_count": 5288
+    "words_count": 1235,
+    "letters_count": 5094,
+    "first_page": {
+      "madani": 312,
+      "indopak": 178
+    }
   },
   {
     "number": 21,
     "name": {
       "ar": "الأنبياء",
       "en": "The Prophets",
-      "transliteration": "Al-Anbya"
+      "transliteration": "Al-Anbiya"
     },
     "revelation_place": {
       "ar": "مكية",
       "en": "meccan"
     },
     "verses_count": 112,
-    "words_count": 1174,
-    "letters_count": 4925
+    "words_count": 1179,
+    "letters_count": 4679,
+    "first_page": {
+      "madani": 322,
+      "indopak": 185
+    }
   },
   {
     "number": 22,
@@ -326,8 +410,12 @@
       "en": "medinan"
     },
     "verses_count": 78,
-    "words_count": 1279,
-    "letters_count": 5196
+    "words_count": 1289,
+    "letters_count": 5288,
+    "first_page": {
+      "madani": 332,
+      "indopak": 191
+    }
   },
   {
     "number": 23,
@@ -342,7 +430,11 @@
     },
     "verses_count": 118,
     "words_count": 1840,
-    "letters_count": 4802
+    "letters_count": 7425,
+    "first_page": {
+      "madani": 342,
+      "indopak": 197
+    }
   },
   {
     "number": 24,
@@ -357,7 +449,11 @@
     },
     "verses_count": 64,
     "words_count": 1317,
-    "letters_count": 5596
+    "letters_count": 5602,
+    "first_page": {
+      "madani": 350,
+      "indopak": 202
+    }
   },
   {
     "number": 25,
@@ -371,8 +467,12 @@
       "en": "meccan"
     },
     "verses_count": 77,
-    "words_count": 896,
-    "letters_count": 3786
+    "words_count": 898,
+    "letters_count": 3663,
+    "first_page": {
+      "madani": 358,
+      "indopak": 207
+    }
   },
   {
     "number": 26,
@@ -386,14 +486,18 @@
       "en": "meccan"
     },
     "verses_count": 227,
-    "words_count": 1322,
-    "letters_count": 5517
+    "words_count": 1320,
+    "letters_count": 5265,
+    "first_page": {
+      "madani": 367,
+      "indopak": 212
+    }
   },
   {
     "number": 27,
     "name": {
       "ar": "النمل",
-      "en": "The Ant",
+      "en": "The Ants",
       "transliteration": "An-Naml"
     },
     "revelation_place": {
@@ -401,14 +505,18 @@
       "en": "meccan"
     },
     "verses_count": 93,
-    "words_count": 1165,
-    "letters_count": 4679
+    "words_count": 1143,
+    "letters_count": 4692,
+    "first_page": {
+      "madani": 377,
+      "indopak": 220
+    }
   },
   {
     "number": 28,
     "name": {
       "ar": "القصص",
-      "en": "The Stories",
+      "en": "The Narration",
       "transliteration": "Al-Qasas"
     },
     "revelation_place": {
@@ -416,8 +524,12 @@
       "en": "meccan"
     },
     "verses_count": 88,
-    "words_count": 1441,
-    "letters_count": 5791
+    "words_count": 1433,
+    "letters_count": 5804,
+    "first_page": {
+      "madani": 385,
+      "indopak": 226
+    }
   },
   {
     "number": 29,
@@ -431,8 +543,12 @@
       "en": "meccan"
     },
     "verses_count": 69,
-    "words_count": 982,
-    "letters_count": 4200
+    "words_count": 985,
+    "letters_count": 4098,
+    "first_page": {
+      "madani": 396,
+      "indopak": 233
+    }
   },
   {
     "number": 30,
@@ -447,7 +563,11 @@
     },
     "verses_count": 60,
     "words_count": 819,
-    "letters_count": 3388
+    "letters_count": 3454,
+    "first_page": {
+      "madani": 404,
+      "indopak": 237
+    }
   },
   {
     "number": 31,
@@ -462,7 +582,11 @@
     },
     "verses_count": 34,
     "words_count": 550,
-    "letters_count": 2121
+    "letters_count": 2177,
+    "first_page": {
+      "madani": 411,
+      "indopak": 241
+    }
   },
   {
     "number": 32,
@@ -477,13 +601,17 @@
     },
     "verses_count": 30,
     "words_count": 374,
-    "letters_count": 1523
+    "letters_count": 1523,
+    "first_page": {
+      "madani": 415,
+      "indopak": 243
+    }
   },
   {
     "number": 33,
     "name": {
       "ar": "الأحزاب",
-      "en": "The Clans",
+      "en": "The Confederates",
       "transliteration": "Al-Ahzab"
     },
     "revelation_place": {
@@ -491,13 +619,17 @@
       "en": "medinan"
     },
     "verses_count": 73,
-    "words_count": 1303,
-    "letters_count": 5618
+    "words_count": 1309,
+    "letters_count": 5586,
+    "first_page": {
+      "madani": 418,
+      "indopak": 245
+    }
   },
   {
     "number": 34,
     "name": {
-      "ar": "سبأ",
+      "ar": "سبإ",
       "en": "Sheba",
       "transliteration": "Saba"
     },
@@ -507,13 +639,17 @@
     },
     "verses_count": 54,
     "words_count": 884,
-    "letters_count": 3510
+    "letters_count": 3533,
+    "first_page": {
+      "madani": 428,
+      "indopak": 251
+    }
   },
   {
     "number": 35,
     "name": {
       "ar": "فاطر",
-      "en": "The Originator",
+      "en": "The Originator of Creation",
       "transliteration": "Fatir"
     },
     "revelation_place": {
@@ -522,13 +658,17 @@
     },
     "verses_count": 45,
     "words_count": 780,
-    "letters_count": 3159
+    "letters_count": 3191,
+    "first_page": {
+      "madani": 434,
+      "indopak": 255
+    }
   },
   {
     "number": 36,
     "name": {
       "ar": "يس",
-      "en": "Yaseen",
+      "en": "Ya Sin",
       "transliteration": "Ya-Sin"
     },
     "revelation_place": {
@@ -536,14 +676,18 @@
       "en": "meccan"
     },
     "verses_count": 83,
-    "words_count": 733,
-    "letters_count": 2988
+    "words_count": 795,
+    "letters_count": 3068,
+    "first_page": {
+      "madani": 440,
+      "indopak": 259
+    }
   },
   {
     "number": 37,
     "name": {
       "ar": "الصافات",
-      "en": "Those drawn up in Ranks",
+      "en": "Those Ranged in Ranks",
       "transliteration": "As-Saffat"
     },
     "revelation_place": {
@@ -552,13 +696,17 @@
     },
     "verses_count": 182,
     "words_count": 865,
-    "letters_count": 3790
+    "letters_count": 3681,
+    "first_page": {
+      "madani": 446,
+      "indopak": 263
+    }
   },
   {
     "number": 38,
     "name": {
       "ar": "ص",
-      "en": "The letter Saad",
+      "en": "The Letter Sad",
       "transliteration": "Sad"
     },
     "revelation_place": {
@@ -566,14 +714,18 @@
       "en": "meccan"
     },
     "verses_count": 88,
-    "words_count": 735,
-    "letters_count": 2991
+    "words_count": 734,
+    "letters_count": 2988,
+    "first_page": {
+      "madani": 453,
+      "indopak": 269
+    }
   },
   {
     "number": 39,
     "name": {
       "ar": "الزمر",
-      "en": "The Groups",
+      "en": "The Crowds",
       "transliteration": "Az-Zumar"
     },
     "revelation_place": {
@@ -581,8 +733,12 @@
       "en": "meccan"
     },
     "verses_count": 75,
-    "words_count": 1177,
-    "letters_count": 4741
+    "words_count": 1178,
+    "letters_count": 4842,
+    "first_page": {
+      "madani": 458,
+      "indopak": 273
+    }
   },
   {
     "number": 40,
@@ -597,13 +753,17 @@
     },
     "verses_count": 85,
     "words_count": 1228,
-    "letters_count": 4984
+    "letters_count": 4895,
+    "first_page": {
+      "madani": 467,
+      "indopak": 279
+    }
   },
   {
     "number": 41,
     "name": {
       "ar": "فصلت",
-      "en": "Explained in detail",
+      "en": "Explained in Detail",
       "transliteration": "Fussilat"
     },
     "revelation_place": {
@@ -611,15 +771,19 @@
       "en": "meccan"
     },
     "verses_count": 54,
-    "words_count": 796,
-    "letters_count": 3282
+    "words_count": 844,
+    "letters_count": 3373,
+    "first_page": {
+      "madani": 477,
+      "indopak": 285
+    }
   },
   {
     "number": 42,
     "name": {
       "ar": "الشورى",
       "en": "Consultation",
-      "transliteration": "Ash-Shuraa"
+      "transliteration": "Ash-Shura"
     },
     "revelation_place": {
       "ar": "مكية",
@@ -627,13 +791,17 @@
     },
     "verses_count": 53,
     "words_count": 860,
-    "letters_count": 3431
+    "letters_count": 3440,
+    "first_page": {
+      "madani": 483,
+      "indopak": 289
+    }
   },
   {
     "number": 43,
     "name": {
       "ar": "الزخرف",
-      "en": "Ornaments of gold",
+      "en": "Gold Ornaments",
       "transliteration": "Az-Zukhruf"
     },
     "revelation_place": {
@@ -641,8 +809,12 @@
       "en": "meccan"
     },
     "verses_count": 89,
-    "words_count": 825,
-    "letters_count": 3703
+    "words_count": 838,
+    "letters_count": 3506,
+    "first_page": {
+      "madani": 489,
+      "indopak": 293
+    }
   },
   {
     "number": 44,
@@ -657,14 +829,18 @@
     },
     "verses_count": 59,
     "words_count": 346,
-    "letters_count": 1439
+    "letters_count": 1443,
+    "first_page": {
+      "madani": 496,
+      "indopak": 297
+    }
   },
   {
     "number": 45,
     "name": {
       "ar": "الجاثية",
-      "en": "Crouching",
-      "transliteration": "Al-Jathiyah"
+      "en": "Bowing the Knee",
+      "transliteration": "Al-Jathiya"
     },
     "revelation_place": {
       "ar": "مكية",
@@ -672,13 +848,17 @@
     },
     "verses_count": 37,
     "words_count": 488,
-    "letters_count": 2014
+    "letters_count": 2032,
+    "first_page": {
+      "madani": 499,
+      "indopak": 299
+    }
   },
   {
     "number": 46,
     "name": {
       "ar": "الأحقاف",
-      "en": "The Dunes",
+      "en": "Winding Sand-tracts",
       "transliteration": "Al-Ahqaf"
     },
     "revelation_place": {
@@ -687,7 +867,11 @@
     },
     "verses_count": 35,
     "words_count": 646,
-    "letters_count": 2602
+    "letters_count": 2632,
+    "first_page": {
+      "madani": 502,
+      "indopak": 302
+    }
   },
   {
     "number": 47,
@@ -702,7 +886,11 @@
     },
     "verses_count": 38,
     "words_count": 542,
-    "letters_count": 2360
+    "letters_count": 2293,
+    "first_page": {
+      "madani": 507,
+      "indopak": 305
+    }
   },
   {
     "number": 48,
@@ -717,7 +905,11 @@
     },
     "verses_count": 29,
     "words_count": 560,
-    "letters_count": 2456
+    "letters_count": 2366,
+    "first_page": {
+      "madani": 511,
+      "indopak": 307
+    }
   },
   {
     "number": 49,
@@ -732,13 +924,17 @@
     },
     "verses_count": 18,
     "words_count": 353,
-    "letters_count": 1493
+    "letters_count": 1478,
+    "first_page": {
+      "madani": 515,
+      "indopak": 310
+    }
   },
   {
     "number": 50,
     "name": {
       "ar": "ق",
-      "en": "The letter Qaaf",
+      "en": "The Letter Qaf",
       "transliteration": "Qaf"
     },
     "revelation_place": {
@@ -747,13 +943,17 @@
     },
     "verses_count": 45,
     "words_count": 373,
-    "letters_count": 1473
+    "letters_count": 1503,
+    "first_page": {
+      "madani": 518,
+      "indopak": 311
+    }
   },
   {
     "number": 51,
     "name": {
       "ar": "الذاريات",
-      "en": "The Winnowing Winds",
+      "en": "The Winds that Scatter",
       "transliteration": "Adh-Dhariyat"
     },
     "revelation_place": {
@@ -762,7 +962,11 @@
     },
     "verses_count": 60,
     "words_count": 360,
-    "letters_count": 1510
+    "letters_count": 1477,
+    "first_page": {
+      "madani": 520,
+      "indopak": 314
+    }
   },
   {
     "number": 52,
@@ -777,7 +981,11 @@
     },
     "verses_count": 49,
     "words_count": 312,
-    "letters_count": 1293
+    "letters_count": 1273,
+    "first_page": {
+      "madani": 523,
+      "indopak": 316
+    }
   },
   {
     "number": 53,
@@ -791,8 +999,12 @@
       "en": "meccan"
     },
     "verses_count": 62,
-    "words_count": 359,
-    "letters_count": 1405
+    "words_count": 360,
+    "letters_count": 1433,
+    "first_page": {
+      "madani": 526,
+      "indopak": 318
+    }
   },
   {
     "number": 54,
@@ -807,13 +1019,17 @@
     },
     "verses_count": 55,
     "words_count": 342,
-    "letters_count": 1438
+    "letters_count": 1404,
+    "first_page": {
+      "madani": 528,
+      "indopak": 320
+    }
   },
   {
     "number": 55,
     "name": {
       "ar": "الرحمن",
-      "en": "The Beneficent",
+      "en": "The Most Gracious",
       "transliteration": "Ar-Rahman"
     },
     "revelation_place": {
@@ -822,13 +1038,17 @@
     },
     "verses_count": 78,
     "words_count": 352,
-    "letters_count": 1585
+    "letters_count": 1585,
+    "first_page": {
+      "madani": 531,
+      "indopak": 322
+    }
   },
   {
     "number": 56,
     "name": {
       "ar": "الواقعة",
-      "en": "The Inevitable",
+      "en": "The Inevitable Event",
       "transliteration": "Al-Waqi'ah"
     },
     "revelation_place": {
@@ -837,7 +1057,11 @@
     },
     "verses_count": 96,
     "words_count": 379,
-    "letters_count": 1692
+    "letters_count": 1608,
+    "first_page": {
+      "madani": 534,
+      "indopak": 324
+    }
   },
   {
     "number": 57,
@@ -852,7 +1076,11 @@
     },
     "verses_count": 29,
     "words_count": 575,
-    "letters_count": 2475
+    "letters_count": 2475,
+    "first_page": {
+      "madani": 537,
+      "indopak": 327
+    }
   },
   {
     "number": 58,
@@ -867,13 +1095,17 @@
     },
     "verses_count": 22,
     "words_count": 475,
-    "letters_count": 1991
+    "letters_count": 1995,
+    "first_page": {
+      "madani": 542,
+      "indopak": 330
+    }
   },
   {
     "number": 59,
     "name": {
       "ar": "الحشر",
-      "en": "The Exile",
+      "en": "The Gathering",
       "transliteration": "Al-Hashr"
     },
     "revelation_place": {
@@ -881,15 +1113,19 @@
       "en": "medinan"
     },
     "verses_count": 24,
-    "words_count": 447,
-    "letters_count": 1913
+    "words_count": 445,
+    "letters_count": 1878,
+    "first_page": {
+      "madani": 545,
+      "indopak": 332
+    }
   },
   {
     "number": 60,
     "name": {
       "ar": "الممتحنة",
-      "en": "She that is to be examined",
-      "transliteration": "Al-Mumtahanah"
+      "en": "The Woman to be Examined",
+      "transliteration": "Al-Mumtahana"
     },
     "revelation_place": {
       "ar": "مدنية",
@@ -897,37 +1133,49 @@
     },
     "verses_count": 13,
     "words_count": 352,
-    "letters_count": 1519
+    "letters_count": 1487,
+    "first_page": {
+      "madani": 549,
+      "indopak": 334
+    }
   },
   {
     "number": 61,
     "name": {
       "ar": "الصف",
-      "en": "The Ranks",
-      "transliteration": "As-Saf"
+      "en": "The Battle Array",
+      "transliteration": "As-Saff"
     },
     "revelation_place": {
       "ar": "مدنية",
       "en": "medinan"
     },
     "verses_count": 14,
-    "words_count": 226,
-    "letters_count": 936
+    "words_count": 230,
+    "letters_count": 965,
+    "first_page": {
+      "madani": 551,
+      "indopak": 336
+    }
   },
   {
     "number": 62,
     "name": {
       "ar": "الجمعة",
       "en": "Friday",
-      "transliteration": "Al-Jumu'ah"
+      "transliteration": "Al-Jumu'a"
     },
     "revelation_place": {
       "ar": "مدنية",
       "en": "medinan"
     },
     "verses_count": 11,
-    "words_count": 177,
-    "letters_count": 749
+    "words_count": 176,
+    "letters_count": 765,
+    "first_page": {
+      "madani": 553,
+      "indopak": 337
+    }
   },
   {
     "number": 63,
@@ -942,13 +1190,17 @@
     },
     "verses_count": 11,
     "words_count": 180,
-    "letters_count": 780
+    "letters_count": 799,
+    "first_page": {
+      "madani": 554,
+      "indopak": 338
+    }
   },
   {
     "number": 64,
     "name": {
       "ar": "التغابن",
-      "en": "Mutual Disillusion",
+      "en": "Mutual Loss & Gain",
       "transliteration": "At-Taghabun"
     },
     "revelation_place": {
@@ -957,7 +1209,11 @@
     },
     "verses_count": 18,
     "words_count": 242,
-    "letters_count": 1066
+    "letters_count": 1028,
+    "first_page": {
+      "madani": 556,
+      "indopak": 339
+    }
   },
   {
     "number": 65,
@@ -971,14 +1227,18 @@
       "en": "medinan"
     },
     "verses_count": 12,
-    "words_count": 279,
-    "letters_count": 1170
+    "words_count": 283,
+    "letters_count": 1179,
+    "first_page": {
+      "madani": 558,
+      "indopak": 340
+    }
   },
   {
     "number": 66,
     "name": {
       "ar": "التحريم",
-      "en": "The Prohibition",
+      "en": "Prohibition",
       "transliteration": "At-Tahrim"
     },
     "revelation_place": {
@@ -987,13 +1247,17 @@
     },
     "verses_count": 12,
     "words_count": 254,
-    "letters_count": 1067
+    "letters_count": 1103,
+    "first_page": {
+      "madani": 560,
+      "indopak": 341
+    }
   },
   {
     "number": 67,
     "name": {
       "ar": "الملك",
-      "en": "The Sovereignty",
+      "en": "The Dominion",
       "transliteration": "Al-Mulk"
     },
     "revelation_place": {
@@ -1002,7 +1266,11 @@
     },
     "verses_count": 30,
     "words_count": 337,
-    "letters_count": 1316
+    "letters_count": 1316,
+    "first_page": {
+      "madani": 562,
+      "indopak": 343
+    }
   },
   {
     "number": 68,
@@ -1017,13 +1285,17 @@
     },
     "verses_count": 52,
     "words_count": 301,
-    "letters_count": 1258
+    "letters_count": 1217,
+    "first_page": {
+      "madani": 564,
+      "indopak": 344
+    }
   },
   {
     "number": 69,
     "name": {
       "ar": "الحاقة",
-      "en": "The Reality",
+      "en": "The Sure Reality",
       "transliteration": "Al-Haqqah"
     },
     "revelation_place": {
@@ -1031,14 +1303,18 @@
       "en": "meccan"
     },
     "verses_count": 52,
-    "words_count": 261,
-    "letters_count": 1107
+    "words_count": 260,
+    "letters_count": 1080,
+    "first_page": {
+      "madani": 566,
+      "indopak": 346
+    }
   },
   {
     "number": 70,
     "name": {
       "ar": "المعارج",
-      "en": "The Ascending Stairways",
+      "en": "The Ways of Ascent",
       "transliteration": "Al-Ma'arij"
     },
     "revelation_place": {
@@ -1047,13 +1323,17 @@
     },
     "verses_count": 44,
     "words_count": 217,
-    "letters_count": 947
+    "letters_count": 905,
+    "first_page": {
+      "madani": 568,
+      "indopak": 348
+    }
   },
   {
     "number": 71,
     "name": {
       "ar": "نوح",
-      "en": "Nooh",
+      "en": "Noah",
       "transliteration": "Nuh"
     },
     "revelation_place": {
@@ -1062,13 +1342,17 @@
     },
     "verses_count": 28,
     "words_count": 227,
-    "letters_count": 950
+    "letters_count": 965,
+    "first_page": {
+      "madani": 570,
+      "indopak": 349
+    }
   },
   {
     "number": 72,
     "name": {
       "ar": "الجن",
-      "en": "the Jinn",
+      "en": "The Jinn",
       "transliteration": "Al-Jinn"
     },
     "revelation_place": {
@@ -1076,14 +1360,18 @@
       "en": "meccan"
     },
     "verses_count": 28,
-    "words_count": 286,
-    "letters_count": 1089
+    "words_count": 285,
+    "letters_count": 1107,
+    "first_page": {
+      "madani": 572,
+      "indopak": 350
+    }
   },
   {
     "number": 73,
     "name": {
       "ar": "المزمل",
-      "en": "The Enshrouded One",
+      "en": "The One Enwrapped",
       "transliteration": "Al-Muzzammil"
     },
     "revelation_place": {
@@ -1091,14 +1379,18 @@
       "en": "meccan"
     },
     "verses_count": 20,
-    "words_count": 200,
-    "letters_count": 840
+    "words_count": 179,
+    "letters_count": 749,
+    "first_page": {
+      "madani": 574,
+      "indopak": 352
+    }
   },
   {
     "number": 74,
     "name": {
       "ar": "المدثر",
-      "en": "The Cloaked One",
+      "en": "The One Enveloped",
       "transliteration": "Al-Muddaththir"
     },
     "revelation_place": {
@@ -1106,8 +1398,12 @@
       "en": "meccan"
     },
     "verses_count": 56,
-    "words_count": 256,
-    "letters_count": 1015
+    "words_count": 248,
+    "letters_count": 1001,
+    "first_page": {
+      "madani": 576,
+      "indopak": 353
+    }
   },
   {
     "number": 75,
@@ -1122,7 +1418,11 @@
     },
     "verses_count": 40,
     "words_count": 164,
-    "letters_count": 664
+    "letters_count": 664,
+    "first_page": {
+      "madani": 578,
+      "indopak": 355
+    }
   },
   {
     "number": 76,
@@ -1136,14 +1436,18 @@
       "en": "medinan"
     },
     "verses_count": 31,
-    "words_count": 243,
-    "letters_count": 1165
+    "words_count": 240,
+    "letters_count": 1065,
+    "first_page": {
+      "madani": 580,
+      "indopak": 356
+    }
   },
   {
     "number": 77,
     "name": {
       "ar": "المرسلات",
-      "en": "The Emissaries",
+      "en": "Those Sent Forth",
       "transliteration": "Al-Mursalat"
     },
     "revelation_place": {
@@ -1152,13 +1456,17 @@
     },
     "verses_count": 50,
     "words_count": 181,
-    "letters_count": 815
+    "letters_count": 773,
+    "first_page": {
+      "madani": 580,
+      "indopak": 358
+    }
   },
   {
     "number": 78,
     "name": {
       "ar": "النبأ",
-      "en": "The Emissaries",
+      "en": "The Great News",
       "transliteration": "An-Naba"
     },
     "revelation_place": {
@@ -1167,13 +1475,17 @@
     },
     "verses_count": 40,
     "words_count": 174,
-    "letters_count": 766
+    "letters_count": 772,
+    "first_page": {
+      "madani": 582,
+      "indopak": 359
+    }
   },
   {
     "number": 79,
     "name": {
       "ar": "النازعات",
-      "en": "Those who drag forth",
+      "en": "Those Who Pull Out",
       "transliteration": "An-Nazi'at"
     },
     "revelation_place": {
@@ -1182,13 +1494,17 @@
     },
     "verses_count": 46,
     "words_count": 179,
-    "letters_count": 762
+    "letters_count": 763,
+    "first_page": {
+      "madani": 583,
+      "indopak": 360
+    }
   },
   {
     "number": 80,
     "name": {
       "ar": "عبس",
-      "en": "He frowned",
+      "en": "He Frowned",
       "transliteration": "'Abasa"
     },
     "revelation_place": {
@@ -1197,13 +1513,17 @@
     },
     "verses_count": 42,
     "words_count": 133,
-    "letters_count": 538
+    "letters_count": 538,
+    "first_page": {
+      "madani": 585,
+      "indopak": 362
+    }
   },
   {
     "number": 81,
     "name": {
       "ar": "التكوير",
-      "en": "The Overthrowing",
+      "en": "The Folding Up",
       "transliteration": "At-Takwir"
     },
     "revelation_place": {
@@ -1212,12 +1532,16 @@
     },
     "verses_count": 29,
     "words_count": 104,
-    "letters_count": 425
+    "letters_count": 434,
+    "first_page": {
+      "madani": 587,
+      "indopak": 363
+    }
   },
   {
     "number": 82,
     "name": {
-      "ar": "الانفطار",
+      "ar": "الإنفطار",
       "en": "The Cleaving",
       "transliteration": "Al-Infitar"
     },
@@ -1227,13 +1551,17 @@
     },
     "verses_count": 19,
     "words_count": 81,
-    "letters_count": 326
+    "letters_count": 326,
+    "first_page": {
+      "madani": 589,
+      "indopak": 364
+    }
   },
   {
     "number": 83,
     "name": {
       "ar": "المطففين",
-      "en": "Defrauding",
+      "en": "Dealings in Fraud",
       "transliteration": "Al-Mutaffifin"
     },
     "revelation_place": {
@@ -1242,13 +1570,17 @@
     },
     "verses_count": 36,
     "words_count": 169,
-    "letters_count": 740
+    "letters_count": 740,
+    "first_page": {
+      "madani": 590,
+      "indopak": 364
+    }
   },
   {
     "number": 84,
     "name": {
       "ar": "الانشقاق",
-      "en": "The Splitting Open",
+      "en": "The Rending Asunder",
       "transliteration": "Al-Inshiqaq"
     },
     "revelation_place": {
@@ -1257,7 +1589,11 @@
     },
     "verses_count": 25,
     "words_count": 108,
-    "letters_count": 436
+    "letters_count": 435,
+    "first_page": {
+      "madani": 592,
+      "indopak": 365
+    }
   },
   {
     "number": 85,
@@ -1272,7 +1608,11 @@
     },
     "verses_count": 22,
     "words_count": 109,
-    "letters_count": 459
+    "letters_count": 459,
+    "first_page": {
+      "madani": 594,
+      "indopak": 366
+    }
   },
   {
     "number": 86,
@@ -1287,7 +1627,11 @@
     },
     "verses_count": 17,
     "words_count": 61,
-    "letters_count": 249
+    "letters_count": 249,
+    "first_page": {
+      "madani": 596,
+      "indopak": 367
+    }
   },
   {
     "number": 87,
@@ -1302,7 +1646,11 @@
     },
     "verses_count": 19,
     "words_count": 72,
-    "letters_count": 293
+    "letters_count": 293,
+    "first_page": {
+      "madani": 598,
+      "indopak": 367
+    }
   },
   {
     "number": 88,
@@ -1317,7 +1665,11 @@
     },
     "verses_count": 26,
     "words_count": 92,
-    "letters_count": 378
+    "letters_count": 378,
+    "first_page": {
+      "madani": 600,
+      "indopak": 368
+    }
   },
   {
     "number": 89,
@@ -1332,7 +1684,11 @@
     },
     "verses_count": 30,
     "words_count": 139,
-    "letters_count": 573
+    "letters_count": 573,
+    "first_page": {
+      "madani": 601,
+      "indopak": 369
+    }
   },
   {
     "number": 90,
@@ -1347,7 +1703,11 @@
     },
     "verses_count": 20,
     "words_count": 82,
-    "letters_count": 335
+    "letters_count": 335,
+    "first_page": {
+      "madani": 602,
+      "indopak": 369
+    }
   },
   {
     "number": 91,
@@ -1362,7 +1722,11 @@
     },
     "verses_count": 15,
     "words_count": 54,
-    "letters_count": 249
+    "letters_count": 249,
+    "first_page": {
+      "madani": 602,
+      "indopak": 370
+    }
   },
   {
     "number": 92,
@@ -1377,7 +1741,11 @@
     },
     "verses_count": 21,
     "words_count": 71,
-    "letters_count": 312
+    "letters_count": 312,
+    "first_page": {
+      "madani": 603,
+      "indopak": 371
+    }
   },
   {
     "number": 93,
@@ -1392,7 +1760,11 @@
     },
     "verses_count": 11,
     "words_count": 40,
-    "letters_count": 164
+    "letters_count": 164,
+    "first_page": {
+      "madani": 603,
+      "indopak": 371
+    }
   },
   {
     "number": 94,
@@ -1407,7 +1779,11 @@
     },
     "verses_count": 8,
     "words_count": 27,
-    "letters_count": 102
+    "letters_count": 102,
+    "first_page": {
+      "madani": 603,
+      "indopak": 372
+    }
   },
   {
     "number": 95,
@@ -1422,7 +1798,11 @@
     },
     "verses_count": 8,
     "words_count": 34,
-    "letters_count": 156
+    "letters_count": 156,
+    "first_page": {
+      "madani": 604,
+      "indopak": 372
+    }
   },
   {
     "number": 96,
@@ -1437,7 +1817,11 @@
     },
     "verses_count": 19,
     "words_count": 72,
-    "letters_count": 281
+    "letters_count": 281,
+    "first_page": {
+      "madani": 604,
+      "indopak": 372
+    }
   },
   {
     "number": 97,
@@ -1452,7 +1836,11 @@
     },
     "verses_count": 5,
     "words_count": 30,
-    "letters_count": 112
+    "letters_count": 112,
+    "first_page": {
+      "madani": 603,
+      "indopak": 373
+    }
   },
   {
     "number": 98,
@@ -1467,13 +1855,17 @@
     },
     "verses_count": 8,
     "words_count": 94,
-    "letters_count": 412
+    "letters_count": 412,
+    "first_page": {
+      "madani": 603,
+      "indopak": 373
+    }
   },
   {
     "number": 99,
     "name": {
       "ar": "الزلزلة",
-      "en": "The Earthquakee",
+      "en": "The Earthquake",
       "transliteration": "Az-Zalzalah"
     },
     "revelation_place": {
@@ -1482,7 +1874,11 @@
     },
     "verses_count": 8,
     "words_count": 36,
-    "letters_count": 156
+    "letters_count": 156,
+    "first_page": {
+      "madani": 604,
+      "indopak": 374
+    }
   },
   {
     "number": 100,
@@ -1497,7 +1893,11 @@
     },
     "verses_count": 11,
     "words_count": 40,
-    "letters_count": 164
+    "letters_count": 164,
+    "first_page": {
+      "madani": 604,
+      "indopak": 374
+    }
   },
   {
     "number": 101,
@@ -1512,7 +1912,11 @@
     },
     "verses_count": 11,
     "words_count": 36,
-    "letters_count": 158
+    "letters_count": 158,
+    "first_page": {
+      "madani": 604,
+      "indopak": 374
+    }
   },
   {
     "number": 102,
@@ -1527,7 +1931,11 @@
     },
     "verses_count": 8,
     "words_count": 28,
-    "letters_count": 122
+    "letters_count": 122,
+    "first_page": {
+      "madani": 604,
+      "indopak": 375
+    }
   },
   {
     "number": 103,
@@ -1542,7 +1950,11 @@
     },
     "verses_count": 3,
     "words_count": 14,
-    "letters_count": 70
+    "letters_count": 70,
+    "first_page": {
+      "madani": 604,
+      "indopak": 375
+    }
   },
   {
     "number": 104,
@@ -1557,7 +1969,11 @@
     },
     "verses_count": 9,
     "words_count": 33,
-    "letters_count": 133
+    "letters_count": 133,
+    "first_page": {
+      "madani": 604,
+      "indopak": 375
+    }
   },
   {
     "number": 105,
@@ -1572,7 +1988,11 @@
     },
     "verses_count": 5,
     "words_count": 23,
-    "letters_count": 96
+    "letters_count": 96,
+    "first_page": {
+      "madani": 604,
+      "indopak": 376
+    }
   },
   {
     "number": 106,
@@ -1587,7 +2007,11 @@
     },
     "verses_count": 4,
     "words_count": 17,
-    "letters_count": 73
+    "letters_count": 73,
+    "first_page": {
+      "madani": 604,
+      "indopak": 376
+    }
   },
   {
     "number": 107,
@@ -1602,7 +2026,11 @@
     },
     "verses_count": 7,
     "words_count": 25,
-    "letters_count": 112
+    "letters_count": 112,
+    "first_page": {
+      "madani": 604,
+      "indopak": 376
+    }
   },
   {
     "number": 108,
@@ -1617,7 +2045,11 @@
     },
     "verses_count": 3,
     "words_count": 10,
-    "letters_count": 42
+    "letters_count": 42,
+    "first_page": {
+      "madani": 604,
+      "indopak": 376
+    }
   },
   {
     "number": 109,
@@ -1632,7 +2064,11 @@
     },
     "verses_count": 6,
     "words_count": 27,
-    "letters_count": 95
+    "letters_count": 95,
+    "first_page": {
+      "madani": 603,
+      "indopak": 377
+    }
   },
   {
     "number": 110,
@@ -1647,7 +2083,11 @@
     },
     "verses_count": 3,
     "words_count": 19,
-    "letters_count": 79
+    "letters_count": 79,
+    "first_page": {
+      "madani": 603,
+      "indopak": 377
+    }
   },
   {
     "number": 111,
@@ -1662,7 +2102,11 @@
     },
     "verses_count": 5,
     "words_count": 29,
-    "letters_count": 81
+    "letters_count": 81,
+    "first_page": {
+      "madani": 603,
+      "indopak": 377
+    }
   },
   {
     "number": 112,
@@ -1677,7 +2121,11 @@
     },
     "verses_count": 4,
     "words_count": 15,
-    "letters_count": 47
+    "letters_count": 47,
+    "first_page": {
+      "madani": 604,
+      "indopak": 378
+    }
   },
   {
     "number": 113,
@@ -1692,7 +2140,11 @@
     },
     "verses_count": 5,
     "words_count": 23,
-    "letters_count": 71
+    "letters_count": 71,
+    "first_page": {
+      "madani": 604,
+      "indopak": 378
+    }
   },
   {
     "number": 114,
@@ -1707,6 +2159,10 @@
     },
     "verses_count": 6,
     "words_count": 20,
-    "letters_count": 80
+    "letters_count": 80,
+    "first_page": {
+      "madani": 604,
+      "indopak": 378
+    }
   }
 ]
