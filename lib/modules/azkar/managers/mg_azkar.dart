@@ -12,7 +12,7 @@ class MgAzkar extends ChangeNotifier {
   List<MZekr> activeAzkarList = [];
 
   Future<void> loadAzkarCategories() async {
-    final jsonString = await rootBundle.loadString(Assets.json.azkarCatigories);
+    final jsonString = await rootBundle.loadString(Assets.json.azkar.azkarCatigories);
     categories = (json.decode(jsonString) as List).map((e) => MAzkarCategories.fromJson(e)).toList();
     notifyListeners();
   }

@@ -26,6 +26,7 @@ dependencies:
   video_player: ^2.9.3
   flutter_carousel_widget: ^3.1.0
   photo_view: ^0.15.0
+  flutter_staggered_grid_view: ^0.7.0
 
 
   ###### ================ DATA ================= ######
@@ -93,7 +94,8 @@ flutter:
     - assets/images/
     - assets/lang/
     - assets/fonts/
-    - assets/json/
+    - assets/json/quran/
+    - assets/json/azkar/
 
   
   fonts:

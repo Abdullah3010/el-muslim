@@ -22,7 +22,7 @@ class _SNSplashState extends State<SNSplash> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 2), () async {
+    Future.delayed(const Duration(seconds: 0), () async {
       Modular.get<MgCore>().setNavBarIndex(0);
     });
   }

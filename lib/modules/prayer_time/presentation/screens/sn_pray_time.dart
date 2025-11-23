@@ -1,10 +1,10 @@
 import 'package:al_muslim/core/assets/assets.gen.dart';
 import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
+import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:al_muslim/modules/prayer_time/managers/mg_prayer_time.dart';
-import 'package:al_muslim/modules/prayer_time/presentation/widgets/city_header_widget.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/widgets/date_switcher_widget.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/widgets/next_prayer_timer_widget.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/widgets/prayer_times_list_widget.dart';
@@ -35,7 +35,10 @@ class _SnPrayTimeState extends State<SnPrayTime> {
       withNavBar: true,
       padding: EdgeInsets.zero,
       appBar: WSharedAppBar(
-        leading: Assets.icons.settings.svg(),
+        leading: InkWell(
+          onTap: () => Modular.to.pushNamed(RoutesNames.prayTime.prayTimeSettings),
+          child: Assets.icons.settings.svg(),
+        ),
         action: Assets.icons.qipla.svg(),
         title: 'Prayer Times'.translated,
         withBack: false,

@@ -28,6 +28,9 @@ class PrayerTimeRoutes {
   static String get baseUrl => '${RoutesNames.baseUrl}pray_time/';
 
   String get prayTimeMain => baseUrl;
+  String get prayTimeSettings => '${baseUrl}settings';
+  String get adhanNotifications => '${baseUrl}adhan_notifications';
+  String get adhanSettings => '${baseUrl}adhan_settings';
 }
 
 class IndexRoutes {

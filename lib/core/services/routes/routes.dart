@@ -3,7 +3,10 @@ import 'package:al_muslim/modules/azkar/presentation/screens/sn_zekr.dart';
 import 'package:al_muslim/modules/core/presentation/screens/sn_splash.dart';
 import 'package:al_muslim/modules/index/presentation/screens/sn_index.dart';
 import 'package:al_muslim/modules/more/presentation/screens/sn_more.dart';
+import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_adhan_notifications.dart';
+import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_adhan_settings.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_pray_time.dart';
+import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_pray_time_settings.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_werd.dart';
 import 'package:al_muslim/modules/qibla_direction/presentation/screens/sn_qibla_direction.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -44,6 +47,27 @@ class Routes {
       RoutesNames.prayTime.prayTimeMain,
       transition: TransitionType.fadeIn,
       child: (_) => const SnPrayTime(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+
+    r.child(
+      RoutesNames.prayTime.prayTimeSettings,
+      transition: TransitionType.fadeIn,
+      child: (_) => const SnPrayTimeSettings(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+
+    r.child(
+      RoutesNames.prayTime.adhanNotifications,
+      transition: TransitionType.fadeIn,
+      child: (_) => const SnAdhanNotifications(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+
+    r.child(
+      RoutesNames.prayTime.adhanSettings,
+      transition: TransitionType.fadeIn,
+      child: (_) => SnAdhanSettings(adhanIndex: r.args.data['adhanIndex'] as int?),
       guards: [EnsureKeyboardDismissed()],
     );
 

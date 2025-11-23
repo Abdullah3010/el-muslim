@@ -8,8 +8,8 @@ import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:al_muslim/modules/more/presentation/widgets/w_settings_item_divider.dart';
-import 'package:al_muslim/modules/more/presentation/widgets/w_settings_row_item.dart';
-import 'package:al_muslim/modules/more/presentation/widgets/w_settings_section_header.dart';
+import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
+import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -55,7 +55,7 @@ class SnMore extends StatelessWidget {
           WSettingsRowItem(title: 'Prayer Time Settings'.translated, icon: Assets.icons.mosque.path, onTap: () {}),
           const WSettingsItemDivider(),
           WSettingsRowItem(
-            title: 'Qibla Direction'.translated,
+            title: 'Qiblah Direction'.translated,
             icon: Assets.icons.qipla.path,
             onTap: () {
               Modular.to.pushNamed(RoutesNames.qibla.qiblaMain);

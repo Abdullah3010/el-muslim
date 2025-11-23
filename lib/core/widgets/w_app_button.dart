@@ -26,12 +26,16 @@ class WAppButton extends StatefulWidget {
     this.textDirection,
     this.customChild,
     this.withShadow = true,
+    this.iconRight = false,
+    this.iconLeft = true,
   });
 
   final String title;
   final bool isFilled;
   final bool isDisabled;
   final bool withShadow;
+  final bool iconRight;
+  final bool iconLeft;
   final Function() onTap;
   final double? width;
   final double? height;
@@ -102,8 +106,8 @@ class _WAppButtonState extends State<WAppButton> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            if (widget.icon != null) widget.icon!,
-                            if (widget.icon != null) 10.widthBox,
+                            if (widget.iconLeft && widget.icon != null) widget.icon!,
+                            if (widget.iconLeft && widget.icon != null) 10.widthBox,
                             Text(
                               widget.title,
                               textAlign: TextAlign.center,
@@ -121,6 +125,8 @@ class _WAppButtonState extends State<WAppButton> {
                                                 : context.theme.colorScheme.lightGray),
                                   ),
                             ),
+                            if (widget.iconRight && widget.icon != null) widget.icon!,
+                            if (widget.iconRight && widget.icon != null) 10.widthBox,
                           ],
                         ),
                   ),

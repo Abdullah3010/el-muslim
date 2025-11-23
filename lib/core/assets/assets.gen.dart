@@ -256,37 +256,11 @@ class $AssetsImagesGen {
 class $AssetsJsonGen {
   const $AssetsJsonGen();
 
-  /// File path: assets/json/after_pray.json
-  String get afterPray => 'assets/json/after_pray.json';
+  /// Directory path: assets/json/azkar
+  $AssetsJsonAzkarGen get azkar => const $AssetsJsonAzkarGen();
 
-  /// File path: assets/json/azkar_catigories.json
-  String get azkarCatigories => 'assets/json/azkar_catigories.json';
-
-  /// File path: assets/json/evening.json
-  String get evening => 'assets/json/evening.json';
-
-  /// File path: assets/json/masged.json
-  String get masged => 'assets/json/masged.json';
-
-  /// File path: assets/json/morning.json
-  String get morning => 'assets/json/morning.json';
-
-  /// File path: assets/json/sleeping.json
-  String get sleeping => 'assets/json/sleeping.json';
-
-  /// File path: assets/json/wakeing_up.json
-  String get wakeingUp => 'assets/json/wakeing_up.json';
-
-  /// List of all assets
-  List<String> get values => [
-    afterPray,
-    azkarCatigories,
-    evening,
-    masged,
-    morning,
-    sleeping,
-    wakeingUp,
-  ];
+  /// Directory path: assets/json/quran
+  $AssetsJsonQuranGen get quran => const $AssetsJsonQuranGen();
 }
 
 class $AssetsLangGen {
@@ -300,6 +274,52 @@ class $AssetsLangGen {
 
   /// List of all assets
   List<String> get values => [ar, en];
+}
+
+class $AssetsJsonAzkarGen {
+  const $AssetsJsonAzkarGen();
+
+  /// File path: assets/json/azkar/after_pray.json
+  String get afterPray => 'assets/json/azkar/after_pray.json';
+
+  /// File path: assets/json/azkar/azkar_catigories.json
+  String get azkarCatigories => 'assets/json/azkar/azkar_catigories.json';
+
+  /// File path: assets/json/azkar/evening.json
+  String get evening => 'assets/json/azkar/evening.json';
+
+  /// File path: assets/json/azkar/masged.json
+  String get masged => 'assets/json/azkar/masged.json';
+
+  /// File path: assets/json/azkar/morning.json
+  String get morning => 'assets/json/azkar/morning.json';
+
+  /// File path: assets/json/azkar/sleeping.json
+  String get sleeping => 'assets/json/azkar/sleeping.json';
+
+  /// File path: assets/json/azkar/wakeing_up.json
+  String get wakeingUp => 'assets/json/azkar/wakeing_up.json';
+
+  /// List of all assets
+  List<String> get values => [
+    afterPray,
+    azkarCatigories,
+    evening,
+    masged,
+    morning,
+    sleeping,
+    wakeingUp,
+  ];
+}
+
+class $AssetsJsonQuranGen {
+  const $AssetsJsonQuranGen();
+
+  /// File path: assets/json/quran/metadata.json
+  String get metadata => 'assets/json/quran/metadata.json';
+
+  /// List of all assets
+  List<String> get values => [metadata];
 }
 
 class Assets {
