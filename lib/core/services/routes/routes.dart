@@ -7,7 +7,9 @@ import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_adhan_noti
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_adhan_settings.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_pray_time.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_pray_time_settings.dart';
+import 'package:al_muslim/modules/werd/data/models/m_werd_plan_option.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_werd.dart';
+import 'package:al_muslim/modules/werd/presentation/screens/sn_werd_details.dart';
 import 'package:al_muslim/modules/qibla_direction/presentation/screens/sn_qibla_direction.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:al_muslim/core/constants/constants.dart';
@@ -76,6 +78,24 @@ class Routes {
       RoutesNames.werd.werdMain,
       transition: TransitionType.fadeIn,
       child: (_) => const SnWerd(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+
+    r.child(
+      RoutesNames.werd.werdDetails,
+      transition: TransitionType.fadeIn,
+      child: (_) {
+        final option = r.args.data as MWerdPlanOption?;
+        return SnWerdDetails(
+          option: option ??
+              const MWerdPlanOption(
+                titleAr: 'ختمة 30 يوما',
+                titleEn: 'Werd 30 days',
+                subtitleAr: 'الورد اليومي 1 جزء',
+                subtitleEn: 'Daily portion 1 Juz',
+              ),
+        );
+      },
       guards: [EnsureKeyboardDismissed()],
     );
 

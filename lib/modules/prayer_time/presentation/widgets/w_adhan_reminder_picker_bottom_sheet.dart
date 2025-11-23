@@ -5,8 +5,8 @@ import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
 
-class AdhanReminderPickerBottomSheet extends StatefulWidget {
-  const AdhanReminderPickerBottomSheet({super.key, this.initialIndex = 0});
+class WAdhanReminderPickerBottomSheet extends StatefulWidget {
+  const WAdhanReminderPickerBottomSheet({super.key, this.initialIndex = 0});
 
   final int initialIndex;
 
@@ -25,22 +25,22 @@ class AdhanReminderPickerBottomSheet extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => AdhanReminderPickerBottomSheet(initialIndex: initialIndex),
+      builder: (context) => WAdhanReminderPickerBottomSheet(initialIndex: initialIndex),
     );
   }
 
   @override
-  State<AdhanReminderPickerBottomSheet> createState() => _AdhanReminderPickerBottomSheetState();
+  State<WAdhanReminderPickerBottomSheet> createState() => _WAdhanReminderPickerBottomSheetState();
 }
 
-class _AdhanReminderPickerBottomSheetState extends State<AdhanReminderPickerBottomSheet> {
+class _WAdhanReminderPickerBottomSheetState extends State<WAdhanReminderPickerBottomSheet> {
   late int _selectedIndex;
   late FixedExtentScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
-    _selectedIndex = widget.initialIndex.clamp(0, AdhanReminderPickerBottomSheet.options.length - 1).toInt();
+    _selectedIndex = widget.initialIndex.clamp(0, WAdhanReminderPickerBottomSheet.options.length - 1).toInt();
     _scrollController = FixedExtentScrollController(initialItem: _selectedIndex);
   }
 
@@ -109,11 +109,11 @@ class _AdhanReminderPickerBottomSheetState extends State<AdhanReminderPickerBott
                     perspective: 0.002,
                     onSelectedItemChanged: (value) => setState(() => _selectedIndex = value),
                     childDelegate: ListWheelChildBuilderDelegate(
-                      childCount: AdhanReminderPickerBottomSheet.options.length,
+                      childCount: WAdhanReminderPickerBottomSheet.options.length,
                       builder: (context, index) {
-                        if (index < 0 || index >= AdhanReminderPickerBottomSheet.options.length) return null;
+                        if (index < 0 || index >= WAdhanReminderPickerBottomSheet.options.length) return null;
                         final bool isSelected = index == _selectedIndex;
-                        final String option = AdhanReminderPickerBottomSheet.options[index];
+                        final String option = WAdhanReminderPickerBottomSheet.options[index];
                         final TextStyle baseStyle =
                             isSelected
                                 ? context.textTheme.primary18W500
@@ -121,12 +121,7 @@ class _AdhanReminderPickerBottomSheetState extends State<AdhanReminderPickerBott
                                   color: context.theme.colorScheme.primaryColor.withOpacity(0.7),
                                 );
 
-                        return Center(
-                          child: Text(
-                            option.translated.translateNumbers(),
-                            style: baseStyle,
-                          ),
-                        );
+                        return Center(child: Text(option.translated.translateNumbers(), style: baseStyle));
                       },
                     ),
                   ),

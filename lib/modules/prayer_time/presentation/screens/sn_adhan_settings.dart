@@ -5,7 +5,7 @@ import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:al_muslim/modules/prayer_time/presentation/widgets/adhan_reminder_picker_bottom_sheet.dart';
+import 'package:al_muslim/modules/prayer_time/presentation/widgets/w_adhan_reminder_picker_bottom_sheet.dart';
 
 class SnAdhanSettings extends StatefulWidget {
   const SnAdhanSettings({super.key, this.adhanIndex});
@@ -34,7 +34,7 @@ class _SnAdhanSettingsState extends State<SnAdhanSettings> {
             icon: Assets.icons.notification.path,
 
             onTap: () {
-              AdhanReminderPickerBottomSheet.show(context, initialIndex: 0);
+              WAdhanReminderPickerBottomSheet.show(context, initialIndex: 0);
             },
           ),
           WSettingsSectionHeader(title: 'Before Adhan Notification'.translated),

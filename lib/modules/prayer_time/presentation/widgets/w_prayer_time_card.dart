@@ -9,8 +9,8 @@ import 'package:intl/intl.dart';
 
 import '../../managers/mg_prayer_time.dart';
 
-class PrayerTimeCard extends StatelessWidget {
-  const PrayerTimeCard({required this.entry, this.isHighlighted = false, super.key});
+class WPrayerTimeCard extends StatelessWidget {
+  const WPrayerTimeCard({required this.entry, this.isHighlighted = false, super.key});
 
   final PrayerTimeEntry entry;
   final bool isHighlighted;

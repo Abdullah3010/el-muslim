@@ -78,6 +78,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/back_gold.svg
   SvgGenImage get backGold => const SvgGenImage('assets/icons/back_gold.svg');
 
+  /// File path: assets/icons/check.svg
+  SvgGenImage get check => const SvgGenImage('assets/icons/check.svg');
+
   /// File path: assets/icons/clock.svg
   SvgGenImage get clock => const SvgGenImage('assets/icons/clock.svg');
 
@@ -186,6 +189,7 @@ class $AssetsIconsGen {
     azkarInactive,
     backBlack,
     backGold,
+    check,
     clock,
     close,
     compassBigBackground,

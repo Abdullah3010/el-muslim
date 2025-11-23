@@ -5,9 +5,9 @@ import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:al_muslim/modules/prayer_time/managers/mg_prayer_time.dart';
-import 'package:al_muslim/modules/prayer_time/presentation/widgets/date_switcher_widget.dart';
-import 'package:al_muslim/modules/prayer_time/presentation/widgets/next_prayer_timer_widget.dart';
-import 'package:al_muslim/modules/prayer_time/presentation/widgets/prayer_times_list_widget.dart';
+import 'package:al_muslim/modules/prayer_time/presentation/widgets/w_date_switcher.dart';
+import 'package:al_muslim/modules/prayer_time/presentation/widgets/w_next_prayer_timer.dart';
+import 'package:al_muslim/modules/prayer_time/presentation/widgets/w_prayer_times_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -71,13 +71,13 @@ class _SnPrayTimeState extends State<SnPrayTime> {
               _mgPrayerTime.nextPrayerName.isNotEmpty ? _mgPrayerTime.nextPrayerName : 'Next prayer';
           return ListView(
             children: [
-              NextPrayerTimerWidget(
+              WNextPrayerTimer(
                 nextPrayerLabel: nextPrayerLabel,
                 countdown: _mgPrayerTime.nextPrayerCountdown,
                 description: 'Countdown to $nextPrayerLabel',
               ),
               SizedBox(height: 33.h),
-              DateSwitcherWidget(
+              WDateSwitcher(
                 readableLabel: _mgPrayerTime.readableDate,
                 gregorianLabel: _mgPrayerTime.gregorianDateLabel,
                 hijriLabel: _mgPrayerTime.hijriDateLabel,
@@ -85,7 +85,7 @@ class _SnPrayTimeState extends State<SnPrayTime> {
                 onNext: () => _mgPrayerTime.goToNextDay(),
               ),
               // SizedBox(height: 20.h),
-              PrayerTimesListWidget(
+              WPrayerTimesList(
                 entries: _mgPrayerTime.prayerTimeEntries,
                 highlightedPrayer: _mgPrayerTime.nextPrayerName,
               ),

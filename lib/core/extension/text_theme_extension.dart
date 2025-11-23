@@ -37,6 +37,14 @@ extension TextStyleExtension on TextTheme {
     fontFamily: FontFamily.changa,
   );
 
+  TextStyle get primary14W400 => TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 14.sp,
+    color: const Color(0xFFD8B74E),
+    height: 1.8,
+    fontFamily: FontFamily.changa,
+  );
+
   TextStyle get primary20W500 => TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 20.sp,
@@ -91,6 +99,23 @@ extension TextStyleExtension on TextTheme {
     fontWeight: FontWeight.w400,
     fontSize: 16.sp,
     color: Colors.white,
+    height: 1.8,
+    fontFamily: FontFamily.changa,
+  );
+
+  /// [red]
+  TextStyle get red14W500 => TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 14.sp,
+    color: Colors.red,
+    height: 1.8,
+    fontFamily: FontFamily.changa,
+  );
+
+  TextStyle get red16W500 => TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 16.sp,
+    color: Colors.red,
     height: 1.8,
     fontFamily: FontFamily.changa,
   );

@@ -5,8 +5,8 @@ import 'package:al_muslim/core/extension/text_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class DateSwitcherWidget extends StatelessWidget {
-  const DateSwitcherWidget({
+class WDateSwitcher extends StatelessWidget {
+  const WDateSwitcher({
     required this.hijriLabel,
     required this.gregorianLabel,
     required this.readableLabel,

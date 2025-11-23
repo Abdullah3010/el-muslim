@@ -4,8 +4,8 @@ import 'package:al_muslim/core/extension/text_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class NextPrayerTimerWidget extends StatelessWidget {
-  const NextPrayerTimerWidget({required this.nextPrayerLabel, required this.countdown, this.description, super.key});
+class WNextPrayerTimer extends StatelessWidget {
+  const WNextPrayerTimer({required this.nextPrayerLabel, required this.countdown, this.description, super.key});
 
   final String nextPrayerLabel;
   final Duration countdown;

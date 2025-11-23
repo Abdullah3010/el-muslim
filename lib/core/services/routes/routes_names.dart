@@ -51,6 +51,7 @@ class WerdRoutes {
   static String get baseUrl => '${RoutesNames.baseUrl}werd/';
 
   String get werdMain => baseUrl;
+  String get werdDetails => '${baseUrl}details';
 }
 
 class QiblaRoutes {
