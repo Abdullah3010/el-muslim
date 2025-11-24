@@ -53,7 +53,11 @@ class SnMore extends StatelessWidget {
 
           // ===== 3. Settings =====
           WSettingsSectionHeader(title: 'Settings'.translated),
-          WSettingsRowItem(title: 'Daily Awrad Alarm'.translated, icon: Assets.icons.notification.path, onTap: () {}),
+          WSettingsRowItem(
+            title: 'Daily Awrad Alarm'.translated,
+            icon: Assets.icons.notification.path,
+            onTap: () => Modular.to.pushNamed(RoutesNames.werd.dailyAwradAlarm),
+          ),
           const WSettingsItemDivider(),
           WSettingsRowItem(title: 'Start New Khatma'.translated, onTap: () {}),
 

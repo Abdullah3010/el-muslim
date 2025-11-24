@@ -9,6 +9,7 @@ import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_pray_time.
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_pray_time_settings.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_location_selection.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_plan_option.dart';
+import 'package:al_muslim/modules/werd/presentation/screens/sn_daily_awrad_alarm.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_next_werd.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_previous_werd.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_werd.dart';
@@ -102,6 +103,13 @@ class Routes {
       RoutesNames.werd.nextWerd,
       transition: TransitionType.fadeIn,
       child: (_) => const SnNextWerd(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+
+    r.child(
+      RoutesNames.werd.dailyAwradAlarm,
+      transition: TransitionType.fadeIn,
+      child: (_) => const SnDailyAwradAlarm(),
       guards: [EnsureKeyboardDismissed()],
     );
 

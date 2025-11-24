@@ -55,6 +55,7 @@ class WerdRoutes {
   String get werdDetails => '${baseUrl}details';
   String get previousWerd => '${baseUrl}previous';
   String get nextWerd => '${baseUrl}next';
+  String get dailyAwradAlarm => '${baseUrl}daily_awrad_alarm';
 }
 
 class QiblaRoutes {
