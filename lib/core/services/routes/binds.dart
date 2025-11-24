@@ -2,6 +2,7 @@ import 'package:al_muslim/core/config/box_app_config/box_app_config.dart';
 import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
 import 'package:al_muslim/modules/azkar/managers/mg_azkar.dart';
 import 'package:al_muslim/modules/core/managers/mg_core.dart';
+import 'package:al_muslim/modules/prayer_time/managers/mg_location_selection.dart';
 import 'package:al_muslim/modules/index/managers/mg_index.dart';
 import 'package:al_muslim/modules/prayer_time/managers/mg_prayer_time.dart';
 import 'package:al_muslim/modules/qibla_direction/managers/mg_qibla.dart';
@@ -17,6 +18,7 @@ class Binds {
     /// ================= Managers ================= ///
     i.addLazySingleton(MgCore.new);
     i.addLazySingleton(MgQibla.new);
+    i.addLazySingleton(MgLocationSelection.new);
     i.addLazySingleton(MgIndex.new);
     i.addLazySingleton(MgPrayerTime.new);
     i.addLazySingleton(MgAzkar.new);

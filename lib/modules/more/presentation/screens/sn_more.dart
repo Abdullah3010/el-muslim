@@ -27,12 +27,19 @@ class SnMore extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16),
         children: [
           // ===== 1. Current Khatma =====
-          WSettingsSectionHeader(title: 'Current Khatma'.translated),
-          WSettingsRowItem(title: 'Current Khatma'.translated, onTap: () {}),
+          GestureDetector(
+            onTap: () => Modular.to.pushNamed(RoutesNames.werd.previousWerd),
+            child: WSettingsSectionHeader(title: 'Current Khatma'.translated),
+          ),
+          WSettingsRowItem(
+            title: 'Previous Awrads'.translated,
+            onTap: () => Modular.to.pushNamed(RoutesNames.werd.previousWerd),
+          ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(title: 'Previous Awrads'.translated, onTap: () {}),
-          const WSettingsItemDivider(),
-          WSettingsRowItem(title: 'Next Awrads'.translated, onTap: () {}),
+          WSettingsRowItem(
+            title: 'Next Awrads'.translated,
+            onTap: () => Modular.to.pushNamed(RoutesNames.werd.nextWerd),
+          ),
           const WSettingsItemDivider(),
           WSettingsRowItem(title: 'Bookmark'.translated, onTap: () {}),
 

@@ -7,7 +7,10 @@ import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_adhan_noti
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_adhan_settings.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_pray_time.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_pray_time_settings.dart';
+import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_location_selection.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_plan_option.dart';
+import 'package:al_muslim/modules/werd/presentation/screens/sn_next_werd.dart';
+import 'package:al_muslim/modules/werd/presentation/screens/sn_previous_werd.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_werd.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_werd_details.dart';
 import 'package:al_muslim/modules/qibla_direction/presentation/screens/sn_qibla_direction.dart';
@@ -73,11 +76,32 @@ class Routes {
       guards: [EnsureKeyboardDismissed()],
     );
 
+    r.child(
+      RoutesNames.prayTime.locationSelection,
+      transition: TransitionType.fadeIn,
+      child: (_) => const SnLocationSelection(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+
     /// ================= Werd ================= ///
     r.child(
       RoutesNames.werd.werdMain,
       transition: TransitionType.fadeIn,
       child: (_) => const SnWerd(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+
+    r.child(
+      RoutesNames.werd.previousWerd,
+      transition: TransitionType.fadeIn,
+      child: (_) => const SnPreviousWerd(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+
+    r.child(
+      RoutesNames.werd.nextWerd,
+      transition: TransitionType.fadeIn,
+      child: (_) => const SnNextWerd(),
       guards: [EnsureKeyboardDismissed()],
     );
 

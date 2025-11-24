@@ -31,6 +31,7 @@ class PrayerTimeRoutes {
   String get prayTimeSettings => '${baseUrl}settings';
   String get adhanNotifications => '${baseUrl}adhan_notifications';
   String get adhanSettings => '${baseUrl}adhan_settings';
+  String get locationSelection => '${baseUrl}location_selection';
 }
 
 class IndexRoutes {
@@ -52,6 +53,8 @@ class WerdRoutes {
 
   String get werdMain => baseUrl;
   String get werdDetails => '${baseUrl}details';
+  String get previousWerd => '${baseUrl}previous';
+  String get nextWerd => '${baseUrl}next';
 }
 
 class QiblaRoutes {
