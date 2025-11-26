@@ -170,14 +170,6 @@ class _SnAzkarListState extends State<SnAzkarList> {
                             category.displayName,
                             style: TextStyle(color: style.textColor, fontSize: 16, fontWeight: FontWeight.w700),
                           ),
-                          if (category.enName != null && category.enName!.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: Text(
-                                category.enName!,
-                                style: TextStyle(color: style.textColor.withOpacity(0.7), fontSize: 12),
-                              ),
-                            ),
                         ],
                       ),
                     ),

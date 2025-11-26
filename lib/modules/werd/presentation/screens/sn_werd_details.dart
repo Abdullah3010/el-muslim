@@ -45,7 +45,7 @@ class SnWerdDetails extends StatelessWidget {
     return WSharedScaffold(
       padding: EdgeInsets.zero,
       withNavBar: true,
-      appBar: WSharedAppBar(title: 'Werd Details'.translated),
+      appBar: WSharedAppBar(title: 'Al-Werd'.translated),
       body: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -85,7 +85,7 @@ class SnWerdDetails extends StatelessWidget {
                 onTap: () {},
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 18.w),
-                  padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 6.h),
+                  padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
                   decoration: BoxDecoration(
                     color: context.theme.colorScheme.secondaryColor,
                     borderRadius: BorderRadius.circular(8.r),
@@ -106,7 +106,7 @@ class SnWerdDetails extends StatelessWidget {
                 onTap: () {},
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 16.w),
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
                   decoration: BoxDecoration(
                     color: context.theme.colorScheme.secondaryColor,
                     borderRadius: BorderRadius.circular(8.r),

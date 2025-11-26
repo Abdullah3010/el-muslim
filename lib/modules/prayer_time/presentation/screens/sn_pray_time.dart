@@ -68,7 +68,7 @@ class _SnPrayTimeState extends State<SnPrayTime> {
           }
 
           final nextPrayerLabel =
-              _mgPrayerTime.nextPrayerName.isNotEmpty ? _mgPrayerTime.nextPrayerName : 'Next prayer';
+              _mgPrayerTime.nextPrayerName.isNotEmpty ? _mgPrayerTime.nextPrayerName.translated : 'Next prayer';
           return ListView(
             children: [
               WNextPrayerTimer(

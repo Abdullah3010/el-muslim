@@ -4,8 +4,10 @@ import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
 import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
+import 'package:al_muslim/modules/prayer_time/managers/mg_prayer_time.dart';
 import 'package:flutter/material.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/widgets/w_adhan_reminder_picker_bottom_sheet.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class SnAdhanSettings extends StatefulWidget {
   const SnAdhanSettings({super.key, this.adhanIndex});
@@ -22,7 +24,10 @@ class _SnAdhanSettingsState extends State<SnAdhanSettings> {
     return WSharedScaffold(
       padding: EdgeInsets.zero,
       appBar: WSharedAppBar(
-        title: widget.adhanIndex != null ? 'Adhan ${widget.adhanIndex}' : 'Adhan Settings',
+        title:
+            widget.adhanIndex != null
+                ? '${'Adhan'.translated} ${Modular.get<MgPrayerTime>().prayerNames[widget.adhanIndex ?? 0].translated} '
+                : 'Adhan Settings',
         withBack: true,
       ),
       body: ListView(

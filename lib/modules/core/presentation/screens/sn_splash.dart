@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
+import 'package:al_muslim/core/extension/text_theme_extension.dart';
 import 'package:al_muslim/modules/core/managers/mg_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -22,7 +23,7 @@ class _SNSplashState extends State<SNSplash> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 0), () async {
+    Future.delayed(const Duration(seconds: 1), () async {
       Modular.get<MgCore>().setNavBarIndex(0);
     });
   }
@@ -41,11 +42,12 @@ class _SNSplashState extends State<SNSplash> with SingleTickerProviderStateMixin
           children: [
             200.heightBox,
             Container(
-              height: 400.h,
+              height: 300.h,
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(60.r)),
               clipBehavior: Clip.antiAlias,
-              child: Image.asset(Assets.images.appLogo.path, width: context.width, height: context.height),
+              child: Assets.icons.quranLogo.svg(),
             ),
+            Text('Al-Muslim', style: context.textTheme.primary18W500.copyWith(fontSize: 50.sp)),
             50.heightBox,
             const CircularProgressIndicator.adaptive(),
           ],

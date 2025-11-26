@@ -1,6 +1,5 @@
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/color_extension.dart';
-import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
 import 'package:al_muslim/core/widgets/w_localize_rotation.dart';
 import 'package:al_muslim/modules/prayer_time/data/models/m_city_option.dart';

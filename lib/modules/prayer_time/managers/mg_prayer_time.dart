@@ -26,6 +26,7 @@ class MgPrayerTime extends ChangeNotifier {
   String _nextPrayerName = '';
   Duration _nextPrayerCountdown = Duration.zero;
   Timer? _countdownTimer;
+  List<String> prayerNames = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
 
   PrayerTimeStatus get status => _status;
   bool get isLoading => _status == PrayerTimeStatus.loading;

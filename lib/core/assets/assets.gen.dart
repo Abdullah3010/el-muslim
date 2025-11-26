@@ -158,6 +158,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/qipla.svg
   SvgGenImage get qipla => const SvgGenImage('assets/icons/qipla.svg');
 
+  /// File path: assets/icons/quran_logo.svg
+  SvgGenImage get quranLogo => const SvgGenImage('assets/icons/quran_logo.svg');
+
   /// File path: assets/icons/required_field.svg
   SvgGenImage get requiredField =>
       const SvgGenImage('assets/icons/required_field.svg');
@@ -174,6 +177,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/sun.svg
   SvgGenImage get sun => const SvgGenImage('assets/icons/sun.svg');
+
+  /// File path: assets/icons/unmute.svg
+  SvgGenImage get unmute => const SvgGenImage('assets/icons/unmute.svg');
 
   /// File path: assets/icons/werd_active.svg
   SvgGenImage get werdActive =>
@@ -211,11 +217,13 @@ class $AssetsIconsGen {
     prayActive,
     prayInactive,
     qipla,
+    quranLogo,
     requiredField,
     rotateRightIcon,
     settings,
     share,
     sun,
+    unmute,
     werdActive,
     werdInactive,
   ];
