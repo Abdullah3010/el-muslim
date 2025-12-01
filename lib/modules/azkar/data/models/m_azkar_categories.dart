@@ -22,6 +22,6 @@ class MAzkarCategories {
   }
 
   String get filePath {
-    return 'assets/json/$filename';
+    return 'assets/json/azkar/$filename';
   }
 }

@@ -31,13 +31,10 @@ class WNextPrayerTimer extends StatelessWidget {
         children: [
           Text('Cairo', style: context.theme.textTheme.primary20W500),
           SizedBox(height: 12.h),
-          Text(
-            '${'Time until prayer call'.translated} ${nextPrayerLabel}',
-            style: context.theme.textTheme.primary20W500,
-          ),
+          Text('${'Time until prayer call'.translated} $nextPrayerLabel', style: context.theme.textTheme.primary20W500),
 
           SizedBox(height: 12.h),
-          Text(_formattedCountdown, style: context.theme.textTheme.primary43W400),
+          Text(_formattedCountdown.translateNumbers(), style: context.theme.textTheme.primary43W400),
         ],
       ),
     );

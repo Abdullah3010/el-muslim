@@ -46,7 +46,7 @@ class _SnLocationSelectionState extends State<SnLocationSelection> {
   Widget build(BuildContext context) {
     return WSharedScaffold(
       padding: EdgeInsets.zero,
-      appBar: WSharedAppBar(title: _manager.countryName ?? 'Location'.translated, withBack: true),
+      appBar: WSharedAppBar(title: _manager.countryName, withBack: true),
       body: AnimatedBuilder(
         animation: _manager,
         builder: (context, _) {

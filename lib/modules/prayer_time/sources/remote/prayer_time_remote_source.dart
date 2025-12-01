@@ -26,6 +26,6 @@ class PrayerTimeRemoteSource {
       print('Error fetching prayer times: $e');
       rethrow;
     }
-    throw FormatException('Unexpected prayer time response');
+    throw const FormatException('Unexpected prayer time response');
   }
 }

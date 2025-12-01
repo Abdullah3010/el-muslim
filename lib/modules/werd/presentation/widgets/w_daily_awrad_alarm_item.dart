@@ -25,7 +25,7 @@ class WDailyAwradAlarmItem extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
-        color: context.theme.colorScheme.primaryLightOrange.withOpacity(0.4),
+        color: context.theme.colorScheme.primaryLightOrange.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Row(
@@ -42,8 +42,8 @@ class WDailyAwradAlarmItem extends StatelessWidget {
           Switch(
             value: isOn,
             activeColor: context.theme.colorScheme.primaryColor,
-            activeTrackColor: context.theme.colorScheme.primaryColor.withOpacity(0.5),
-            inactiveTrackColor: context.theme.colorScheme.primaryColor.withOpacity(0.2),
+            activeTrackColor: context.theme.colorScheme.primaryColor.withValues(alpha: 0.5),
+            inactiveTrackColor: context.theme.colorScheme.primaryColor.withValues(alpha: 0.2),
             onChanged: onToggle,
           ),
         ],

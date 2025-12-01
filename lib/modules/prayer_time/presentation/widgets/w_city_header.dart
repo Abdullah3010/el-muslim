@@ -16,7 +16,7 @@ class WCityHeader extends StatelessWidget {
         Container(
           width: 52.w,
           height: 52.w,
-          decoration: BoxDecoration(shape: BoxShape.circle, color: accentColor.withOpacity(0.15)),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: accentColor.withValues(alpha: 0.15)),
           child: const Icon(Icons.place, color: accentColor, size: 26),
         ),
         SizedBox(width: 12.w),

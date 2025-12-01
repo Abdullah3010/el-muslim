@@ -1,5 +1,4 @@
 import 'dart:math' show pi;
-import 'dart:ui';
 
 import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
@@ -103,7 +102,7 @@ class QiblahCompassWidget extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: (isQiblahCorrect ? Colors.green : Colors.red).withOpacity(0.30),
+                    color: (isQiblahCorrect ? Colors.green : Colors.red).withValues(alpha: 0.30),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),

@@ -25,7 +25,7 @@ class _WPrayerTimeCardState extends State<WPrayerTimeCard> {
   String get _formattedTime {
     final period = widget.entry.dateTime.hour < 12 ? 'ص' : 'م';
     final formatted = DateFormat('hh:mm').format(widget.entry.dateTime);
-    return '$formatted $period';
+    return '${formatted.translateNumbers()} $period';
   }
 
   @override

@@ -118,7 +118,7 @@ class _WAdhanReminderPickerBottomSheetState extends State<WAdhanReminderPickerBo
                             isSelected
                                 ? context.textTheme.primary18W500
                                 : context.textTheme.primary16W400.copyWith(
-                                  color: context.theme.colorScheme.primaryColor.withOpacity(0.7),
+                                  color: context.theme.colorScheme.primaryColor.withValues(alpha: 0.7),
                                 );
 
                         return Center(child: Text(option.translated.translateNumbers(), style: baseStyle));

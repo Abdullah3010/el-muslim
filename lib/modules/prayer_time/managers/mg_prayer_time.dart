@@ -166,7 +166,7 @@ class MgPrayerTime extends ChangeNotifier {
   }
 
   String _mapError(Object error) {
-    if (error is DioError) {
+    if (error is DioException) {
       return error.message ?? '';
     }
     return error.toString();

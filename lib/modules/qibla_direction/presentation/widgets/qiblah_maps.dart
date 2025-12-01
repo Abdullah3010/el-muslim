@@ -103,7 +103,7 @@ class _QiblahMapsState extends State<QiblahMaps> {
                       position = value;
                       _positionStream.sink.add(value);
                     },
-                    zIndex: 5,
+                    zIndexInt: 5,
                   ),
                 },
                 circles: {

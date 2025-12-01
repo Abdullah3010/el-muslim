@@ -19,6 +19,7 @@ class MgAzkar extends ChangeNotifier {
 
   Future<void> loadAzkarByCategory(int categoryId) async {
     activeAzkarList.clear();
+
     notifyListeners();
     final category = categories.firstWhere((cat) => cat.id == categoryId, orElse: () => MAzkarCategories());
     final jsonString = await rootBundle.loadString(category.filePath);

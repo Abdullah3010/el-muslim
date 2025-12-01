@@ -23,11 +23,11 @@ class _SnDailyAwradAlarmState extends State<SnDailyAwradAlarm> {
   @override
   void initState() {
     super.initState();
-    _alarms = [
-      _DailyAlarm(time: const TimeOfDay(hour: 16, minute: 0), isOn: true, showSettings: true),
-      _DailyAlarm(time: const TimeOfDay(hour: 17, minute: 0)),
-      _DailyAlarm(time: const TimeOfDay(hour: 18, minute: 0)),
-      _DailyAlarm(time: const TimeOfDay(hour: 19, minute: 0)),
+    _alarms = const [
+      _DailyAlarm(time: TimeOfDay(hour: 16, minute: 0), isOn: true, showSettings: true),
+      _DailyAlarm(time: TimeOfDay(hour: 17, minute: 0)),
+      _DailyAlarm(time: TimeOfDay(hour: 18, minute: 0)),
+      _DailyAlarm(time: TimeOfDay(hour: 19, minute: 0)),
     ];
   }
 
@@ -75,7 +75,7 @@ class _SnDailyAwradAlarmState extends State<SnDailyAwradAlarm> {
 
     await showDialog<void>(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.4),
+      barrierColor: Colors.black.withValues(alpha: 0.4),
       builder: (context) {
         return Center(
           child: Container(
