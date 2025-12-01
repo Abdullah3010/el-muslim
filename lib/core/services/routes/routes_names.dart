@@ -8,6 +8,7 @@ class RoutesNames {
   static AzkarRoutes azkar = AzkarRoutes();
   static WerdRoutes werd = WerdRoutes();
   static QiblaRoutes qibla = QiblaRoutes();
+  static QuranRoutes quran = QuranRoutes();
 }
 
 class CoreRoutes {
@@ -62,4 +63,10 @@ class QiblaRoutes {
   static String get baseUrl => '${RoutesNames.baseUrl}qibla/';
 
   String get qiblaMain => baseUrl;
+}
+
+class QuranRoutes {
+  static String get baseUrl => '${RoutesNames.baseUrl}quran/';
+
+  String get quranMain => baseUrl;
 }

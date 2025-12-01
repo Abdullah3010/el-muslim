@@ -6,6 +6,7 @@ import 'package:al_muslim/modules/prayer_time/managers/mg_location_selection.dar
 import 'package:al_muslim/modules/index/managers/mg_index.dart';
 import 'package:al_muslim/modules/prayer_time/managers/mg_prayer_time.dart';
 import 'package:al_muslim/modules/qibla_direction/managers/mg_qibla.dart';
+import 'package:al_muslim/modules/quran/managers/mg_quran.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 /// [Binds] is a class that contains all the dependencies that will be used in the app.
@@ -22,5 +23,6 @@ class Binds {
     i.addLazySingleton(MgIndex.new);
     i.addLazySingleton(MgPrayerTime.new);
     i.addLazySingleton(MgAzkar.new);
+    i.addLazySingleton(MgQuran.new);
   }
 }

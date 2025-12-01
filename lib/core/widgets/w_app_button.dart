@@ -10,7 +10,7 @@ class WAppButton extends StatefulWidget {
   const WAppButton({
     super.key,
     required this.title,
-    required this.onTap,
+    this.onTap,
     this.isFilled = true,
     this.isDisabled = false,
     this.width,
@@ -36,7 +36,7 @@ class WAppButton extends StatefulWidget {
   final bool withShadow;
   final bool iconRight;
   final bool iconLeft;
-  final Function() onTap;
+  final Function()? onTap;
   final double? width;
   final double? height;
   final double? radius;
@@ -143,7 +143,7 @@ class _WAppButtonState extends State<WAppButton> {
         });
       }
 
-      await widget.onTap();
+      await widget.onTap?.call();
 
       if (mounted) {
         setState(() {

@@ -3,4 +3,6 @@ class CSTConfigKey {
   final String deviceType = 'deviceType';
   final String biometricUnlockEnabled = 'biometricUnlockEnabled';
   final String languageCode = 'languageCode';
+  final String quranLastPage = 'quranLastPage';
+  final String quranBookmarkPage = 'quranBookmarkPage';
 }

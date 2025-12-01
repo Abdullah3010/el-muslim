@@ -20,6 +20,8 @@ import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/services/routes/guards/guards_ensuer_keyboard.dart';
 import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:al_muslim/modules/quran/presentation/screens/sn_quran.dart';
+import 'package:al_muslim/modules/index/data/models/m_quran_index.dart';
 
 /// [Routes] is a class that contains all the routes in the app.
 class Routes {
@@ -151,6 +153,17 @@ class Routes {
       RoutesNames.index.indexMain,
       transition: TransitionType.fadeIn,
       child: (_) => const SnIndex(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+
+    /// ================= Quran ================= ///
+    r.child(
+      RoutesNames.quran.quranMain,
+      transition: TransitionType.fadeIn,
+      child: (_) {
+        final firstPage = r.args.data as MQuranFirstPage?;
+        return SnQuran(firstPage: firstPage);
+      },
       guards: [EnsureKeyboardDismissed()],
     );
 
