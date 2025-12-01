@@ -3,7 +3,7 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 class MZekr {
   final int? id;
   final MZekrDescription? description;
-  final String? count;
+  final int? count;
   final String? zekr;
   final String? reference;
   final String? category;
