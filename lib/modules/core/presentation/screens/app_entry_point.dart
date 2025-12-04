@@ -1,3 +1,4 @@
+import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
 import 'package:al_muslim/modules/azkar/managers/mg_azkar.dart';
 import 'package:al_muslim/modules/core/managers/mg_core.dart';
 import 'package:al_muslim/modules/index/managers/mg_index.dart';
@@ -25,6 +26,7 @@ class _AppEntryPointState extends State<AppEntryPoint> with WidgetsBindingObserv
   void initState() {
     super.initState();
     Modular.setNavigatorKey(Constants.navigatorKey);
+    Modular.get<BoxNotification>().init();
     context.setLanguageCode('ar');
   }
 

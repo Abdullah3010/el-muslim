@@ -10,6 +10,7 @@ import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:al_muslim/modules/more/presentation/widgets/w_settings_item_divider.dart';
 import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
 import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
+import 'package:al_muslim/modules/quran/managers/mg_quran.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,7 +42,12 @@ class SnMore extends StatelessWidget {
             onTap: () => Modular.to.pushNamed(RoutesNames.werd.nextWerd),
           ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(title: 'Bookmark'.translated, onTap: () {}),
+          WSettingsRowItem(
+            title: 'Bookmark'.translated,
+            onTap: () {
+              Modular.get<MgQuran>().openQuranFromBookmark();
+            },
+          ),
 
           // ===== 2. Quranic Sunan =====
           WSettingsSectionHeader(title: 'Quranic Sunan'.translated),

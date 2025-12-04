@@ -4,6 +4,7 @@ import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
 import 'package:al_muslim/core/widgets/w_app_button.dart';
+import 'package:al_muslim/core/widgets/w_gradient_progress_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:al_muslim/modules/azkar/data/models/m_azkar_categories.dart';
@@ -99,12 +100,11 @@ class _SnZekrState extends State<SnZekr> {
           16.heightBox,
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 30.w),
-            child: LinearProgressIndicator(
-              borderRadius: BorderRadius.circular(8.r),
-              minHeight: 14.h,
-              value:
-                  manager.currentZekrIndexNotifier /
-                  (manager.activeAzkarList.isNotEmpty ? manager.activeAzkarList.length : 1),
+            child: WGradientProgressBar(
+              height: 14,
+              value: manager.activeAzkarList.isNotEmpty
+                  ? manager.currentZekrIndexNotifier / manager.activeAzkarList.length
+                  : 0,
             ),
           ),
           22.heightBox,

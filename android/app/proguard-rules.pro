@@ -1,0 +1,1 @@
+-dontwarn com.hemanthraj.fluttercompass.util.TSAGeoMag

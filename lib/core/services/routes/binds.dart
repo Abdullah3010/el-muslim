@@ -1,5 +1,7 @@
 import 'package:al_muslim/core/config/box_app_config/box_app_config.dart';
 import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
+import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
+import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
 import 'package:al_muslim/modules/azkar/managers/mg_azkar.dart';
 import 'package:al_muslim/modules/core/managers/mg_core.dart';
 import 'package:al_muslim/modules/prayer_time/managers/mg_location_selection.dart';
@@ -15,6 +17,10 @@ class Binds {
   static void binds(Injector i) {
     i.addSingleton(BoxAppConfig.new);
     i.addSingleton(DSAppConfig.new);
+
+    /// ================= Notifications ================= ///
+    i.addSingleton(BoxNotification.new);
+    i.addSingleton(DSNotification.new);
 
     /// ================= Managers ================= ///
     i.addLazySingleton(MgCore.new);

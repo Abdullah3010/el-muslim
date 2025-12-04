@@ -1,8 +1,12 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
 import 'package:al_muslim/core/constants/constants.dart';
+import 'package:al_muslim/core/services/routes/routes_names.dart';
+import 'package:al_muslim/modules/index/data/models/m_quran_index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class MgQuran extends ChangeNotifier {
   static const int totalPages = 604;
@@ -13,10 +17,14 @@ class MgQuran extends ChangeNotifier {
   int _minLoadedPage = totalPages;
   int _maxLoadedPage = 1;
   int _initialPage = 1;
+  int _currentPageNumber = 1;
+  bool _controlsVisible = false;
   int? _bookmarkedPage;
 
   List<int> get pages => List.unmodifiable(_pages);
   int get initialPage => _initialPage;
+  int get currentPageNumber => _currentPageNumber;
+  bool get controlsVisible => _controlsVisible;
   int? get bookmarkedPage => _bookmarkedPage;
 
   int get initialPageIndex {
@@ -32,6 +40,7 @@ class MgQuran extends ChangeNotifier {
   void initialize(int initialPage) {
     final normalizedPage = initialPage.clamp(1, totalPages).toInt();
     _initialPage = normalizedPage;
+    _currentPageNumber = normalizedPage;
     final startPage = max(1, normalizedPage - chunkSize);
     final endPage = min(totalPages, normalizedPage + chunkSize);
     _minLoadedPage = startPage;
@@ -70,6 +79,36 @@ class MgQuran extends ChangeNotifier {
     }
 
     return insertedAtStart;
+  }
+
+  int handlePageChanged(int index) {
+    final pageNumber = pageNumberAt(index);
+    if (pageNumber != null) {
+      _currentPageNumber = pageNumber;
+      unawaited(saveLastPage(pageNumber));
+      notifyListeners();
+    }
+
+    return maybePrefetchAround(index);
+  }
+
+  void toggleControls() {
+    _controlsVisible = !_controlsVisible;
+    notifyListeners();
+  }
+
+  Future<void> bookmarkCurrentPage() => bookmarkPage(_currentPageNumber);
+
+  Future<int?> goToBookmark() async {
+    final bookmark = bookmarkedPage;
+    if (bookmark == null) return null;
+    final index = ensurePageVisible(bookmark);
+    if (index != null) {
+      _currentPageNumber = bookmark;
+      await saveLastPage(bookmark);
+      notifyListeners();
+    }
+    return index;
   }
 
   int? ensurePageVisible(int pageNumber) {
@@ -119,5 +158,16 @@ class MgQuran extends ChangeNotifier {
     for (var page = start; page <= end; page++) {
       yield page;
     }
+  }
+
+  void openQuranFromBookmark() {
+    _loadPersistedBookmark();
+    final bookmark = bookmarkedPage ?? _currentPageNumber;
+    ensurePageVisible(bookmark);
+    _currentPageNumber = bookmark;
+    notifyListeners();
+
+    final firstPage = MQuranFirstPage(madani: bookmark, indopak: bookmark);
+    Modular.to.pushNamed(RoutesNames.quran.quranMain, arguments: firstPage);
   }
 }
