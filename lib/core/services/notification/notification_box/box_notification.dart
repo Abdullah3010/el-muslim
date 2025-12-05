@@ -14,6 +14,9 @@ class BoxNotification {
 
   /// [init] initializes the box for the notifications.
   Future<void> init() async {
+    if (!Hive.isAdapterRegistered(MLocalNotificationAdapter().typeId)) {
+      Hive.registerAdapter(MLocalNotificationAdapter());
+    }
     _box = await HelperHive.tryInitBox<MLocalNotification>(_boxName);
     debugPrint('Hive.Box.open: $_boxName -- Length: ${_box.length}');
   }

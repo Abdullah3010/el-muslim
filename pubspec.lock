@@ -1029,14 +1029,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.1"
-  myfatoorah_flutter:
-    dependency: "direct main"
-    description:
-      name: myfatoorah_flutter
-      sha256: "7cb2117e30809b477a358cc5f38ad18b2d13cf30c28b99b11592bdbf73be1edf"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.3"
   nested:
     dependency: transitive
     description:
@@ -1722,6 +1714,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.13.0"
+  workmanager:
+    dependency: "direct main"
+    description:
+      name: workmanager
+      sha256: "746a50c535af15b6dc225abbd9b52ab272bcd292c535a104c54b5bc02609c38a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.0"
   xdg_directories:
     dependency: transitive
     description:

@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
-import 'package:al_muslim/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
+import 'package:al_muslim/core/constants/constants.dart';
+import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
 
 typedef NotificationPayloadHandler = Future<void> Function(Map<String, dynamic> payload);
 
@@ -82,13 +83,16 @@ class LocalNotificationService {
     String? timeZoneName,
     NotificationPayloadHandler? onPayloadReceived,
     DeepLinkNavigator? deepLinkNavigator,
+    bool requestPermissions = true,
   }) async {
     if (_initialized) return;
     _payloadHandler = onPayloadReceived ?? _payloadHandler;
     _deepLinkNavigator = deepLinkNavigator ?? _deepLinkNavigator;
 
     await _configureTimeZone(timeZoneName: timeZoneName);
-    await _requestPermissions();
+    if (requestPermissions) {
+      await _requestPermissions();
+    }
 
     final androidSettings = AndroidInitializationSettings(androidDefaultIcon ?? '@mipmap/ic_launcher');
     const iosSettings = DarwinInitializationSettings(
@@ -132,13 +136,7 @@ class LocalNotificationService {
   Future<bool> isNotificationsEnabled() => _preferences.isEnabled();
 
   Future<void> scheduleNotification({
-    required int id,
-    required String title,
-    required String body,
-    required DateTime scheduledAt,
-    Map<String, dynamic> payload = const {},
-    String? deepLink,
-    bool repeatDaily = false,
+    required MLocalNotification notification,
     bool androidAllowWhileIdle = true,
     String? channelId,
     String? channelName,
@@ -147,17 +145,17 @@ class LocalNotificationService {
     _ensureInitialized();
 
     if (!await _preferences.isEnabled()) {
-      Constants.talker.info('Notifications disabled. Skipping schedule for id: $id');
+      Constants.talker.info('Notifications disabled. Skipping schedule for id: ${notification.id}');
       return;
     }
 
-    final notificationDate = _nextValidDateTime(scheduledAt, repeatDaily: repeatDaily);
-    final encodedPayload = _encodePayload(payload, deepLink);
+    final notificationDate = _nextValidDateTime(notification.scheduledAt, repeatDaily: notification.repeatDaily);
+    final encodedPayload = _encodePayload(notification.payload, notification.deepLink);
 
     await _plugin.zonedSchedule(
-      id,
-      title,
-      body,
+      notification.id,
+      notification.title,
+      notification.body,
       _toTimeZoneDate(notificationDate),
       _buildNotificationDetails(
         channelId: channelId,
@@ -167,7 +165,7 @@ class LocalNotificationService {
       payload: encodedPayload,
       androidAllowWhileIdle: androidAllowWhileIdle,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: repeatDaily ? DateTimeComponents.time : null,
+      matchDateTimeComponents: notification.repeatDaily ? DateTimeComponents.time : null,
     );
   }
 

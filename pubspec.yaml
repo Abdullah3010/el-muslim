@@ -51,10 +51,10 @@ dependencies:
   google_maps_flutter: ^2.14.0
   flutter_local_notifications: ^17.2.4
   timezone: ^0.9.4
+  workmanager: ^0.7.0
 
 
-  #### ================== PAYMENT ================== ####
-  myfatoorah_flutter: ^3.1.5
+
 
   #### ================== FIREBASE ================== ####
   firebase_core: ^3.12.1

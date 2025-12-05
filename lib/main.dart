@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:al_muslim/core/config/box_app_config/box_app_config.dart';
+import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/services/routes/app_module.dart';
 import 'package:al_muslim/modules/core/presentation/screens/app_entry_point.dart';
+import 'package:al_muslim/modules/prayer_time/services/prayer_background_service.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,6 +39,18 @@ void main() {
     }
 
     await BoxAppConfig.init();
+    try {
+      final notificationService = LocalNotificationService();
+      await notificationService.initialize(androidDefaultIcon: '@mipmap/ic_launcher');
+      await notificationService.handleInitialNotificationIfPresent();
+
+      final prayerBackgroundService = PrayerBackgroundService();
+      await prayerBackgroundService.initializeBackgroundSync();
+      await prayerBackgroundService.scheduleTodayPrayers();
+    } catch (error, stackTrace) {
+      debugPrint('Failed to initialize background services: $error');
+      debugPrintStack(stackTrace: stackTrace);
+    }
 
     runApp(
       DevicePreview(
