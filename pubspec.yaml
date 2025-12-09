@@ -61,7 +61,6 @@ dependencies:
   firebase_messaging: ^15.2.4
 
   collection: any
-  hive: any
   vector_graphics: any
 dev_dependencies:
   flutter_test:
@@ -98,6 +97,7 @@ flutter:
     - assets/lang/
     - assets/fonts/
     - assets/json/quran/
+    - assets/json/khatma/
     - assets/json/azkar/
     - assets/quran_image/
 

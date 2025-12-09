@@ -1,13 +1,15 @@
 import 'dart:convert';
 
+import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
+import 'package:al_muslim/core/constants/constants.dart';
+import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
+import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
+import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
-import 'package:al_muslim/core/constants/constants.dart';
-import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
 
 typedef NotificationPayloadHandler = Future<void> Function(Map<String, dynamic> payload);
 
@@ -55,24 +57,37 @@ class LocalNotificationService {
     FlutterLocalNotificationsPlugin? plugin,
     NotificationPreferences? preferences,
     DeepLinkNavigator? deepLinkNavigator,
+    BoxNotification? boxNotification,
+    DSNotification? notificationStore,
   }) {
     return _instance ??= LocalNotificationService._(
       plugin ?? FlutterLocalNotificationsPlugin(),
       preferences ?? HiveNotificationPreferences(),
       deepLinkNavigator ?? ModularDeepLinkNavigator(),
+      boxNotification ?? BoxNotification(),
+      notificationStore,
     );
   }
 
-  LocalNotificationService._(this._plugin, this._preferences, this._deepLinkNavigator);
+  LocalNotificationService._(
+    this._plugin,
+    this._preferences,
+    this._deepLinkNavigator,
+    this._boxNotification,
+    DSNotification? notificationStore,
+  ) : _notificationStore = notificationStore ?? DSNotification(_boxNotification);
 
   static LocalNotificationService get instance => _instance ?? LocalNotificationService();
   static LocalNotificationService? _instance;
 
   final FlutterLocalNotificationsPlugin _plugin;
   final NotificationPreferences _preferences;
+  final BoxNotification _boxNotification;
+  final DSNotification _notificationStore;
   DeepLinkNavigator _deepLinkNavigator;
   NotificationPayloadHandler? _payloadHandler;
   bool _initialized = false;
+  bool _notificationBoxReady = false;
 
   static const String _defaultChannelId = 'al_muslim_local_notifications';
   static const String _defaultChannelName = 'Al Muslim Alerts';
@@ -89,6 +104,7 @@ class LocalNotificationService {
     _payloadHandler = onPayloadReceived ?? _payloadHandler;
     _deepLinkNavigator = deepLinkNavigator ?? _deepLinkNavigator;
 
+    await _ensureNotificationStoreReady();
     await _configureTimeZone(timeZoneName: timeZoneName);
     if (requestPermissions) {
       await _requestPermissions();
@@ -143,6 +159,7 @@ class LocalNotificationService {
     String? channelDescription,
   }) async {
     _ensureInitialized();
+    await _ensureNotificationStoreReady();
 
     if (!await _preferences.isEnabled()) {
       Constants.talker.info('Notifications disabled. Skipping schedule for id: ${notification.id}');
@@ -167,6 +184,8 @@ class LocalNotificationService {
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: notification.repeatDaily ? DateTimeComponents.time : null,
     );
+
+    await _notificationStore.createUpdate(notification);
   }
 
   Future<void> cancelNotification(int id) async {
@@ -277,19 +296,42 @@ class LocalNotificationService {
   }
 
   Future<void> _configureTimeZone({String? timeZoneName}) async {
-    try {
-      tz.initializeTimeZones();
-      if (timeZoneName != null && timeZoneName.isNotEmpty) {
-        tz.setLocalLocation(tz.getLocation(timeZoneName));
-        return;
-      }
+    tz.initializeTimeZones();
 
-      final derivedName = DateTime.now().timeZoneName;
-      tz.setLocalLocation(tz.getLocation(derivedName));
-    } catch (error, stackTrace) {
-      Constants.talker.error('Failed to configure time zone, fallback to UTC', error, stackTrace);
-      tz.setLocalLocation(tz.getLocation('UTC'));
+    final abbreviationMap = <String, String>{
+      'EET': 'Africa/Cairo',
+      'EST': 'America/New_York',
+      'EDT': 'America/New_York',
+      'PST': 'America/Los_Angeles',
+      'PDT': 'America/Los_Angeles',
+      'CST': 'America/Chicago',
+      'CDT': 'America/Chicago',
+      'GMT': 'Etc/GMT',
+      'UTC': 'Etc/UTC',
+      'IST': 'Asia/Kolkata',
+    };
+
+    final derivedName = DateTime.now().timeZoneName;
+    final candidates = <String>[
+      if (timeZoneName != null && timeZoneName.isNotEmpty) timeZoneName,
+      if (derivedName.isNotEmpty) derivedName,
+      if (abbreviationMap.containsKey(derivedName)) abbreviationMap[derivedName]!,
+      'Africa/Cairo', // safe fallback for common EET devices
+      'Etc/UTC',
+    ];
+
+    for (final name in candidates) {
+      try {
+        tz.setLocalLocation(tz.getLocation(name));
+        return;
+      } catch (_) {
+        continue;
+      }
     }
+
+    // Final fallback
+    Constants.talker.error('Failed to configure time zone, fallback to UTC');
+    tz.setLocalLocation(tz.getLocation('Etc/UTC'));
   }
 
   Future<void> _requestPermissions() async {
@@ -304,6 +346,12 @@ class LocalNotificationService {
   void _ensureInitialized() {
     if (_initialized) return;
     throw StateError('Call LocalNotificationService.initialize before using notifications');
+  }
+
+  Future<void> _ensureNotificationStoreReady() async {
+    if (_notificationBoxReady) return;
+    await _boxNotification.init();
+    _notificationBoxReady = true;
   }
 
   static Future<void> _onNotificationResponse(NotificationResponse response) async {

@@ -1,0 +1,32 @@
+[
+    {
+        "name_en": "30-day khatma",
+        "name_ar": "ختمة 30 يوماً",
+        "days": 30,
+        "path": "source/khatma_30_days.json"
+    },
+    {
+        "name_en": "60-day khatma",
+        "name_ar": "ختمة 60 يوماً",
+        "days": 60,
+        "path": "source/khatma_60_days.json"
+    },
+    {
+        "name_en": "120-day khatma",
+        "name_ar": "ختمة 120 يوماً",
+        "days": 120,
+        "path": "source/khatma_120_days.json"
+    },
+    {
+        "name_en": "240-day khatma",
+        "name_ar": "ختمة 240 يوماً",
+        "days": 240,
+        "path": "source/khatma_240_days.json"
+    },
+    {
+        "name_en": "365-day khatma",
+        "name_ar": "ختمة 365 يوماً",
+        "days": 365,
+        "path": "source/khatma_365_days.json"
+    }
+]
