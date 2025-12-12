@@ -1,6 +1,10 @@
 import 'dart:convert';
 
+import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
+import 'package:al_muslim/core/services/notification/local_notification_service.dart';
+import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
+import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_day.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_detail_segment.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_plan_option.dart';
@@ -9,9 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MgWerd extends ChangeNotifier {
-  MgWerd({WerdLocalDataSource? localDataSource}) : _localDataSource = localDataSource ?? WerdLocalDataSource();
+  MgWerd({WerdLocalDataSource? localDataSource, LocalNotificationService? notificationService})
+    : _localDataSource = localDataSource ?? WerdLocalDataSource(),
+      _notificationService = notificationService ?? LocalNotificationService();
 
   final WerdLocalDataSource _localDataSource;
+  final LocalNotificationService _notificationService;
   final List<MWerdPlanOption> _options = [];
   final List<MWerdDay> _planDays = [];
   MWerdPlanOption? selectedOption;
@@ -28,19 +35,17 @@ class MgWerd extends ChangeNotifier {
   List<MWerdDay> get planDays => List.unmodifiable(_planDays);
   List<MWerdDay> get finishedDays => _planDays.where((day) => day.isFinished).toList();
   List<MWerdDay> get upcomingDays => _planDays.where((day) => !day.isFinished).toList();
+  List<MLocalNotification> get notificationReminders => List.unmodifiable(selectedOption?.notifications ?? const []);
+  MLocalNotification? get primaryNotification => notificationReminders.isNotEmpty ? notificationReminders.first : null;
   bool get hasData => _options.isNotEmpty;
   int get totalDays => selectedOption?.days ?? _planDays.length;
   int get finishedDaysCount => finishedDays.length;
   int get remainingDaysCount => totalDays - finishedDaysCount;
   double get progress => totalDays == 0 ? 0 : finishedDaysCount / totalDays;
-  List<MWerdDetailSegment> get currentDaySegments =>
-      selectedPlanDay?.toSegments() ?? const <MWerdDetailSegment>[];
+  List<MWerdDetailSegment> get currentDaySegments => selectedPlanDay?.toSegments() ?? const <MWerdDetailSegment>[];
 
   Future<void> initialize() async {
-    await Future.wait([
-      loadOptions(),
-      loadSelectedPlan(),
-    ]);
+    await Future.wait([loadOptions(), loadSelectedPlan()]);
   }
 
   Future<void> loadOptions() async {
@@ -73,6 +78,7 @@ class MgWerd extends ChangeNotifier {
       _planDays.clear();
       selectedPlanDay = null;
       if (selectedOption != null) {
+        await _restoreNotifications();
         await loadPlanDay();
       }
     } finally {
@@ -82,12 +88,20 @@ class MgWerd extends ChangeNotifier {
   }
 
   Future<void> selectOption(MWerdPlanOption option) async {
-    _planDays.clear();
-    selectedPlanDay = null;
-    selectedOption = option;
-    await _localDataSource.saveSelectedPlan(option);
-    await loadPlanDay();
-    notifyListeners();
+    try {
+      _planDays.clear();
+      selectedPlanDay = null;
+      selectedOption = option;
+      await _ensureDefaultNotification();
+      if (selectedOption != null) {
+        await _localDataSource.saveSelectedPlan(selectedOption!);
+      }
+      await loadPlanDay();
+      notifyListeners();
+    } catch (e, st) {
+      print(" ====>>>> Error in selectOption: $e");
+      print(" ====>>>> Error in selectOption: $st");
+    }
   }
 
   Future<void> loadPlanDay({int? dayNumber}) async {
@@ -144,6 +158,50 @@ class MgWerd extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> addNotification(TimeOfDay time) async {
+    final plan = selectedOption;
+    if (plan == null) return;
+
+    final scheduledAt = _dateFromTime(time);
+    final notification = _buildNotification(plan, scheduledAt);
+    await _upsertNotification(notification);
+    notifyListeners();
+  }
+
+  Future<void> updateNotificationTime(int notificationId, TimeOfDay time) async {
+    final notification = _notificationById(notificationId);
+    if (notification == null) return;
+
+    final updated = notification.copyWith(scheduledAt: _dateFromTime(time));
+    await _upsertNotification(updated);
+    notifyListeners();
+  }
+
+  Future<void> toggleNotification(int notificationId, bool isEnabled) async {
+    final notification = _notificationById(notificationId);
+    if (notification == null || notification.isEnabled == isEnabled) return;
+
+    final updated = notification.copyWith(isEnabled: isEnabled);
+    await _upsertNotification(updated);
+    notifyListeners();
+  }
+
+  Future<void> deleteNotification(int notificationId) async {
+    final plan = selectedOption;
+    if (plan == null) return;
+
+    final updatedNotifications = plan.notifications.where((n) => n.id != notificationId).toList();
+    selectedOption = plan.copyWith(
+      planDays: plan.planDays,
+      notifications: List<MLocalNotification>.unmodifiable(updatedNotifications),
+    );
+
+    await _notificationService.cancelNotification(notificationId);
+    await _localDataSource.deleteNotification(notificationId);
+    await _persistPlanState(selectedOption!);
+    notifyListeners();
+  }
+
   MWerdDay? _chooseDay({int? focusDay}) {
     if (_planDays.isEmpty) return null;
 
@@ -193,5 +251,131 @@ class MgWerd extends ChangeNotifier {
   Future<void> _persistPlanState(MWerdPlanOption plan) async {
     await _localDataSource.savePlanDays(plan.id, _planDays);
     await _localDataSource.saveSelectedPlan(plan);
+  }
+
+  Future<void> deleteCurrentWerdPlan() async {
+    final plan = selectedOption;
+    if (plan == null) return;
+
+    for (final notification in plan.notifications) {
+      await _notificationService.cancelNotification(notification.id);
+      await _localDataSource.deleteNotification(notification.id);
+    }
+
+    _planDays.clear();
+    selectedPlanDay = null;
+    selectedOption = null;
+    await _localDataSource.clearSelectedPlan();
+    notifyListeners();
+  }
+
+  Future<void> _restoreNotifications() async {
+    final plan = selectedOption;
+    if (plan == null) return;
+
+    final notifications = plan.notifications;
+    if (notifications.isEmpty) {
+      await _ensureDefaultNotification();
+      return;
+    }
+
+    await _localDataSource.saveNotifications(notifications);
+    for (final notification in notifications) {
+      if (notification.isEnabled) {
+        await _notificationService.scheduleNotification(notification: notification);
+      } else {
+        await _notificationService.cancelNotification(notification.id);
+      }
+    }
+  }
+
+  Future<void> _ensureDefaultNotification() async {
+    final plan = selectedOption;
+    if (plan == null || plan.notifications.isNotEmpty) return;
+
+    final notification = _buildNotification(plan, _defaultNotificationTime());
+    await _upsertNotification(notification);
+  }
+
+  Future<void> _upsertNotification(MLocalNotification notification) async {
+    final plan = selectedOption;
+    if (plan == null) return;
+
+    final List<MLocalNotification> updatedNotifications = List.of(plan.notifications);
+    final index = updatedNotifications.indexWhere((element) => element.id == notification.id);
+    if (index >= 0) {
+      updatedNotifications[index] = notification;
+    } else {
+      updatedNotifications.add(notification);
+    }
+
+    final updatedPlan = plan.copyWith(
+      planDays: plan.planDays,
+      notifications: List<MLocalNotification>.unmodifiable(updatedNotifications),
+    );
+    selectedOption = updatedPlan;
+
+    await _localDataSource.saveNotification(notification);
+    if (notification.isEnabled) {
+      await _notificationService.scheduleNotification(notification: notification);
+    } else {
+      await _notificationService.cancelNotification(notification.id);
+    }
+    await _persistPlanState(updatedPlan);
+  }
+
+  MLocalNotification _buildNotification(MWerdPlanOption plan, DateTime scheduledAt) {
+    final reminderTitle = 'Daily Werd Reminder'.translated;
+    return MLocalNotification(
+      id: _generateNotificationId(),
+      title: reminderTitle.isEmpty ? 'Daily Werd Reminder' : reminderTitle,
+      body: plan.titleEn,
+      scheduledAt: scheduledAt,
+      repeatDaily: true,
+      payload: {'planId': plan.id},
+      deepLink: RoutesNames.werd.werdDetails,
+    );
+  }
+
+  DateTime _defaultNotificationTime() {
+    final now = DateTime.now();
+    final scheduled = DateTime(now.year, now.month, now.day, 8);
+    if (scheduled.isAfter(now)) return scheduled;
+    return scheduled.add(const Duration(days: 1));
+  }
+
+  DateTime _dateFromTime(TimeOfDay time) {
+    final now = DateTime.now();
+    var date = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    if (date.isBefore(now)) {
+      date = date.add(const Duration(days: 1));
+    }
+    return date;
+  }
+
+  MLocalNotification? _notificationById(int id) {
+    final plan = selectedOption;
+    if (plan == null) return null;
+    try {
+      return plan.notifications.firstWhere((element) => element.id == id);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  int _generateNotificationId() {
+    final plan = selectedOption;
+    final usedIds = <int>{};
+    if (plan != null) {
+      usedIds.addAll(plan.notifications.map((n) => n.id));
+    }
+    var candidate = Constants.werdNotificationBaseId;
+    while (usedIds.contains(candidate)) {
+      candidate++;
+      if (candidate > 0xFFFFFFFF) {
+        candidate = Constants.werdNotificationBaseId;
+      }
+    }
+    return candidate;
   }
 }

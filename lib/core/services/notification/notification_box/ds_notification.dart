@@ -15,7 +15,7 @@ class DSNotification {
     return boxNotification.box.get(id);
   }
 
-  Future<List<MLocalNotification>> getAll() async {
+  List<MLocalNotification> getAll() {
     return boxNotification.box.values.toList();
   }
 

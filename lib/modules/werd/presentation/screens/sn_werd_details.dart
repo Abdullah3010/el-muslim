@@ -5,6 +5,7 @@ import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
+import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
 import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/core/widgets/w_localize_rotation.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
@@ -54,6 +55,7 @@ class _SnWerdDetailsState extends State<SnWerdDetails> {
       builder: (context, _) {
         final option = _mgWerd.selectedOption;
         final day = _mgWerd.selectedPlanDay;
+        final MLocalNotification? primaryNotification = _mgWerd.primaryNotification;
         final bool isArabic = LocalizeAndTranslate.getLanguageCode() == 'ar';
         final isLoading = _mgWerd.isPlanDetailsLoading || _mgWerd.isPlanLoading;
 
@@ -109,9 +111,10 @@ class _SnWerdDetailsState extends State<SnWerdDetails> {
         final int remainingDaysRaw = _mgWerd.remainingDaysCount;
         final int remainingDays = remainingDaysRaw < 0 ? 0 : remainingDaysRaw;
         final int upcomingWerds = (remainingDays - (day.isFinished ? 0 : 1)).clamp(0, remainingDays).toInt();
-        final String statusLabel = day.isFinished
-            ? 'Completed'.translated
-            : '${'Remaining'.translated}: ${remainingDays.toString().translateNumbers()}';
+        final String statusLabel =
+            day.isFinished
+                ? 'Completed'.translated
+                : '${'Remaining'.translated}: ${remainingDays.toString().translateNumbers()}';
 
         return WSharedScaffold(
           padding: EdgeInsets.zero,
@@ -162,7 +165,12 @@ class _SnWerdDetailsState extends State<SnWerdDetails> {
                     onPressed: day.isFinished ? null : _onCompleteCurrentWerd,
                   ),
                   20.heightBox,
-                  WNewWerdDetailsReminder(label: 'Daily Werd'.translated, timeLabel: '03:30 PM'),
+                  WNewWerdDetailsReminder(
+                    label: 'Daily Werd'.translated,
+                    notification: primaryNotification,
+                    onToggle: (value) => _toggleReminder(primaryNotification, value),
+                    onTap: _openReminders,
+                  ),
                   20.heightBox,
                   WNewWerdDetailsProgress(
                     progress: progress,
@@ -193,7 +201,10 @@ class _SnWerdDetailsState extends State<SnWerdDetails> {
                   ),
                   22.heightBox,
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Modular.to.pop();
+                      _mgWerd.deleteCurrentWerdPlan();
+                    },
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 16.w),
                       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
@@ -223,5 +234,14 @@ class _SnWerdDetailsState extends State<SnWerdDetails> {
 
   void _openAllWerds() {
     Modular.to.pushNamed(RoutesNames.werd.allWerds);
+  }
+
+  void _openReminders() {
+    Modular.to.pushNamed(RoutesNames.werd.dailyAwradAlarm);
+  }
+
+  void _toggleReminder(MLocalNotification? notification, bool value) {
+    if (notification == null) return;
+    _mgWerd.toggleNotification(notification.id, value);
   }
 }

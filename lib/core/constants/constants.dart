@@ -22,4 +22,8 @@ class Constants {
   static int navbarHeight = 105;
 
   static String prayTimeApiKey = '3cbJ9hkDgWoIex0tIhfM0wrcE9sazUhCotASgShkJy4bAnVT';
+
+  /// Notification id bases
+  static const int prayNotificationBaseId = 4200;
+  static const int werdNotificationBaseId = 1000;
 }

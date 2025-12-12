@@ -4,9 +4,11 @@ import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
+import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
 import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
+import 'package:al_muslim/modules/index/managers/mg_index.dart';
 import 'package:al_muslim/modules/more/presentation/widgets/w_settings_item_divider.dart';
 import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
 import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
@@ -51,11 +53,26 @@ class SnMore extends StatelessWidget {
 
           // ===== 2. Quranic Sunan =====
           WSettingsSectionHeader(title: 'Quranic Sunan'.translated),
-          WSettingsRowItem(title: 'Surah Al-Kahf'.translated, onTap: () {}),
+          WSettingsRowItem(
+            title: 'Surah Al-Kahf'.translated,
+            onTap: () {
+              Modular.get<MgIndex>().selectIndex(17);
+            },
+          ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(title: 'Surah Al-Mulk'.translated, onTap: () {}),
+          WSettingsRowItem(
+            title: 'Surah Al-Mulk'.translated,
+            onTap: () {
+              Modular.get<MgIndex>().selectIndex(66);
+            },
+          ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(title: 'Surah Al-Baqara'.translated, onTap: () {}),
+          WSettingsRowItem(
+            title: 'Surah Al-Baqara'.translated,
+            onTap: () {
+              Modular.get<MgIndex>().selectIndex(1);
+            },
+          ),
 
           // ===== 3. Settings =====
           WSettingsSectionHeader(title: 'Settings'.translated),
@@ -65,7 +82,21 @@ class SnMore extends StatelessWidget {
             onTap: () => Modular.to.pushNamed(RoutesNames.werd.dailyAwradAlarm),
           ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(title: 'Start New Khatma'.translated, onTap: () {}),
+          WSettingsRowItem(
+            title: 'Start New Khatma'.translated,
+            onTap: () {
+              final notifications = Modular.get<DSNotification>().getAll();
+              notifications.forEach((notification) async {
+                // await Modular.get<DSNotification>().createUpdate(notification.copyWith(repeatDaily: true));
+                print(" ========================================= ");
+                print(" =====>>>> ${notification.id} - ${notification.isEnabled} ");
+                print(" =====>>>> ${notification.title} - ${notification.body} ");
+                print(" =====>>>> ${notification.deepLink} - ${notification.scheduledAt} ");
+                print(" =====>>>> ${notification.payload} - ${notification.isEnabled} ");
+                print(" =====>>>> ${notification.repeatDaily}  ");
+              });
+            },
+          ),
 
           // ===== 4. Prayer Times =====
           WSettingsSectionHeader(title: 'Prayer Times'.translated),

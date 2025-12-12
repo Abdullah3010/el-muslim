@@ -1,3 +1,4 @@
+import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_day.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_ce/hive.dart';
@@ -18,6 +19,7 @@ class MWerdPlanOption {
     required this.quartersPerDayLabelAr,
     required this.isSuggested,
     this.planDays = const [],
+    this.notifications = const [],
   });
 
   final int id;
@@ -33,6 +35,7 @@ class MWerdPlanOption {
   final String quartersPerDayLabelAr;
   final bool isSuggested;
   final List<MWerdDay> planDays;
+  final List<MLocalNotification> notifications;
 
   String get titleAr => nameAr;
   String get titleEn => nameEn;
@@ -58,10 +61,11 @@ class MWerdPlanOption {
       quartersPerDayLabelAr: json['quarters_per_day_ar']?.toString() ?? '',
       isSuggested: json['is_suggested'] == true,
       planDays: const [],
+      notifications: const [],
     );
   }
 
-  MWerdPlanOption copyWith({List<MWerdDay>? planDays}) {
+  MWerdPlanOption copyWith({List<MWerdDay>? planDays, List<MLocalNotification>? notifications}) {
     return MWerdPlanOption(
       id: id,
       nameAr: nameAr,
@@ -76,6 +80,7 @@ class MWerdPlanOption {
       quartersPerDayLabelAr: quartersPerDayLabelAr,
       isSuggested: isSuggested,
       planDays: planDays ?? this.planDays,
+      notifications: notifications ?? this.notifications,
     );
   }
 
@@ -122,13 +127,14 @@ class MWerdPlanOptionAdapter extends TypeAdapter<MWerdPlanOption> {
       quartersPerDayLabelAr: fields[10] as String? ?? '',
       isSuggested: fields[11] as bool? ?? false,
       planDays: (fields[12] as List?)?.whereType<MWerdDay>().toList() ?? const [],
+      notifications: (fields[13] as List?)?.whereType<MLocalNotification>().toList() ?? const [],
     );
   }
 
   @override
   void write(BinaryWriter writer, MWerdPlanOption obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -154,6 +160,8 @@ class MWerdPlanOptionAdapter extends TypeAdapter<MWerdPlanOption> {
       ..writeByte(11)
       ..write(obj.isSuggested)
       ..writeByte(12)
-      ..write(obj.planDays.toList());
+      ..write(obj.planDays.toList())
+      ..writeByte(13)
+      ..write(obj.notifications.toList());
   }
 }

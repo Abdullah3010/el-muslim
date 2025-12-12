@@ -46,9 +46,15 @@ class WNewWerdDetailsProgress extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('${'Previous Werds'.translated}: $previousWerds', style: context.textTheme.primary14W400),
+              Text(
+                '${'Previous Werds'.translated}: ${'$previousWerds'.translateNumbers()}',
+                style: context.textTheme.primary14W400,
+              ),
 
-              Text('${'Upcoming Werds'.translated}: $upcomingWerds', style: context.textTheme.primary14W400),
+              Text(
+                '${'Upcoming Werds'.translated}: ${'$upcomingWerds'.translateNumbers()}',
+                style: context.textTheme.primary14W400,
+              ),
             ],
           ),
         ],

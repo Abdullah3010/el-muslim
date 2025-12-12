@@ -177,7 +177,7 @@ class _WNewWerdBottomSheetState extends State<WNewWerdBottomSheet> {
   Future<void> _selectOption(BuildContext context, MWerdPlanOption option) async {
     await _mgWerd.selectOption(option);
     if (!mounted) return;
-    Navigator.of(context).pop();
+    Modular.to.pop();
     Future.microtask(() => Modular.to.pushNamed(RoutesNames.werd.werdDetails));
   }
 }

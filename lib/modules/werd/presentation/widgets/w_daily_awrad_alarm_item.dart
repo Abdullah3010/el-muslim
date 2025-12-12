@@ -10,15 +10,19 @@ class WDailyAwradAlarmItem extends StatelessWidget {
     required this.timeLabel,
     required this.isOn,
     this.showSettings = false,
+    this.showDelete = false,
     this.onToggle,
     this.onSettingsTap,
+    this.onDelete,
   });
 
   final String timeLabel;
   final bool isOn;
   final bool showSettings;
+  final bool showDelete;
   final ValueChanged<bool>? onToggle;
   final VoidCallback? onSettingsTap;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +41,13 @@ class WDailyAwradAlarmItem extends StatelessWidget {
               onPressed: onSettingsTap,
               padding: EdgeInsets.zero,
               icon: Icon(Icons.settings, color: context.theme.colorScheme.primaryColor, size: 20.sp),
+            ),
+          ],
+          if (showDelete) ...[
+            IconButton(
+              onPressed: onDelete,
+              padding: EdgeInsets.zero,
+              icon: Icon(Icons.delete_outline, color: context.theme.colorScheme.red, size: 20.sp),
             ),
           ],
           Switch(

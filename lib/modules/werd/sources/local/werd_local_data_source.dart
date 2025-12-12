@@ -1,20 +1,27 @@
+import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
+import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_day.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_plan_option.dart';
 import 'package:al_muslim/modules/werd/sources/local/box_werd_plan_option.dart';
 import 'package:al_muslim/modules/werd/sources/local/box_werd_plan_progress.dart';
 
 class WerdLocalDataSource {
-  WerdLocalDataSource({BoxWerdPlanOption? box, BoxWerdPlanProgress? progressBox})
-      : _box = box ?? BoxWerdPlanOption(),
-        _progressBox = progressBox ?? BoxWerdPlanProgress();
+  WerdLocalDataSource({
+    BoxWerdPlanOption? box,
+    BoxWerdPlanProgress? progressBox,
+    BoxNotification? notificationBox,
+  })  : _box = box ?? BoxWerdPlanOption(),
+        _progressBox = progressBox ?? BoxWerdPlanProgress(),
+        _notificationBox = notificationBox ?? BoxNotification();
 
   static const String _selectedPlanKey = 'selected_plan';
 
   final BoxWerdPlanOption _box;
   final BoxWerdPlanProgress _progressBox;
+  final BoxNotification _notificationBox;
 
   Future<void> init() async {
-    await Future.wait([_box.init(), _progressBox.init()]);
+    await Future.wait([_box.init(), _progressBox.init(), _notificationBox.init()]);
   }
 
   Future<MWerdPlanOption?> getSelectedPlan() async {
@@ -50,5 +57,23 @@ class WerdLocalDataSource {
   Future<void> clearPlanDays(int planId) async {
     await init();
     await _progressBox.box.delete(planId.toString());
+  }
+
+  Future<void> saveNotification(MLocalNotification notification) async {
+    await init();
+    await _notificationBox.box.put(notification.id, notification);
+  }
+
+  Future<void> saveNotifications(List<MLocalNotification> notifications) async {
+    await init();
+    final box = _notificationBox.box;
+    for (final notification in notifications) {
+      await box.put(notification.id, notification);
+    }
+  }
+
+  Future<void> deleteNotification(int notificationId) async {
+    await init();
+    await _notificationBox.box.delete(notificationId);
   }
 }

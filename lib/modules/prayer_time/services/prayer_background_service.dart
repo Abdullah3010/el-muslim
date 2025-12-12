@@ -14,7 +14,6 @@ import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:workmanager/workmanager.dart';
 
 const String prayerWorkTaskName = 'daily_prayer_time_fetch';
-const int _prayerNotificationBaseId = 4200;
 
 @pragma('vm:entry-point')
 void prayerBackgroundDispatcher() {
@@ -202,7 +201,7 @@ class PrayerBackgroundService {
       final entry = entries[index];
       if (!entry.dateTime.isAfter(now)) continue;
 
-      final notificationId = _prayerNotificationBaseId + index;
+      final notificationId = Constants.prayNotificationBaseId + index;
       await _notificationService.cancelNotification(notificationId);
       final notification = MLocalNotification(
         id: notificationId,
