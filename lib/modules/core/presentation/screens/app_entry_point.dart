@@ -4,6 +4,7 @@ import 'package:al_muslim/modules/core/managers/mg_core.dart';
 import 'package:al_muslim/modules/index/managers/mg_index.dart';
 import 'package:al_muslim/modules/prayer_time/managers/mg_location_selection.dart';
 import 'package:al_muslim/modules/quran/managers/mg_quran.dart';
+import 'package:al_muslim/modules/werd/managers/mg_werd.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,6 +40,7 @@ class _AppEntryPointState extends State<AppEntryPoint> with WidgetsBindingObserv
         ChangeNotifierProvider(create: (_) => Modular.get<MgIndex>()),
         ChangeNotifierProvider(create: (_) => Modular.get<MgLocationSelection>()),
         ChangeNotifierProvider(create: (_) => Modular.get<MgQuran>()),
+        ChangeNotifierProvider(create: (_) => Modular.get<MgWerd>()),
       ],
       child: OrientationBuilder(
         builder: (context, orientation) {

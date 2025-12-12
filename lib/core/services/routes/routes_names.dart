@@ -54,6 +54,7 @@ class WerdRoutes {
 
   String get werdMain => baseUrl;
   String get werdDetails => '${baseUrl}details';
+  String get allWerds => '${baseUrl}all';
   String get previousWerd => '${baseUrl}previous';
   String get nextWerd => '${baseUrl}next';
   String get dailyAwradAlarm => '${baseUrl}daily_awrad_alarm';

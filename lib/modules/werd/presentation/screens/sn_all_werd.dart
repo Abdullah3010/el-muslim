@@ -1,4 +1,5 @@
 import 'package:al_muslim/core/extension/build_context.dart';
+import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
@@ -13,14 +14,14 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
-class SnPreviousWerd extends StatefulWidget {
-  const SnPreviousWerd({super.key});
+class SnAllWerds extends StatefulWidget {
+  const SnAllWerds({super.key});
 
   @override
-  State<SnPreviousWerd> createState() => _SnPreviousWerdState();
+  State<SnAllWerds> createState() => _SnAllWerdsState();
 }
 
-class _SnPreviousWerdState extends State<SnPreviousWerd> {
+class _SnAllWerdsState extends State<SnAllWerds> {
   late final MgWerd _mgWerd;
 
   @override
@@ -41,26 +42,46 @@ class _SnPreviousWerdState extends State<SnPreviousWerd> {
       builder: (context, _) {
         final isLoading = _mgWerd.isPlanLoading || _mgWerd.isPlanDetailsLoading;
         final option = _mgWerd.selectedOption;
-        final previousDays = _mgWerd.finishedDays;
+        final days = _mgWerd.planDays;
 
         return WSharedScaffold(
-          appBar: WSharedAppBar(title: 'Previous Awrads'.translated),
+          appBar: WSharedAppBar(title: 'All Werds'.translated),
           body: isLoading
               ? const Center(child: CircularProgressIndicator.adaptive())
               : option == null
                   ? _buildMessage(context, 'Select a werd plan first'.translated)
-                  : previousDays.isEmpty
-                      ? _buildMessage(context, 'No previous werds yet'.translated)
+                  : days.isEmpty
+                      ? _buildMessage(context, _mgWerd.planDetailsError ?? 'No werd plans found'.translated)
                       : ListView.separated(
                           padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
                           itemBuilder: (context, index) {
-                            final day = previousDays[index];
+                            final day = days[index];
+                            final statusText = day.isFinished ? 'Finished'.translated : 'Unfinished'.translated;
+                            final statusColor =
+                                day.isFinished ? context.theme.colorScheme.green : context.theme.colorScheme.red;
+
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(_dayTitle(context, day).translateNumbers(),
-                                    style: context.textTheme.primary16W500),
-                                10.heightBox,
+                                Row(
+                                  children: [
+                                    Text(_dayTitle(context, day).translateNumbers(),
+                                        style: context.textTheme.primary16W500),
+                                    const Spacer(),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                                      decoration: BoxDecoration(
+                                        color: statusColor.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(12.r),
+                                      ),
+                                      child: Text(
+                                        statusText.translateNumbers(),
+                                        style: context.textTheme.primary14W400.copyWith(color: statusColor),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                8.heightBox,
                                 WPreviousWerdItem(
                                   fromText: _fromText(context, day),
                                   toText: _toText(context, day),
@@ -70,7 +91,7 @@ class _SnPreviousWerdState extends State<SnPreviousWerd> {
                             );
                           },
                           separatorBuilder: (_, __) => 16.heightBox,
-                          itemCount: previousDays.length,
+                          itemCount: days.length,
                         ),
         );
       },

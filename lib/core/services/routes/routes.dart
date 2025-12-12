@@ -11,6 +11,7 @@ import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_location_s
 import 'package:al_muslim/modules/werd/data/models/m_werd_plan_option.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_daily_awrad_alarm.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_next_werd.dart';
+import 'package:al_muslim/modules/werd/presentation/screens/sn_all_werd.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_previous_werd.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_werd.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_werd_details.dart';
@@ -95,6 +96,13 @@ class Routes {
     );
 
     r.child(
+      RoutesNames.werd.allWerds,
+      transition: TransitionType.fadeIn,
+      child: (_) => const SnAllWerds(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+
+    r.child(
       RoutesNames.werd.previousWerd,
       transition: TransitionType.fadeIn,
       child: (_) => const SnPreviousWerd(),
@@ -119,16 +127,9 @@ class Routes {
       RoutesNames.werd.werdDetails,
       transition: TransitionType.fadeIn,
       child: (_) {
-        final option = r.args.data as MWerdPlanOption?;
-        return SnWerdDetails(
-          option: option ??
-              const MWerdPlanOption(
-                titleAr: 'ختمة 30 يوما',
-                titleEn: 'Werd 30 days',
-                subtitleAr: 'الورد اليومي 1 جزء',
-                subtitleEn: 'Daily portion 1 Juz',
-              ),
-        );
+        final data = r.args.data;
+        final option = data is MWerdPlanOption ? data : null;
+        return SnWerdDetails(initialOption: option);
       },
       guards: [EnsureKeyboardDismissed()],
     );
