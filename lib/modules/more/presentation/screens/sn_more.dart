@@ -1,10 +1,10 @@
 import 'package:al_muslim/core/assets/assets.gen.dart';
 import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
-import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
-import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
+import 'package:al_muslim/modules/more/managers/mg_more.dart';
+import 'package:al_muslim/modules/more/presentation/widgets/w_alarm_row.dart';
 import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
@@ -13,6 +13,7 @@ import 'package:al_muslim/modules/more/presentation/widgets/w_settings_item_divi
 import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
 import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
 import 'package:al_muslim/modules/quran/managers/mg_quran.dart';
+import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,6 +23,8 @@ class SnMore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mgMore = Modular.get<MgMore>();
+
     return WSharedScaffold(
       appBar: WSharedAppBar(title: 'More'.translated, withBack: false),
       padding: EdgeInsets.zero,
@@ -112,90 +115,70 @@ class SnMore extends StatelessWidget {
 
           // ===== 5. Adhkar Alarms =====
           WSettingsSectionHeader(title: 'Adhkar Alarms'.translated),
-          WSettingsRowItem(
+          AlarmEnableRow(
+            manager: mgMore,
+            notificationId: Constants.morningAzkarNotificationId,
             title: 'Morning Adhkar Alarm'.translated,
             icon: Assets.icons.sun.path,
-            trailing: Switch(value: true, onChanged: (value) {}),
-            onTap: () {},
+            defaultTime: const TimeOfDay(hour: 7, minute: 26),
           ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(
+          AlarmTimeRow(
+            manager: mgMore,
+            notificationId: Constants.morningAzkarNotificationId,
             title: 'Morning Adhkar Time'.translated,
             icon: Assets.icons.clock.path,
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('07:26 ص'.translated, style: context.theme.textTheme.primary16W400),
-                10.widthBox,
-                Assets.icons.backGold.svg(width: 20.w, height: 20.h),
-              ],
-            ),
-            onTap: () {},
+            defaultTime: const TimeOfDay(hour: 7, minute: 26),
           ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(
+          AlarmEnableRow(
+            manager: mgMore,
+            notificationId: Constants.eveningAzkarNotificationId,
             title: 'Evening Adhkar Alarm'.translated,
             icon: Assets.icons.moon.path,
-            trailing: Switch(value: true, onChanged: (value) {}),
-            onTap: () {},
+            defaultTime: const TimeOfDay(hour: 19, minute: 0),
           ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(
+          AlarmTimeRow(
+            manager: mgMore,
+            notificationId: Constants.eveningAzkarNotificationId,
             title: 'Evening Adhkar Time'.translated,
             icon: Assets.icons.clock.path,
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('07:26 ص'.translated, style: context.theme.textTheme.primary16W400),
-                10.widthBox,
-                Assets.icons.backGold.svg(width: 20.w, height: 20.h),
-              ],
-            ),
-            onTap: () {},
+            defaultTime: const TimeOfDay(hour: 19, minute: 0),
           ),
 
           // ===== 6. Sunan Alarms =====
           WSettingsSectionHeader(title: 'Sunan Alarms'.translated),
-          WSettingsRowItem(
+          AlarmEnableRow(
+            manager: mgMore,
+            notificationId: Constants.almulkQuranNotificationId,
             title: 'Surah Al-Mulk Alarm'.translated,
             icon: Assets.icons.notification.path,
-            trailing: Switch(value: true, onChanged: (value) {}),
-            onTap: () {},
+            defaultTime: const TimeOfDay(hour: 7, minute: 26),
           ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(
+          AlarmTimeRow(
+            manager: mgMore,
+            notificationId: Constants.almulkQuranNotificationId,
             title: 'Surah Al-Mulk Time'.translated,
             icon: Assets.icons.clock.path,
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('07:26 ص'.translated, style: context.theme.textTheme.primary16W400),
-                10.widthBox,
-                Assets.icons.backGold.svg(width: 20.w, height: 20.h),
-              ],
-            ),
-            onTap: () {},
+            defaultTime: const TimeOfDay(hour: 7, minute: 26),
           ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(
+          AlarmEnableRow(
+            manager: mgMore,
+            notificationId: Constants.albakraQuranNotificationId,
             title: 'Surah Al-Baqara Alarm'.translated,
             icon: Assets.icons.notification.path,
-            trailing: Switch(value: true, onChanged: (value) {}),
-            onTap: () {},
+            defaultTime: const TimeOfDay(hour: 7, minute: 26),
           ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(
+          AlarmTimeRow(
+            manager: mgMore,
+            notificationId: Constants.albakraQuranNotificationId,
             title: 'Surah Al-Baqara Time'.translated,
             icon: Assets.icons.clock.path,
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('07:26 ص'.translated, style: context.theme.textTheme.primary16W400),
-                10.widthBox,
-                Assets.icons.backGold.svg(width: 20.w, height: 20.h),
-              ],
-            ),
-            onTap: () {},
+            defaultTime: const TimeOfDay(hour: 7, minute: 26),
           ),
 
           // ===== 7. Statistics =====

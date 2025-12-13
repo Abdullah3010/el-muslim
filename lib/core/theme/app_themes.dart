@@ -15,22 +15,19 @@ class AppThemes {
       linearTrackColor: Color(0xFFE0E0E0),
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
-        // if (states.contains(WidgetState.selected)) {
-        return const Color(0xFFFFFFFF);
-        // }
-        // return const Color(0xFFBDBDBD);
-      }),
-      trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((states) {
-        return Colors.transparent;
-      }),
-
+      thumbColor: WidgetStateProperty.all(const Color(0xFFD8B74E)),
       trackColor: WidgetStateProperty.resolveWith<Color>((states) {
-        // if (states.contains(WidgetState.selected)) {
-        return const Color(0xFFD8B74E);
-        // }
-        // return const Color(0xFFFFFAF0);
+        const Color primary = Color(0xFFD8B74E);
+        if (states.contains(WidgetState.selected)) {
+          return primary.withValues(alpha: 0.5);
+        }
+        return primary.withValues(alpha: 0.2);
       }),
+      overlayColor: WidgetStateProperty.resolveWith<Color>((states) {
+        const Color primary = Color(0xFFD8B74E);
+        return states.contains(WidgetState.selected) ? primary.withValues(alpha: 0.25) : primary.withValues(alpha: 0.2);
+      }),
+      trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
     ),
     bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Color(0xFFfdfbf6)),
     inputDecorationTheme: InputDecorationTheme(

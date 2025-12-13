@@ -1,9 +1,11 @@
 import 'package:al_muslim/core/config/box_app_config/box_app_config.dart';
 import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
+import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
 import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
 import 'package:al_muslim/modules/azkar/managers/mg_azkar.dart';
 import 'package:al_muslim/modules/core/managers/mg_core.dart';
+import 'package:al_muslim/modules/more/managers/mg_more.dart';
 import 'package:al_muslim/modules/prayer_time/managers/mg_location_selection.dart';
 import 'package:al_muslim/modules/index/managers/mg_index.dart';
 import 'package:al_muslim/modules/prayer_time/managers/mg_prayer_time.dart';
@@ -22,6 +24,7 @@ class Binds {
     /// ================= Notifications ================= ///
     i.addSingleton(BoxNotification.new);
     i.addSingleton(DSNotification.new);
+    i.addSingleton(LocalNotificationService.new);
 
     /// ================= Managers ================= ///
     i.addLazySingleton(MgCore.new);
@@ -32,5 +35,6 @@ class Binds {
     i.addLazySingleton(MgAzkar.new);
     i.addLazySingleton(MgQuran.new);
     i.addLazySingleton(MgWerd.new);
+    i.addLazySingleton(MgMore.new);
   }
 }
