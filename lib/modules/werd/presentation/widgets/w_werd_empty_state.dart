@@ -12,11 +12,7 @@ class WWerdEmptyState extends StatelessWidget {
   final MgWerd mgWerd;
   final void Function(bool hasCurrentWerd) onPrimaryAction;
 
-  const WWerdEmptyState({
-    super.key,
-    required this.mgWerd,
-    required this.onPrimaryAction,
-  });
+  const WWerdEmptyState({super.key, required this.mgWerd, required this.onPrimaryAction});
 
   @override
   Widget build(BuildContext context) {
