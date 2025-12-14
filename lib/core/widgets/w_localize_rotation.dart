@@ -9,6 +9,6 @@ class WLocalizeRotation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.rotate(angle: (context.languageCode == 'ar' && !reverse) ? (180 * 3.14) / 180 : 0, child: child);
+    return Transform.rotate(angle: (context.languageCode == 'ar' && !reverse) ? 0 : (180 * 3.14) / 180, child: child);
   }
 }

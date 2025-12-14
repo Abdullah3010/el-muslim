@@ -5,6 +5,7 @@ import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
 import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
+import 'package:al_muslim/core/widgets/w_localize_rotation.dart';
 import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
 import 'package:al_muslim/modules/more/managers/mg_more.dart';
 import 'package:al_muslim/modules/werd/presentation/widgets/w_time_picker_dialog.dart';
@@ -91,7 +92,7 @@ class AlarmTimeRow extends StatelessWidget {
             children: [
               Text(timeLabel.translateTime(), style: context.theme.textTheme.primary16W400),
               10.widthBox,
-              Assets.icons.backGold.svg(width: 20.w, height: 20.h),
+              WLocalizeRotation(child: Assets.icons.backGold.svg(width: 20.w, height: 20.h)),
             ],
           ),
           onTap: () async {

@@ -2,6 +2,7 @@ import 'package:al_muslim/core/assets/assets.gen.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
+import 'package:al_muslim/core/widgets/w_localize_rotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,7 +27,8 @@ class WSettingsRowItem extends StatelessWidget {
             if (icon != null) ...[SvgPicture.asset(icon!, width: 22.w, height: 22.h), 12.widthBox],
             Text(title, style: context.textTheme.primary16W500),
             const Spacer(),
-            trailing ?? SvgPicture.asset(Assets.icons.backGold.path, width: 20.w, height: 20.h),
+            trailing ??
+                WLocalizeRotation(child: SvgPicture.asset(Assets.icons.backGold.path, width: 20.w, height: 20.h)),
           ],
         ),
       ),

@@ -14,6 +14,7 @@ import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
 import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
 import 'package:al_muslim/modules/quran/managers/mg_quran.dart';
 import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
+import 'package:al_muslim/modules/more/presentation/widgets/w_language_selector_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -204,7 +205,11 @@ class SnMore extends StatelessWidget {
 
           // ===== 8. Others =====
           WSettingsSectionHeader(title: 'Others'.translated),
-          WSettingsRowItem(title: 'Language'.translated, icon: Assets.icons.settings.path, onTap: () {}),
+          WSettingsRowItem(
+            title: 'Language'.translated,
+            icon: Assets.icons.settings.path,
+            onTap: () => WLanguageSelectorDialog.show(context),
+          ),
           const WSettingsItemDivider(),
           WSettingsRowItem(title: 'Contact Us'.translated, onTap: () {}),
           const WSettingsItemDivider(),

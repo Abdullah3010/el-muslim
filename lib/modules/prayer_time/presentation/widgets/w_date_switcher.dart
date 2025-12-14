@@ -2,6 +2,7 @@ import 'package:al_muslim/core/assets/assets.gen.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
+import 'package:al_muslim/core/widgets/w_localize_rotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -35,7 +36,9 @@ class WDateSwitcher extends StatelessWidget {
             child: Container(
               height: 64.h,
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: Transform.rotate(angle: (180 * 3.14) / 180, child: Assets.icons.nextIconWhite.svg()),
+              child: WLocalizeRotation(
+                child: Transform.rotate(angle: (180 * 3.14) / 180, child: Assets.icons.nextIconWhite.svg()),
+              ),
             ),
           ),
           Expanded(
@@ -52,7 +55,7 @@ class WDateSwitcher extends StatelessWidget {
             child: Container(
               height: 64.h,
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: Transform.rotate(angle: 0, child: Assets.icons.nextIconWhite.svg()),
+              child: WLocalizeRotation(child: Transform.rotate(angle: 0, child: Assets.icons.nextIconWhite.svg())),
             ),
           ),
         ],

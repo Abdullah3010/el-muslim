@@ -1,8 +1,10 @@
+import 'package:al_muslim/core/assets/assets.gen.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
+import 'package:al_muslim/core/widgets/w_localize_rotation.dart';
 import 'package:al_muslim/modules/index/data/models/m_quran_index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,22 +51,15 @@ class WSurahRow extends StatelessWidget {
                 ),
               ],
             ),
-            Directionality(
-              textDirection: TextDirection.ltr,
-              child: Row(
-                children: [
-                  Icon(
-                    context.isRTL ? Icons.arrow_back_ios_new : Icons.arrow_forward_ios,
-                    color: context.theme.colorScheme.primaryColor,
-                    size: 18.sp,
-                  ),
-                  8.widthBox,
-                  Text(
-                    '${'Page'.translated} ${surah.firstPage.madani.toString().translateNumbers()}',
-                    style: context.textTheme.primary16W500,
-                  ),
-                ],
-              ),
+            Row(
+              children: [
+                Text(
+                  '${'Page'.translated} ${surah.firstPage.madani.toString().translateNumbers()}',
+                  style: context.textTheme.primary16W500,
+                ),
+                8.widthBox,
+                WLocalizeRotation(child: Assets.icons.backGold.svg(width: 18.w, height: 18.h)),
+              ],
             ),
           ],
         ),
