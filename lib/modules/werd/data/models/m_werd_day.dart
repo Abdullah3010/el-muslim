@@ -14,6 +14,8 @@ class MWerdDay {
     required this.startSurahAr,
     required this.endSurahEn,
     required this.endSurahAr,
+    required this.startPageNumber,
+    required this.endPageNumber,
     this.isFinished = false,
   });
 
@@ -26,9 +28,11 @@ class MWerdDay {
   final String startSurahAr;
   final String endSurahEn;
   final String endSurahAr;
+  final int startPageNumber;
+  final int endPageNumber;
   final bool isFinished;
 
-  MWerdDay copyWith({bool? isFinished}) {
+  MWerdDay copyWith({bool? isFinished, int? startPageNumber, int? endPageNumber}) {
     return MWerdDay(
       dayNumber: dayNumber,
       startAyahNumber: startAyahNumber,
@@ -39,6 +43,8 @@ class MWerdDay {
       startSurahAr: startSurahAr,
       endSurahEn: endSurahEn,
       endSurahAr: endSurahAr,
+      startPageNumber: startPageNumber ?? this.startPageNumber,
+      endPageNumber: endPageNumber ?? this.endPageNumber,
       isFinished: isFinished ?? this.isFinished,
     );
   }
@@ -54,6 +60,8 @@ class MWerdDay {
       startSurahAr: json['start_surah_ar']?.toString() ?? '',
       endSurahEn: json['end_surah_en']?.toString() ?? '',
       endSurahAr: json['end_surah_ar']?.toString() ?? '',
+      startPageNumber: (json['start_page_number'] as num?)?.toInt() ?? 0,
+      endPageNumber: (json['end_page_number'] as num?)?.toInt() ?? 0,
       isFinished: isFinished,
     );
   }
@@ -69,6 +77,8 @@ class MWerdDay {
       'start_surah_ar': startSurahAr,
       'end_surah_en': endSurahEn,
       'end_surah_ar': endSurahAr,
+      'start_page_number': startPageNumber,
+      'end_page_number': endPageNumber,
       'is_finished': isFinished,
     };
   }
@@ -80,12 +90,16 @@ class MWerdDay {
         titleEn: 'From $startSurahEn: $startAyahNumber',
         subtitleAr: startAyahText,
         subtitleEn: startAyahText,
+        startPageNumber: startPageNumber,
+        endPageNumber: 0,
       ),
       MWerdDetailSegment(
         titleAr: 'إلى $endSurahAr: $endAyahNumber',
         titleEn: 'To $endSurahEn: $endAyahNumber',
         subtitleAr: endAyahText,
         subtitleEn: endAyahText,
+        startPageNumber: 0,
+        endPageNumber: endPageNumber,
       ),
     ];
   }
@@ -113,6 +127,8 @@ class MWerdDayAdapter extends TypeAdapter<MWerdDay> {
       startSurahAr: fields[6] as String? ?? '',
       endSurahEn: fields[7] as String? ?? '',
       endSurahAr: fields[8] as String? ?? '',
+      startPageNumber: fields[10] as int? ?? 0,
+      endPageNumber: fields[11] as int? ?? 0,
       isFinished: fields[9] as bool? ?? false,
     );
   }
@@ -120,7 +136,7 @@ class MWerdDayAdapter extends TypeAdapter<MWerdDay> {
   @override
   void write(BinaryWriter writer, MWerdDay obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.dayNumber)
       ..writeByte(1)
@@ -140,6 +156,10 @@ class MWerdDayAdapter extends TypeAdapter<MWerdDay> {
       ..writeByte(8)
       ..write(obj.endSurahAr)
       ..writeByte(9)
-      ..write(obj.isFinished);
+      ..write(obj.isFinished)
+      ..writeByte(10)
+      ..write(obj.startPageNumber)
+      ..writeByte(11)
+      ..write(obj.endPageNumber);
   }
 }

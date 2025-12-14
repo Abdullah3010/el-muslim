@@ -38,9 +38,14 @@ class MgIndex extends ChangeNotifier {
   void selectIndex(int index) {
     if (index < 0 || index >= surahs.length) return;
     final firstPage = surahs[index].firstPage;
+    Modular.to.pushNamed(RoutesNames.quran.quranMain, arguments: firstPage);
+  }
+
+  void selectPage(int pageNumber) {
+    if (pageNumber <= 0) return;
     Modular.to.pushNamed(
       RoutesNames.quran.quranMain,
-      arguments: firstPage,
+      arguments: MQuranFirstPage(madani: pageNumber, indopak: pageNumber),
     );
   }
 }

@@ -10,6 +10,7 @@ import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/core/widgets/w_localize_rotation.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
+import 'package:al_muslim/modules/index/managers/mg_index.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_detail_segment.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_plan_option.dart';
 import 'package:al_muslim/modules/werd/managers/mg_werd.dart';
@@ -153,12 +154,15 @@ class _SnWerdDetailsState extends State<SnWerdDetails> {
                       child: Text('No plan details found'.translated, style: context.textTheme.primary14W400),
                     )
                   else
-                    ...segments.map(
-                      (segment) => WNewWerdDetailsVerse(
+                    ...segments.map((segment) {
+                      final int pageNumber =
+                          segment.startPageNumber != 0 ? segment.startPageNumber : segment.endPageNumber;
+                      return WNewWerdDetailsVerse(
                         title: isArabic ? segment.titleAr : segment.titleEn,
                         subtitle: isArabic ? segment.subtitleAr : segment.subtitleEn,
-                      ),
-                    ),
+                        onTap: pageNumber > 0 ? () => _openPage(pageNumber) : null,
+                      );
+                    }),
                   20.heightBox,
                   WNewWerdDetailsCompletionButton(
                     title: 'Complete Werd'.translated,
@@ -230,6 +234,11 @@ class _SnWerdDetailsState extends State<SnWerdDetails> {
 
   Future<void> _onCompleteCurrentWerd() async {
     await _mgWerd.markCurrentDayFinished();
+  }
+
+  void _openPage(int pageNumber) {
+    if (pageNumber <= 0) return;
+    Modular.get<MgIndex>().selectPage(pageNumber);
   }
 
   void _openAllWerds() {

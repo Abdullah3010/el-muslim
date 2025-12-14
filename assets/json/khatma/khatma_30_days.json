@@ -7,7 +7,9 @@
         "start_surah_en": "Al-Fatiha",
         "start_surah_ar": "الفاتحة",
         "end_surah_en": "Al-Baqara",
-        "end_surah_ar": "البقرة"
+        "end_surah_ar": "البقرة",
+        "start_page_number": 1,
+        "end_page_number": 21
     },
     "day_2": {
         "start_ayah_number": 142,
@@ -17,7 +19,9 @@
         "start_surah_en": "Al-Baqara",
         "start_surah_ar": "البقرة",
         "end_surah_en": "Al-Baqara",
-        "end_surah_ar": "البقرة"
+        "end_surah_ar": "البقرة",
+        "start_page_number": 22,
+        "end_page_number": 41
     },
     "day_3": {
         "start_ayah_number": 253,
@@ -27,7 +31,9 @@
         "start_surah_en": "Al-Baqara",
         "start_surah_ar": "البقرة",
         "end_surah_en": "Aal-Imran",
-        "end_surah_ar": "آل عمران"
+        "end_surah_ar": "آل عمران",
+        "start_page_number": 42,
+        "end_page_number": 62
     },
     "day_4": {
         "start_ayah_number": 93,
@@ -37,7 +43,9 @@
         "start_surah_en": "Aal-Imran",
         "start_surah_ar": "آل عمران",
         "end_surah_en": "An-Nisaa'",
-        "end_surah_ar": "النساء"
+        "end_surah_ar": "النساء",
+        "start_page_number": 62,
+        "end_page_number": 81
     },
     "day_5": {
         "start_ayah_number": 24,
@@ -47,7 +55,9 @@
         "start_surah_en": "An-Nisaa'",
         "start_surah_ar": "النساء",
         "end_surah_en": "An-Nisaa'",
-        "end_surah_ar": "النساء"
+        "end_surah_ar": "النساء",
+        "start_page_number": 82,
+        "end_page_number": 101
     },
     "day_6": {
         "start_ayah_number": 148,
@@ -57,7 +67,9 @@
         "start_surah_en": "An-Nisaa'",
         "start_surah_ar": "النساء",
         "end_surah_en": "Al-Ma'ida",
-        "end_surah_ar": "المائدة"
+        "end_surah_ar": "المائدة",
+        "start_page_number": 102,
+        "end_page_number": 121
     },
     "day_7": {
         "start_ayah_number": 82,
@@ -67,7 +79,9 @@
         "start_surah_en": "Al-Ma'ida",
         "start_surah_ar": "المائدة",
         "end_surah_en": "Al-An'am",
-        "end_surah_ar": "الأنعام"
+        "end_surah_ar": "الأنعام",
+        "start_page_number": 121,
+        "end_page_number": 141
     },
     "day_8": {
         "start_ayah_number": 111,
@@ -77,7 +91,9 @@
         "start_surah_en": "Al-An'am",
         "start_surah_ar": "الأنعام",
         "end_surah_en": "Al-A'raf",
-        "end_surah_ar": "الأعراف"
+        "end_surah_ar": "الأعراف",
+        "start_page_number": 142,
+        "end_page_number": 161
     },
     "day_9": {
         "start_ayah_number": 88,
@@ -87,7 +103,9 @@
         "start_surah_en": "Al-A'raf",
         "start_surah_ar": "الأعراف",
         "end_surah_en": "Al-Anfal",
-        "end_surah_ar": "الأنفال"
+        "end_surah_ar": "الأنفال",
+        "start_page_number": 162,
+        "end_page_number": 181
     },
     "day_10": {
         "start_ayah_number": 41,
@@ -97,7 +115,9 @@
         "start_surah_en": "Al-Anfal",
         "start_surah_ar": "الأنفال",
         "end_surah_en": "Al-Tawba",
-        "end_surah_ar": "التوبة"
+        "end_surah_ar": "التوبة",
+        "start_page_number": 182,
+        "end_page_number": 201
     },
     "day_11": {
         "start_ayah_number": 93,
@@ -107,7 +127,9 @@
         "start_surah_en": "Al-Tawba",
         "start_surah_ar": "التوبة",
         "end_surah_en": "Hud",
-        "end_surah_ar": "هود"
+        "end_surah_ar": "هود",
+        "start_page_number": 201,
+        "end_page_number": 221
     },
     "day_12": {
         "start_ayah_number": 6,
@@ -117,7 +139,9 @@
         "start_surah_en": "Hud",
         "start_surah_ar": "هود",
         "end_surah_en": "Yusuf",
-        "end_surah_ar": "يوسف"
+        "end_surah_ar": "يوسف",
+        "start_page_number": 222,
+        "end_page_number": 241
     },
     "day_13": {
         "start_ayah_number": 53,
@@ -127,7 +151,9 @@
         "start_surah_en": "Yusuf",
         "start_surah_ar": "يوسف",
         "end_surah_en": "Ibrahim",
-        "end_surah_ar": "إبراهيم"
+        "end_surah_ar": "إبراهيم",
+        "start_page_number": 242,
+        "end_page_number": 261
     },
     "day_14": {
         "start_ayah_number": 1,
@@ -137,7 +163,9 @@
         "start_surah_en": "Al-Hijr",
         "start_surah_ar": "الحجر",
         "end_surah_en": "An-Nahl",
-        "end_surah_ar": "النحل"
+        "end_surah_ar": "النحل",
+        "start_page_number": 262,
+        "end_page_number": 281
     },
     "day_15": {
         "start_ayah_number": 1,
@@ -147,7 +175,9 @@
         "start_surah_en": "Al-Israa",
         "start_surah_ar": "الإسراء",
         "end_surah_en": "Al-Kahf",
-        "end_surah_ar": "الكهف"
+        "end_surah_ar": "الكهف",
+        "start_page_number": 282,
+        "end_page_number": 301
     },
     "day_16": {
         "start_ayah_number": 75,
@@ -157,7 +187,9 @@
         "start_surah_en": "Al-Kahf",
         "start_surah_ar": "الكهف",
         "end_surah_en": "Ta-Ha",
-        "end_surah_ar": "طه"
+        "end_surah_ar": "طه",
+        "start_page_number": 302,
+        "end_page_number": 321
     },
     "day_17": {
         "start_ayah_number": 1,
@@ -167,7 +199,9 @@
         "start_surah_en": "Al-Anbiya",
         "start_surah_ar": "الأنبياء",
         "end_surah_en": "Al-Hajj",
-        "end_surah_ar": "الحج"
+        "end_surah_ar": "الحج",
+        "start_page_number": 322,
+        "end_page_number": 341
     },
     "day_18": {
         "start_ayah_number": 1,
@@ -177,7 +211,9 @@
         "start_surah_en": "Al-Muminun",
         "start_surah_ar": "المؤمنون",
         "end_surah_en": "Al-Furqan",
-        "end_surah_ar": "الفرقان"
+        "end_surah_ar": "الفرقان",
+        "start_page_number": 342,
+        "end_page_number": 361
     },
     "day_19": {
         "start_ayah_number": 21,
@@ -187,7 +223,9 @@
         "start_surah_en": "Al-Furqan",
         "start_surah_ar": "الفرقان",
         "end_surah_en": "An-Naml",
-        "end_surah_ar": "النمل"
+        "end_surah_ar": "النمل",
+        "start_page_number": 362,
+        "end_page_number": 381
     },
     "day_20": {
         "start_ayah_number": 56,
@@ -197,7 +235,9 @@
         "start_surah_en": "An-Naml",
         "start_surah_ar": "النمل",
         "end_surah_en": "Al-Ankabut",
-        "end_surah_ar": "العنكبوت"
+        "end_surah_ar": "العنكبوت",
+        "start_page_number": 382,
+        "end_page_number": 401
     },
     "day_21": {
         "start_ayah_number": 46,
@@ -207,7 +247,9 @@
         "start_surah_en": "Al-Ankabut",
         "start_surah_ar": "العنكبوت",
         "end_surah_en": "Al-Ahzab",
-        "end_surah_ar": "الأحزاب"
+        "end_surah_ar": "الأحزاب",
+        "start_page_number": 402,
+        "end_page_number": 421
     },
     "day_22": {
         "start_ayah_number": 31,
@@ -217,7 +259,9 @@
         "start_surah_en": "Al-Ahzab",
         "start_surah_ar": "الأحزاب",
         "end_surah_en": "Yasin",
-        "end_surah_ar": "يس"
+        "end_surah_ar": "يس",
+        "start_page_number": 422,
+        "end_page_number": 441
     },
     "day_23": {
         "start_ayah_number": 28,
@@ -227,7 +271,9 @@
         "start_surah_en": "Yasin",
         "start_surah_ar": "يس",
         "end_surah_en": "Az-Zumar",
-        "end_surah_ar": "الزمر"
+        "end_surah_ar": "الزمر",
+        "start_page_number": 442,
+        "end_page_number": 461
     },
     "day_24": {
         "start_ayah_number": 32,
@@ -237,7 +283,9 @@
         "start_surah_en": "Az-Zumar",
         "start_surah_ar": "الزمر",
         "end_surah_en": "Fussilat",
-        "end_surah_ar": "فصلت"
+        "end_surah_ar": "فصلت",
+        "start_page_number": 462,
+        "end_page_number": 481
     },
     "day_25": {
         "start_ayah_number": 47,
@@ -247,7 +295,9 @@
         "start_surah_en": "Fussilat",
         "start_surah_ar": "فصلت",
         "end_surah_en": "Al-Jathiya",
-        "end_surah_ar": "الجاثية"
+        "end_surah_ar": "الجاثية",
+        "start_page_number": 482,
+        "end_page_number": 502
     },
     "day_26": {
         "start_ayah_number": 1,
@@ -257,7 +307,9 @@
         "start_surah_en": "Al-Ahqaf",
         "start_surah_ar": "الأحقاف",
         "end_surah_en": "Az-Zariyat",
-        "end_surah_ar": "الذاريات"
+        "end_surah_ar": "الذاريات",
+        "start_page_number": 502,
+        "end_page_number": 521
     },
     "day_27": {
         "start_ayah_number": 31,
@@ -267,7 +319,9 @@
         "start_surah_en": "Az-Zariyat",
         "start_surah_ar": "الذاريات",
         "end_surah_en": "Al-Hadid",
-        "end_surah_ar": "الحديد"
+        "end_surah_ar": "الحديد",
+        "start_page_number": 522,
+        "end_page_number": 541
     },
     "day_28": {
         "start_ayah_number": 1,
@@ -277,7 +331,9 @@
         "start_surah_en": "Al-Mujadilah",
         "start_surah_ar": "المجادلة",
         "end_surah_en": "At-Tahrim",
-        "end_surah_ar": "التحريم"
+        "end_surah_ar": "التحريم",
+        "start_page_number": 542,
+        "end_page_number": 561
     },
     "day_29": {
         "start_ayah_number": 1,
@@ -287,7 +343,9 @@
         "start_surah_en": "Al-Mulk",
         "start_surah_ar": "الملك",
         "end_surah_en": "Al-Mursalat",
-        "end_surah_ar": "المرسلات"
+        "end_surah_ar": "المرسلات",
+        "start_page_number": 562,
+        "end_page_number": 581
     },
     "day_30": {
         "start_ayah_number": 1,
@@ -297,6 +355,8 @@
         "start_surah_en": "An-Naba",
         "start_surah_ar": "النبأ",
         "end_surah_en": "An-Nas",
-        "end_surah_ar": "الناس"
+        "end_surah_ar": "الناس",
+        "start_page_number": 582,
+        "end_page_number": 604
     }
 }

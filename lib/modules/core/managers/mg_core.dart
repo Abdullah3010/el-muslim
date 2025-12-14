@@ -2,6 +2,7 @@ import 'package:al_muslim/core/assets/assets.gen.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/modules/core/data/model/m_nav_bar_item.dart';
+import 'package:al_muslim/modules/index/managers/mg_index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -53,5 +54,9 @@ class MgCore extends ChangeNotifier {
   void onAdPageChanged(int index) {
     currentAdIndex = index;
     notifyListeners();
+  }
+
+  Future<void> initAppData() async {
+    await Modular.get<MgIndex>().loadIndex();
   }
 }

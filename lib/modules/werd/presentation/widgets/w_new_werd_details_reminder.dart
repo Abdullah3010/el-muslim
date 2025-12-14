@@ -8,13 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WNewWerdDetailsReminder extends StatelessWidget {
-  const WNewWerdDetailsReminder({
-    super.key,
-    required this.label,
-    this.notification,
-    this.onToggle,
-    this.onTap,
-  });
+  const WNewWerdDetailsReminder({super.key, required this.label, this.notification, this.onToggle, this.onTap});
 
   final String label;
   final MLocalNotification? notification;
@@ -52,17 +46,17 @@ class WNewWerdDetailsReminder extends StatelessWidget {
                         Text(label, style: context.textTheme.primary16W500),
                         4.heightBox,
                         Text(
-                          timeLabel.translateNumbers(),
-                          style: context.textTheme.primary16W400
-                              .copyWith(color: hasNotification ? null : context.theme.colorScheme.gray),
+                          timeLabel.translateTime(),
+                          style: context.textTheme.primary16W400.copyWith(
+                            color: hasNotification ? null : context.theme.colorScheme.gray,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  Switch.adaptive(
+                  Switch(
                     value: isEnabled,
                     onChanged: hasNotification && onToggle != null ? (value) => onToggle!(value) : null,
-                    activeColor: context.theme.colorScheme.primaryColor,
                   ),
                 ],
               ),

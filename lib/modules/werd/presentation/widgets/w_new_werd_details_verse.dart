@@ -8,31 +8,48 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WNewWerdDetailsVerse extends StatelessWidget {
-  const WNewWerdDetailsVerse({super.key, required this.title, required this.subtitle});
+  const WNewWerdDetailsVerse({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    this.onTap,
+  });
 
   final String title;
   final String subtitle;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-      decoration: BoxDecoration(color: context.theme.colorScheme.secondaryColor),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: context.textTheme.primary16W500),
-                6.heightBox,
-                Text(subtitle, style: context.textTheme.primary14W400),
-              ],
-            ),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+          decoration: BoxDecoration(
+            color: context.theme.colorScheme.secondaryColor,
           ),
-          12.widthBox,
-          WLocalizeRotation(reverse: true, child: Assets.icons.backGold.svg(width: 18.w, height: 18.h)),
-        ],
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: context.textTheme.primary16W500),
+                    6.heightBox,
+                    Text(subtitle, style: context.textTheme.primary14W400),
+                  ],
+                ),
+              ),
+              12.widthBox,
+              WLocalizeRotation(
+                reverse: true,
+                child: Assets.icons.backGold.svg(width: 18.w, height: 18.h),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

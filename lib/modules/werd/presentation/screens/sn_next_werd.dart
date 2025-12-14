@@ -7,7 +7,9 @@ import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_day.dart';
 import 'package:al_muslim/modules/werd/managers/mg_werd.dart';
+import 'package:al_muslim/modules/werd/presentation/widgets/w_new_werd_bottom_sheet.dart';
 import 'package:al_muslim/modules/werd/presentation/widgets/w_previous_werd_item.dart';
+import 'package:al_muslim/modules/werd/presentation/widgets/w_werd_empty_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,38 +49,34 @@ class _SnNextWerdState extends State<SnNextWerd> {
           appBar: WSharedAppBar(title: 'Next Awrads'.translated),
           body: isLoading
               ? const Center(child: CircularProgressIndicator.adaptive())
-              : option == null
-                  ? _buildMessage(context, 'Select a werd plan first'.translated)
-                  : upcomingDays.isEmpty
-                      ? _buildMessage(context, 'No upcoming werds yet'.translated)
-                      : ListView.separated(
-                          padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
-                          itemBuilder: (context, index) {
-                            final day = upcomingDays[index];
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(_dayTitle(context, day).translateNumbers(),
-                                    style: context.textTheme.primary16W500),
-                                10.heightBox,
-                                WPreviousWerdItem(
-                                  fromText: _fromText(context, day),
-                                  toText: _toText(context, day),
-                                  onTap: () => _openDay(day),
-                                ),
-                              ],
-                            );
-                          },
-                          separatorBuilder: (_, __) => 16.heightBox,
-                          itemCount: upcomingDays.length,
-                        ),
+              : option == null || upcomingDays.isEmpty
+                  ? WWerdEmptyState(
+                      mgWerd: _mgWerd,
+                      onPrimaryAction: _handlePrimaryAction,
+                    )
+                  : ListView.separated(
+                      padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
+                      itemBuilder: (context, index) {
+                        final day = upcomingDays[index];
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(_dayTitle(context, day).translateNumbers(), style: context.textTheme.primary16W500),
+                            10.heightBox,
+                            WPreviousWerdItem(
+                              fromText: _fromText(context, day),
+                              toText: _toText(context, day),
+                              onTap: () => _openDay(day),
+                            ),
+                          ],
+                        );
+                      },
+                      separatorBuilder: (_, __) => 16.heightBox,
+                      itemCount: upcomingDays.length,
+                    ),
         );
       },
     );
-  }
-
-  Widget _buildMessage(BuildContext context, String text) {
-    return Center(child: Text(text, style: context.textTheme.primary14W400, textAlign: TextAlign.center));
   }
 
   String _dayTitle(BuildContext context, MWerdDay day) =>
@@ -93,5 +91,13 @@ class _SnNextWerdState extends State<SnNextWerd> {
   void _openDay(MWerdDay day) {
     _mgWerd.openDay(day.dayNumber);
     Modular.to.pushNamed(RoutesNames.werd.werdDetails);
+  }
+
+  void _handlePrimaryAction(bool hasCurrentWerd) {
+    if (hasCurrentWerd) {
+      Modular.to.pushNamed(RoutesNames.werd.werdDetails);
+    } else {
+      WNewWerdBottomSheet.show(context);
+    }
   }
 }
