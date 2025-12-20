@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
 import 'package:al_muslim/core/constants/constants.dart';
@@ -88,6 +89,7 @@ class LocalNotificationService {
   NotificationPayloadHandler? _payloadHandler;
   bool _initialized = false;
   bool _notificationBoxReady = false;
+  bool _exactSchedulingAvailable = true;
 
   static const String _defaultChannelId = 'al_muslim_local_notifications';
   static const String _defaultChannelName = 'Al Muslim Alerts';
@@ -108,6 +110,8 @@ class LocalNotificationService {
     await _configureTimeZone(timeZoneName: timeZoneName);
     if (requestPermissions) {
       await _requestPermissions();
+    } else {
+      await _refreshExactSchedulingCapability();
     }
 
     final androidSettings = AndroidInitializationSettings(androidDefaultIcon ?? '@mipmap/ic_launcher');
@@ -168,22 +172,59 @@ class LocalNotificationService {
 
     final notificationDate = _nextValidDateTime(notification.scheduledAt, repeatDaily: notification.repeatDaily);
     final encodedPayload = _encodePayload(notification.payload, notification.deepLink);
+    final canProceed = await _ensurePermissionsBeforeSchedule();
+    if (!canProceed) {
+      Constants.talker.warning('Skipping notification ${notification.id} because OS permissions are disabled');
+      return;
+    }
+    final androidScheduleMode = _resolveScheduleMode(androidAllowWhileIdle);
 
-    await _plugin.zonedSchedule(
-      notification.id,
-      notification.title,
-      notification.body,
-      _toTimeZoneDate(notificationDate),
-      _buildNotificationDetails(
-        channelId: channelId,
-        channelName: channelName,
-        channelDescription: channelDescription,
-      ),
-      payload: encodedPayload,
-      androidAllowWhileIdle: androidAllowWhileIdle,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: notification.repeatDaily ? DateTimeComponents.time : null,
-    );
+    if (!_exactSchedulingAvailable) {
+      Constants.talker.warning(
+        'Exact alarm permission unavailable. Scheduling notification ${notification.id} as inexact, delivery may be delayed.',
+      );
+    }
+
+    try {
+      await _plugin.zonedSchedule(
+        notification.id,
+        notification.title,
+        notification.body,
+        _toTimeZoneDate(notificationDate),
+        _buildNotificationDetails(channelId: channelId, channelName: channelName, channelDescription: channelDescription),
+        payload: encodedPayload,
+        androidScheduleMode: androidScheduleMode,
+        matchDateTimeComponents: notification.repeatDaily ? DateTimeComponents.time : null,
+      );
+    } catch (error, stackTrace) {
+      // If exact scheduling was requested but rejected by the OS, fall back to inexact once.
+      final fallbackMode =
+          androidAllowWhileIdle ? AndroidScheduleMode.inexactAllowWhileIdle : AndroidScheduleMode.inexact;
+      if (Platform.isAndroid && androidScheduleMode != fallbackMode) {
+        Constants.talker.warning(
+          'Retrying notification ${notification.id} with inexact scheduling due to error: $error',
+          error,
+          stackTrace,
+        );
+        await _plugin.zonedSchedule(
+          notification.id,
+          notification.title,
+          notification.body,
+          _toTimeZoneDate(notificationDate),
+          _buildNotificationDetails(
+            channelId: channelId,
+            channelName: channelName,
+            channelDescription: channelDescription,
+          ),
+          payload: encodedPayload,
+          androidScheduleMode: fallbackMode,
+          matchDateTimeComponents: notification.repeatDaily ? DateTimeComponents.time : null,
+        );
+      } else {
+        Constants.talker.error('Failed to schedule notification ${notification.id}', error, stackTrace);
+        rethrow;
+      }
+    }
 
     await _notificationStore.createUpdate(notification);
   }
@@ -231,11 +272,7 @@ class LocalNotificationService {
     return scheduled.add(const Duration(days: 1));
   }
 
-  NotificationDetails _buildNotificationDetails({
-    String? channelId,
-    String? channelName,
-    String? channelDescription,
-  }) {
+  NotificationDetails _buildNotificationDetails({String? channelId, String? channelName, String? channelDescription}) {
     return NotificationDetails(
       android: AndroidNotificationDetails(
         channelId ?? _defaultChannelId,
@@ -247,11 +284,7 @@ class LocalNotificationService {
         enableVibration: true,
         playSound: true,
       ),
-      iOS: const DarwinNotificationDetails(
-        presentAlert: true,
-        presentBadge: true,
-        presentSound: true,
-      ),
+      iOS: const DarwinNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true),
     );
   }
 
@@ -338,9 +371,52 @@ class LocalNotificationService {
     final android = _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
     await android?.requestNotificationsPermission();
     await android?.requestExactAlarmsPermission();
+    await _refreshExactSchedulingCapability(android);
 
     final ios = _plugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
     await ios?.requestPermissions(alert: true, badge: true, sound: true);
+  }
+
+  Future<void> _refreshExactSchedulingCapability([
+    AndroidFlutterLocalNotificationsPlugin? androidImplementation,
+  ]) async {
+    final android =
+        androidImplementation ??
+        _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+    final canScheduleExact = await android?.canScheduleExactNotifications();
+    if (canScheduleExact != null) {
+      _exactSchedulingAvailable = canScheduleExact;
+    }
+  }
+
+  AndroidScheduleMode _resolveScheduleMode(bool allowWhileIdle) {
+    if (_exactSchedulingAvailable) {
+      return allowWhileIdle ? AndroidScheduleMode.exactAllowWhileIdle : AndroidScheduleMode.exact;
+    }
+    return allowWhileIdle ? AndroidScheduleMode.inexactAllowWhileIdle : AndroidScheduleMode.inexact;
+  }
+
+  Future<bool> _ensurePermissionsBeforeSchedule() async {
+    if (!Platform.isAndroid) return true;
+    final android = _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+    if (android == null) return true;
+
+    final notificationsEnabled = await android.areNotificationsEnabled();
+    if (notificationsEnabled == false) {
+      await android.requestNotificationsPermission();
+      final enabledAfterRequest = await android.areNotificationsEnabled();
+      if (enabledAfterRequest == false) {
+        Constants.talker.warning('Android notifications are disabled at OS level; skipping schedule');
+        return false;
+      }
+    }
+
+    await _refreshExactSchedulingCapability(android);
+    if (!_exactSchedulingAvailable) {
+      await android.requestExactAlarmsPermission();
+      await _refreshExactSchedulingCapability(android);
+    }
+    return true;
   }
 
   void _ensureInitialized() {

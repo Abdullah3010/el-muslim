@@ -3,6 +3,7 @@ import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
+import 'package:al_muslim/core/extension/text_theme_extension.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:al_muslim/modules/index/managers/mg_index.dart';
@@ -20,12 +21,25 @@ class SnIndex extends StatefulWidget {
 
 class _SnIndexState extends State<SnIndex> {
   late final MgIndex _mgIndex;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _mgIndex = Modular.get<MgIndex>();
     _mgIndex.loadIndex();
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    _mgIndex.search(_searchController.text);
   }
 
   @override
@@ -58,15 +72,45 @@ class _SnIndexState extends State<SnIndex> {
             return Center(child: Text('Unable to load index'.translated));
           }
 
-          return ListView.separated(
-            padding: EdgeInsets.only(top: 0.h, bottom: Constants.navbarHeight.h),
-            itemCount: _mgIndex.surahs.length,
-            separatorBuilder: (context, index) => Divider(color: context.theme.colorScheme.lightGray),
-            itemBuilder: (context, index) {
-              final surah = _mgIndex.surahs[index];
+          final surahs = _mgIndex.filteredSurahs;
 
-              return WSurahRow(surah: surah, onTap: () => _mgIndex.selectIndex(index));
-            },
+          return Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
+                child: TextField(
+                  controller: _searchController,
+                  textInputAction: TextInputAction.search,
+                  decoration: InputDecoration(
+                    hintText: 'Search surah'.translated,
+                    prefixIcon: Icon(Icons.search, color: context.theme.colorScheme.primaryColor),
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintStyle: context.theme.textTheme.primary14W500.copyWith(
+                      color: context.theme.colorScheme.lightGray,
+                    ),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.r), borderSide: BorderSide.none),
+                    contentPadding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 12.w),
+                  ),
+                ),
+              ),
+              8.heightBox,
+              Expanded(
+                child:
+                    surahs.isEmpty
+                        ? Center(child: Text('No results'.translated))
+                        : ListView.separated(
+                          padding: EdgeInsets.only(top: 0.h, bottom: Constants.navbarHeight.h),
+                          itemCount: surahs.length,
+                          separatorBuilder: (context, index) => Divider(color: context.theme.colorScheme.lightGray),
+                          itemBuilder: (context, index) {
+                            final surah = surahs[index];
+
+                            return WSurahRow(surah: surah, onTap: () => _mgIndex.selectSurah(surah));
+                          },
+                        ),
+              ),
+            ],
           );
         },
       ),

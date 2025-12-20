@@ -6,6 +6,7 @@ import 'package:al_muslim/modules/prayer_time/managers/mg_location_selection.dar
 import 'package:al_muslim/modules/quran/managers/mg_quran.dart';
 import 'package:al_muslim/modules/werd/managers/mg_werd.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';

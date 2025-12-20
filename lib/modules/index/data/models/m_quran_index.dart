@@ -24,8 +24,7 @@ class MQuranIndex {
     return MQuranIndex(
       number: json['number'] as int? ?? 0,
       name: MQuranName.fromJson(json['name'] as Map<String, dynamic>? ?? const {}),
-      revelationPlace:
-          MQuranRevelationPlace.fromJson(json['revelation_place'] as Map<String, dynamic>? ?? const {}),
+      revelationPlace: MQuranRevelationPlace.fromJson(json['revelation_place'] as Map<String, dynamic>? ?? const {}),
       versesCount: json['verses_count'] as int? ?? 0,
       wordsCount: json['words_count'] as int? ?? 0,
       lettersCount: json['letters_count'] as int? ?? 0,
@@ -36,11 +35,7 @@ class MQuranIndex {
 
 @immutable
 class MQuranName {
-  const MQuranName({
-    required this.ar,
-    required this.en,
-    required this.transliteration,
-  });
+  const MQuranName({required this.ar, required this.en, required this.transliteration});
 
   final String ar;
   final String en;
@@ -57,36 +52,24 @@ class MQuranName {
 
 @immutable
 class MQuranRevelationPlace {
-  const MQuranRevelationPlace({
-    required this.ar,
-    required this.en,
-  });
+  const MQuranRevelationPlace({required this.ar, required this.en});
 
   final String ar;
   final String en;
 
   factory MQuranRevelationPlace.fromJson(Map<String, dynamic> json) {
-    return MQuranRevelationPlace(
-      ar: json['ar'] as String? ?? '',
-      en: json['en'] as String? ?? '',
-    );
+    return MQuranRevelationPlace(ar: json['ar'] as String? ?? '', en: json['en'] as String? ?? '');
   }
 }
 
 @immutable
 class MQuranFirstPage {
-  const MQuranFirstPage({
-    required this.madani,
-    required this.indopak,
-  });
+  const MQuranFirstPage({required this.madani, required this.indopak});
 
   final int madani;
   final int indopak;
 
   factory MQuranFirstPage.fromJson(Map<String, dynamic> json) {
-    return MQuranFirstPage(
-      madani: json['madani'] as int? ?? 0,
-      indopak: json['indopak'] as int? ?? 0,
-    );
+    return MQuranFirstPage(madani: json['madani'] as int? ?? 0, indopak: json['indopak'] as int? ?? 0);
   }
 }

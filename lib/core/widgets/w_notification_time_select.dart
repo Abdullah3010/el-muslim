@@ -19,6 +19,15 @@ class WNotificationTimeSelect extends StatefulWidget {
 }
 
 class _WNotificationTimeSelectState extends State<WNotificationTimeSelect> {
+  late TimeOfDay _selectedTime;
+
+  @override
+  void initState() {
+    super.initState();
+    final initialDate = widget.notification?.scheduledAt ?? DateTime.now();
+    _selectedTime = TimeOfDay(hour: initialDate.hour, minute: initialDate.minute);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -33,9 +42,11 @@ class _WNotificationTimeSelectState extends State<WNotificationTimeSelect> {
               child: CupertinoDatePicker(
                 mode: CupertinoDatePickerMode.time,
                 use24hFormat: false,
-                initialDateTime: widget.notification?.scheduledAt ?? DateTime.now(),
+                initialDateTime: DateTime(0, 1, 1, _selectedTime.hour, _selectedTime.minute),
                 onDateTimeChanged: (dateTime) {
-                  widget.notification?.copyWith(scheduledAt: dateTime);
+                  setState(() {
+                    _selectedTime = TimeOfDay(hour: dateTime.hour, minute: dateTime.minute);
+                  });
                 },
               ),
             ),
@@ -53,8 +64,13 @@ class _WNotificationTimeSelectState extends State<WNotificationTimeSelect> {
                   ),
                 ),
                 onPressed: () {
-                  if (widget.notification != null) {
-                    Modular.get<LocalNotificationService>().scheduleNotification(notification: widget.notification!);
+                  final notification = widget.notification;
+                  if (notification != null) {
+                    final service = Modular.get<LocalNotificationService>();
+                    final scheduledAt = service.nextInstanceOf(_selectedTime);
+                    service.scheduleNotification(
+                      notification: notification.copyWith(scheduledAt: scheduledAt),
+                    );
                   }
                   Modular.to.pop();
                 },
