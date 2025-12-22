@@ -3,6 +3,7 @@ import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
+import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/modules/more/managers/mg_more.dart';
 import 'package:al_muslim/modules/more/presentation/widgets/w_alarm_row.dart';
 import 'package:al_muslim/core/services/routes/routes_names.dart';
@@ -89,16 +90,8 @@ class SnMore extends StatelessWidget {
           WSettingsRowItem(
             title: 'Start New Khatma'.translated,
             onTap: () {
-              final notifications = Modular.get<DSNotification>().getAll();
-              notifications.forEach((notification) async {
-                // await Modular.get<DSNotification>().createUpdate(notification.copyWith(repeatDaily: true));
-                print(" ========================================= ");
-                print(" =====>>>> ${notification.id} - ${notification.isEnabled} ");
-                print(" =====>>>> ${notification.title} - ${notification.body} ");
-                print(" =====>>>> ${notification.deepLink} - ${notification.scheduledAt} ");
-                print(" =====>>>> ${notification.payload} - ${notification.isEnabled} ");
-                print(" =====>>>> ${notification.repeatDaily}  ");
-              });
+              Modular.get<LocalNotificationService>().debugPrintScheduledNotifications();
+              // Modular.get<LocalNotificationService>().showTestNotification();
             },
           ),
 

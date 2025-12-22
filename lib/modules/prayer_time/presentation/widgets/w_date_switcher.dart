@@ -19,13 +19,13 @@ class WDateSwitcher extends StatelessWidget {
   final String hijriLabel;
   final String gregorianLabel;
   final String readableLabel;
-  final VoidCallback onPrevious;
+  final VoidCallback? onPrevious;
   final VoidCallback onNext;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 64.h,
+      height: 70.h,
       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
       decoration: BoxDecoration(color: context.theme.colorScheme.primaryColor),
       child: Row(
@@ -33,11 +33,14 @@ class WDateSwitcher extends StatelessWidget {
         children: [
           InkWell(
             onTap: onPrevious,
-            child: Container(
-              height: 64.h,
-              padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: WLocalizeRotation(
-                child: Transform.rotate(angle: (180 * 3.14) / 180, child: Assets.icons.nextIconWhite.svg()),
+            child: Opacity(
+              opacity: onPrevious == null ? 0.5 : 1,
+              child: Container(
+                height: 64.h,
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: WLocalizeRotation(
+                  child: Transform.rotate(angle: (180 * 3.14) / 180, child: Assets.icons.nextIconWhite.svg()),
+                ),
               ),
             ),
           ),

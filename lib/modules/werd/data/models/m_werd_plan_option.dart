@@ -103,7 +103,7 @@ class MWerdPlanOption {
 
 class MWerdPlanOptionAdapter extends TypeAdapter<MWerdPlanOption> {
   @override
-  int get typeId => 2;
+  int get typeId => 4;
 
   @override
   MWerdPlanOption read(BinaryReader reader) {

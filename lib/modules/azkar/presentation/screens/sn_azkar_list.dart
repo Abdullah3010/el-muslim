@@ -143,42 +143,155 @@ class _SnAzkarListState extends State<SnAzkarList> {
             itemBuilder: (context, index) {
               final category = manager.categories[index];
               final style = _categoryStyles[category.id ?? -1] ?? _defaultCategoryStyle;
-              final cardHeight = 180.0 + Random(index + 1).nextInt(70);
+              final random = Random((category.id ?? index) + 3);
+              final cardHeight = 160.0 + random.nextInt(130);
+              final imagePath = category.imagePath;
 
-              return SizedBox(
+              return _AzkarCategoryCard(
                 height: cardHeight,
-                child: InkWell(
-                  onTap: () {
-                    Modular.to.pushNamed(RoutesNames.azkar.zekr(category.id ?? 1));
-                  },
-                  borderRadius: BorderRadius.circular(28),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: style.gradient,
-                      borderRadius: BorderRadius.circular(28),
-                      boxShadow: [BoxShadow(color: style.shadowColor, blurRadius: 16, offset: const Offset(0, 8))],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(style.icon, size: 44, color: style.iconColor),
-                          const Spacer(),
-                          Text(
-                            category.displayName,
-                            style: TextStyle(color: style.textColor, fontSize: 16, fontWeight: FontWeight.w700),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                style: style,
+                imagePath: imagePath,
+                title: category.displayName,
+                onTap: () => Modular.to.pushNamed(RoutesNames.azkar.zekr(category.id ?? 1)),
               );
             },
           );
         },
+      ),
+    );
+  }
+}
+
+class _AzkarCategoryCard extends StatefulWidget {
+  const _AzkarCategoryCard({
+    required this.height,
+    required this.style,
+    required this.imagePath,
+    required this.title,
+    required this.onTap,
+  });
+
+  final double height;
+  final _CategoryStyle style;
+  final String imagePath;
+  final String title;
+  final VoidCallback onTap;
+
+  @override
+  State<_AzkarCategoryCard> createState() => _AzkarCategoryCardState();
+}
+
+class _AzkarCategoryCardState extends State<_AzkarCategoryCard> {
+  ImageStream? _imageStream;
+  ImageStreamListener? _imageListener;
+  bool _imageAvailable = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _resolveImage();
+  }
+
+  @override
+  void didUpdateWidget(covariant _AzkarCategoryCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.imagePath != widget.imagePath) {
+      _resolveImage();
+    }
+  }
+
+  @override
+  void dispose() {
+    _removeImageListener();
+    super.dispose();
+  }
+
+  void _resolveImage() {
+    _removeImageListener();
+    if (widget.imagePath.isEmpty) {
+      if (_imageAvailable) {
+        setState(() => _imageAvailable = false);
+      }
+      return;
+    }
+
+    final provider = AssetImage(widget.imagePath);
+    final stream = provider.resolve(const ImageConfiguration());
+    _imageStream = stream;
+    _imageListener = ImageStreamListener(
+      (_, __) {
+        if (!mounted) return;
+        if (!_imageAvailable) {
+          setState(() => _imageAvailable = true);
+        }
+      },
+      onError: (_, __) {
+        if (!mounted) return;
+        if (_imageAvailable) {
+          setState(() => _imageAvailable = false);
+        }
+      },
+    );
+    stream.addListener(_imageListener!);
+  }
+
+  void _removeImageListener() {
+    if (_imageStream != null && _imageListener != null) {
+      _imageStream!.removeListener(_imageListener!);
+    }
+    _imageStream = null;
+    _imageListener = null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final showImage = _imageAvailable && widget.imagePath.isNotEmpty;
+
+    return SizedBox(
+      height: widget.height,
+      child: InkWell(
+        onTap: widget.onTap,
+        borderRadius: BorderRadius.circular(28),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: widget.style.gradient,
+            borderRadius: BorderRadius.circular(28),
+            boxShadow: [BoxShadow(color: widget.style.shadowColor, blurRadius: 16, offset: const Offset(0, 8))],
+          ),
+          child: Stack(
+            children: [
+              if (showImage)
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(28),
+                  child: Opacity(
+                    opacity: 0.88,
+                    child: Image.asset(
+                      widget.imagePath,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                    ),
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (!showImage) Icon(widget.style.icon, size: 44, color: widget.style.iconColor),
+                    const Spacer(),
+                    Text(
+                      widget.title,
+                      style: TextStyle(color: widget.style.textColor, fontSize: 16, fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

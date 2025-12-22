@@ -25,6 +25,7 @@ class Constants {
 
   /// Notification id bases
   static const int prayNotificationBaseId = 4200;
+  static const int preAdhanNotificationBaseId = 4300;
   static const int werdNotificationBaseId = 1000;
   static const int morningAzkarNotificationId = 9000;
   static const int eveningAzkarNotificationId = 9001;

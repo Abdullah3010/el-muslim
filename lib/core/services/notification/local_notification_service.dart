@@ -90,6 +90,7 @@ class LocalNotificationService {
   bool _initialized = false;
   bool _notificationBoxReady = false;
   bool _exactSchedulingAvailable = true;
+  bool _allowPermissionRequests = true;
 
   static const String _defaultChannelId = 'al_muslim_local_notifications';
   static const String _defaultChannelName = 'Al Muslim Alerts';
@@ -103,6 +104,7 @@ class LocalNotificationService {
     bool requestPermissions = true,
   }) async {
     if (_initialized) return;
+    _allowPermissionRequests = requestPermissions;
     _payloadHandler = onPayloadReceived ?? _payloadHandler;
     _deepLinkNavigator = deepLinkNavigator ?? _deepLinkNavigator;
 
@@ -114,7 +116,7 @@ class LocalNotificationService {
       await _refreshExactSchedulingCapability();
     }
 
-    final androidSettings = AndroidInitializationSettings(androidDefaultIcon ?? '@mipmap/ic_launcher');
+    final androidSettings = AndroidInitializationSettings(androidDefaultIcon ?? 'launcher_icon');
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
@@ -122,11 +124,16 @@ class LocalNotificationService {
     );
     final settings = InitializationSettings(android: androidSettings, iOS: iosSettings);
 
-    await _plugin.initialize(
-      settings,
-      onDidReceiveNotificationResponse: _onNotificationResponse,
-      onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
-    );
+    try {
+      final result = await _plugin.initialize(
+        settings,
+        onDidReceiveNotificationResponse: _onNotificationResponse,
+        onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+      );
+      Constants.talker.info('LocalNotificationService initialized: $result');
+    } catch (e) {
+      debugPrint('=>>>>>>>>> Notification Initialization Error: $e');
+    }
 
     _initialized = true;
   }
@@ -191,7 +198,11 @@ class LocalNotificationService {
         notification.title,
         notification.body,
         _toTimeZoneDate(notificationDate),
-        _buildNotificationDetails(channelId: channelId, channelName: channelName, channelDescription: channelDescription),
+        _buildNotificationDetails(
+          channelId: channelId,
+          channelName: channelName,
+          channelDescription: channelDescription,
+        ),
         payload: encodedPayload,
         androidScheduleMode: androidScheduleMode,
         matchDateTimeComponents: notification.repeatDaily ? DateTimeComponents.time : null,
@@ -229,6 +240,24 @@ class LocalNotificationService {
     await _notificationStore.createUpdate(notification);
   }
 
+  Future<void> showTestNotification({
+    String title = 'Test notification',
+    String body = 'This is a test notification',
+    Map<String, dynamic> payload = const {},
+    String? deepLink,
+  }) async {
+    _ensureInitialized();
+
+    final canProceed = await _ensurePermissionsBeforeSchedule();
+    if (!canProceed) {
+      Constants.talker.warning('Skipping test notification because OS permissions are disabled');
+      return;
+    }
+
+    final id = DateTime.now().millisecondsSinceEpoch.remainder(1 << 31);
+    await _plugin.show(id, title, body, _buildNotificationDetails(), payload: _encodePayload(payload, deepLink));
+  }
+
   Future<void> cancelNotification(int id) async {
     _ensureInitialized();
     await _plugin.cancel(id);
@@ -237,6 +266,37 @@ class LocalNotificationService {
   Future<void> cancelAllNotifications() async {
     _ensureInitialized();
     await _plugin.cancelAll();
+  }
+
+  Future<void> debugPrintScheduledNotifications() async {
+    try {
+      await _ensureNotificationStoreReady();
+    } catch (_) {}
+
+    List<PendingNotificationRequest> pending = const [];
+    try {
+      _ensureInitialized();
+      pending = await _plugin.pendingNotificationRequests();
+    } catch (error) {
+      debugPrint('LocalNotificationService not initialized: $error');
+    }
+
+    final stored = _notificationStore.getAll();
+    final pendingIds = pending.map((entry) => entry.id).toSet();
+
+    debugPrint('--- Pending notifications (${pending.length}) ---');
+    for (final entry in pending) {
+      debugPrint('=========================================');
+      debugPrint('id=${entry.id} \ntitle=${entry.title} \nbody=${entry.body} \npayload=${entry.payload}');
+    }
+
+    debugPrint('--- Stored notifications (${stored.length}) ---');
+    for (final entry in stored) {
+      final isPending = pendingIds.contains(entry.id);
+      debugPrint(
+        'id=${entry.id} pending=$isPending title=${entry.title} body=${entry.body} time=${entry.scheduledAt.toIso8601String()} enabled=${entry.isEnabled} repeat=${entry.repeatDaily} payload=${entry.payload}',
+      );
+    }
   }
 
   Future<void> handleNotificationResponse(NotificationResponse response) async {
@@ -330,7 +390,6 @@ class LocalNotificationService {
 
   Future<void> _configureTimeZone({String? timeZoneName}) async {
     tz.initializeTimeZones();
-
     final abbreviationMap = <String, String>{
       'EET': 'Africa/Cairo',
       'EST': 'America/New_York',
@@ -385,6 +444,7 @@ class LocalNotificationService {
         _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
     final canScheduleExact = await android?.canScheduleExactNotifications();
     if (canScheduleExact != null) {
+      print(" =======>>>> canScheduleExactNotifications: $canScheduleExact ");
       _exactSchedulingAvailable = canScheduleExact;
     }
   }
@@ -403,16 +463,21 @@ class LocalNotificationService {
 
     final notificationsEnabled = await android.areNotificationsEnabled();
     if (notificationsEnabled == false) {
-      await android.requestNotificationsPermission();
-      final enabledAfterRequest = await android.areNotificationsEnabled();
-      if (enabledAfterRequest == false) {
-        Constants.talker.warning('Android notifications are disabled at OS level; skipping schedule');
+      if (_allowPermissionRequests) {
+        await android.requestNotificationsPermission();
+        final enabledAfterRequest = await android.areNotificationsEnabled();
+        if (enabledAfterRequest == false) {
+          Constants.talker.warning('Android notifications are disabled at OS level; skipping schedule');
+          return false;
+        }
+      } else {
+        Constants.talker.warning('Android notifications disabled and cannot request permission in background');
         return false;
       }
     }
 
     await _refreshExactSchedulingCapability(android);
-    if (!_exactSchedulingAvailable) {
+    if (!_exactSchedulingAvailable && _allowPermissionRequests) {
       await android.requestExactAlarmsPermission();
       await _refreshExactSchedulingCapability(android);
     }

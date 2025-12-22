@@ -33,7 +33,7 @@ class WNewWerdOptionItem extends StatelessWidget {
             ),
             const Spacer(),
 
-            WLocalizeRotation(reverse: true, child: Assets.icons.backGold.svg(width: 14.w, height: 14.h)),
+            WLocalizeRotation(child: Assets.icons.backGold.svg(width: 14.w, height: 14.h)),
           ],
         ),
       ),

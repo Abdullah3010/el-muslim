@@ -5,27 +5,83 @@ import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
 import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/modules/index/data/models/m_quran_index.dart';
+import 'package:al_muslim/modules/index/managers/mg_index.dart';
+import 'package:al_muslim/modules/quran/data/local/box_quran_bookmarks.dart';
+import 'package:al_muslim/modules/quran/data/local/ds_quran_bookmarks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class MgQuran extends ChangeNotifier {
+  MgQuran({BoxQuranBookmarks? bookmarksBox, DSQuranBookmarks? bookmarksStore})
+    : _bookmarksBox = bookmarksBox ?? BoxQuranBookmarks() {
+    _bookmarksStore = bookmarksStore ?? DSQuranBookmarks(_bookmarksBox);
+  }
+
   static const int totalPages = 604;
   static const int chunkSize = 10;
   static const int prefetchThreshold = 5;
+  static const List<int> _juzStartPages = [
+    1,
+    22,
+    42,
+    62,
+    82,
+    102,
+    122,
+    142,
+    162,
+    182,
+    202,
+    222,
+    242,
+    262,
+    282,
+    302,
+    322,
+    342,
+    362,
+    382,
+    402,
+    422,
+    442,
+    462,
+    482,
+    502,
+    522,
+    542,
+    562,
+    582,
+  ];
 
   final List<int> _pages = [];
+  final List<MQuranIndex> _surahs = [];
   int _minLoadedPage = totalPages;
   int _maxLoadedPage = 1;
   int _initialPage = 1;
   int _currentPageNumber = 1;
+  int _currentJuz = 1;
+  int _currentHizb = 1;
+  int _currentQuarter = 1;
   bool _controlsVisible = false;
+  bool _isLoadingSurahs = false;
+  bool _isListeningForSurahs = false;
   int? _bookmarkedPage;
+  List<int> _bookmarkSlots = List<int>.filled(DSQuranBookmarks.slots, 0);
+  final BoxQuranBookmarks _bookmarksBox;
+  late final DSQuranBookmarks _bookmarksStore;
+  bool _bookmarksBoxReady = false;
+  MQuranIndex? _currentSurah;
 
   List<int> get pages => List.unmodifiable(_pages);
   int get initialPage => _initialPage;
   int get currentPageNumber => _currentPageNumber;
+  int get currentJuz => _currentJuz;
+  int get currentHizb => _currentHizb;
+  int get currentQuarter => _currentQuarter;
   bool get controlsVisible => _controlsVisible;
   int? get bookmarkedPage => _bookmarkedPage;
+  MQuranIndex? get currentSurah => _currentSurah;
+  List<int> get bookmarkSlots => List.unmodifiable(_bookmarkSlots);
 
   int get initialPageIndex {
     final index = _pages.indexOf(_initialPage);
@@ -33,14 +89,14 @@ class MgQuran extends ChangeNotifier {
   }
 
   bool get hasPages => _pages.isNotEmpty;
-  bool get hasBookmark => _bookmarkedPage != null;
+  bool get hasBookmarks => _bookmarkSlots.any((page) => page > 0);
+  bool get hasBookmark => hasBookmarks;
   bool get _canLoadForward => _maxLoadedPage < totalPages;
   bool get _canLoadBackward => _minLoadedPage > 1;
 
   void initialize(int initialPage) {
     final normalizedPage = initialPage.clamp(1, totalPages).toInt();
     _initialPage = normalizedPage;
-    _currentPageNumber = normalizedPage;
     final startPage = max(1, normalizedPage - chunkSize);
     final endPage = min(totalPages, normalizedPage + chunkSize);
     _minLoadedPage = startPage;
@@ -48,7 +104,9 @@ class MgQuran extends ChangeNotifier {
     _pages
       ..clear()
       ..addAll(_generateRange(startPage, endPage));
-    _loadPersistedBookmark();
+    unawaited(_loadPersistedBookmarks());
+    _setCurrentPage(normalizedPage);
+    unawaited(_ensureSurahIndexLoaded());
     notifyListeners();
   }
 
@@ -84,7 +142,7 @@ class MgQuran extends ChangeNotifier {
   int handlePageChanged(int index) {
     final pageNumber = pageNumberAt(index);
     if (pageNumber != null) {
-      _currentPageNumber = pageNumber;
+      _setCurrentPage(pageNumber);
       unawaited(saveLastPage(pageNumber));
       notifyListeners();
     }
@@ -97,19 +155,9 @@ class MgQuran extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> bookmarkCurrentPage() => bookmarkPage(_currentPageNumber);
+  Future<void> bookmarkCurrentPage() => saveBookmarkSlot(0, _currentPageNumber);
 
-  Future<int?> goToBookmark() async {
-    final bookmark = bookmarkedPage;
-    if (bookmark == null) return null;
-    final index = ensurePageVisible(bookmark);
-    if (index != null) {
-      _currentPageNumber = bookmark;
-      await saveLastPage(bookmark);
-      notifyListeners();
-    }
-    return index;
-  }
+  Future<int?> goToBookmark() => goToBookmarkSlot(0);
 
   int? ensurePageVisible(int pageNumber) {
     if (pageNumber < 1 || pageNumber > totalPages) return null;
@@ -140,17 +188,66 @@ class MgQuran extends ChangeNotifier {
     await DSAppConfig.setConfigValue(Constants.configKeys.quranLastPage, pageNumber.toString());
   }
 
-  Future<void> bookmarkPage(int pageNumber) async {
-    _bookmarkedPage = pageNumber;
-    await DSAppConfig.setConfigValue(Constants.configKeys.quranBookmarkPage, pageNumber.toString());
+  int? bookmarkAtSlot(int slotIndex) {
+    if (slotIndex < 0 || slotIndex >= _bookmarkSlots.length) return null;
+    final page = _bookmarkSlots[slotIndex];
+    return page > 0 ? page : null;
+  }
+
+  Future<void> saveBookmarkSlot(int slotIndex, int pageNumber) async {
+    if (slotIndex < 0 || slotIndex >= _bookmarkSlots.length) return;
+    await _ensureBookmarksStoreReady();
+    _bookmarkSlots[slotIndex] = pageNumber.clamp(1, totalPages);
+    _bookmarkedPage = _bookmarkSlots[slotIndex];
+    await _bookmarksStore.saveBookmarks(_bookmarkSlots);
     notifyListeners();
+  }
+
+  Future<int?> goToBookmarkSlot(int slotIndex) async {
+    final page = bookmarkAtSlot(slotIndex);
+    if (page == null) return null;
+    final index = ensurePageVisible(page);
+    if (index != null) {
+      _setCurrentPage(page);
+      _bookmarkedPage = page;
+      await saveLastPage(page);
+      notifyListeners();
+    }
+    return index;
+  }
+
+  Future<void> bookmarkPage(int pageNumber) async {
+    await saveBookmarkSlot(0, pageNumber);
+  }
+
+  Future<void> _ensureBookmarksStoreReady() async {
+    if (_bookmarksBoxReady) return;
+    await _bookmarksBox.init();
+    _bookmarksBoxReady = true;
+  }
+
+  int? _firstSavedBookmark() {
+    for (final page in _bookmarkSlots) {
+      if (page > 0) return page;
+    }
+    return null;
   }
 
   static String assetForPage(int pageNumber) => 'assets/quran_image/$pageNumber.png';
 
-  void _loadPersistedBookmark() {
+  Future<void> _loadPersistedBookmarks() async {
+    await _ensureBookmarksStoreReady();
+    _bookmarkSlots = _bookmarksStore.getBookmarks();
+
     final savedBookmark = DSAppConfig.getConfigValue(Constants.configKeys.quranBookmarkPage);
-    _bookmarkedPage = int.tryParse(savedBookmark ?? '');
+    final legacyPage = int.tryParse(savedBookmark ?? '');
+    if (legacyPage != null && legacyPage > 0 && !_bookmarkSlots.any((page) => page > 0)) {
+      _bookmarkSlots[0] = legacyPage;
+      await _bookmarksStore.saveBookmarks(_bookmarkSlots);
+    }
+
+    _bookmarkedPage = _firstSavedBookmark();
+    notifyListeners();
   }
 
   Iterable<int> _generateRange(int start, int end) sync* {
@@ -161,13 +258,104 @@ class MgQuran extends ChangeNotifier {
   }
 
   void openQuranFromBookmark() {
-    _loadPersistedBookmark();
-    final bookmark = bookmarkedPage ?? _currentPageNumber;
+    unawaited(_openFromSavedBookmark());
+  }
+
+  Future<void> _openFromSavedBookmark() async {
+    await _loadPersistedBookmarks();
+    final bookmark = _firstSavedBookmark() ?? _currentPageNumber;
     ensurePageVisible(bookmark);
-    _currentPageNumber = bookmark;
+    _setCurrentPage(bookmark);
     notifyListeners();
 
     final firstPage = MQuranFirstPage(madani: bookmark, indopak: bookmark);
     Modular.to.pushNamed(RoutesNames.quran.quranMain, arguments: firstPage);
+  }
+
+  Future<void> _ensureSurahIndexLoaded() async {
+    if (_isLoadingSurahs || _surahs.isNotEmpty) return;
+    _isLoadingSurahs = true;
+    try {
+      final mgIndex = Modular.get<MgIndex>();
+      if (!mgIndex.hasData) {
+        await mgIndex.loadIndex();
+      }
+      if (mgIndex.hasData) {
+        _surahs
+          ..clear()
+          ..addAll(mgIndex.surahs);
+        _updateCurrentSurah();
+        notifyListeners();
+      } else {
+        _listenForSurahIndex(mgIndex);
+      }
+    } finally {
+      _isLoadingSurahs = false;
+    }
+  }
+
+  void _listenForSurahIndex(MgIndex mgIndex) {
+    if (_isListeningForSurahs) return;
+    _isListeningForSurahs = true;
+    void listener() {
+      if (!mgIndex.hasData) return;
+      mgIndex.removeListener(listener);
+      _isListeningForSurahs = false;
+      _surahs
+        ..clear()
+        ..addAll(mgIndex.surahs);
+      _updateCurrentSurah();
+      notifyListeners();
+    }
+
+    mgIndex.addListener(listener);
+  }
+
+  void _updateCurrentSurah({int? pageNumber}) {
+    if (_surahs.isEmpty) {
+      unawaited(_ensureSurahIndexLoaded());
+      return;
+    }
+
+    final page = pageNumber ?? _currentPageNumber;
+    MQuranIndex? next;
+    for (final surah in _surahs) {
+      if (surah.firstPage.madani <= page) {
+        next = surah;
+      } else {
+        break;
+      }
+    }
+    _currentSurah = next ?? _surahs.first;
+  }
+
+  int _juzForPage(int pageNumber) {
+    for (var i = 0; i < _juzStartPages.length; i++) {
+      final start = _juzStartPages[i];
+      final nextStart = i + 1 < _juzStartPages.length ? _juzStartPages[i + 1] : totalPages + 1;
+      if (pageNumber >= start && pageNumber < nextStart) {
+        return i + 1;
+      }
+    }
+    return 1;
+  }
+
+  void _setCurrentPage(int pageNumber) {
+    _currentPageNumber = pageNumber;
+    _currentJuz = _juzForPage(pageNumber);
+    _setHizbAndQuarter(pageNumber);
+    _updateCurrentSurah(pageNumber: pageNumber);
+  }
+
+  void _setHizbAndQuarter(int pageNumber) {
+    final juzIndex = _currentJuz - 1;
+    final juzStart = _juzStartPages[juzIndex];
+    final juzEnd = (juzIndex + 1 < _juzStartPages.length) ? _juzStartPages[juzIndex + 1] - 1 : totalPages;
+    final juzLength = max(1, juzEnd - juzStart + 1);
+    final offset = pageNumber - juzStart;
+    final quarterIndex = (offset * 8) ~/ juzLength;
+    final boundedQuarterIndex = max(0, min(7, quarterIndex));
+    _currentHizb = (juzIndex * 2) + (boundedQuarterIndex ~/ 4) + 1;
+    _currentQuarter = (boundedQuarterIndex % 4) + 1;
   }
 }

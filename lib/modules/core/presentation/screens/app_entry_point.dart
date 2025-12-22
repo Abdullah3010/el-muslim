@@ -1,8 +1,14 @@
+import 'dart:async';
+
+import 'package:al_muslim/core/config/box_location_config/ds_location_config.dart';
 import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
+import 'package:al_muslim/core/config/box_location_config/box_location_config.dart';
+import 'package:al_muslim/modules/prayer_time/data/local/box_location_cities_cache.dart';
 import 'package:al_muslim/modules/azkar/managers/mg_azkar.dart';
 import 'package:al_muslim/modules/core/managers/mg_core.dart';
 import 'package:al_muslim/modules/index/managers/mg_index.dart';
 import 'package:al_muslim/modules/prayer_time/managers/mg_location_selection.dart';
+import 'package:al_muslim/modules/prayer_time/managers/mg_prayer_time.dart';
 import 'package:al_muslim/modules/quran/managers/mg_quran.dart';
 import 'package:al_muslim/modules/werd/managers/mg_werd.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +35,22 @@ class _AppEntryPointState extends State<AppEntryPoint> with WidgetsBindingObserv
     super.initState();
     Modular.setNavigatorKey(Constants.navigatorKey);
     Modular.get<BoxNotification>().init();
+    Modular.get<BoxLocationConfig>().init();
+    Modular.get<BoxLocationCitiesCache>().init();
     context.setLanguageCode('ar');
+    Future.microtask(() async {
+      final mgPrayerTime = Modular.get<MgPrayerTime>();
+      await mgPrayerTime.initializeLocation();
+      final storedLocation = Modular.get<DSLocationConfig>().getCurrent();
+      if (storedLocation == null) return;
+      if (storedLocation.latitude == 0 && storedLocation.longitude == 0) return;
+      if (storedLocation.country.isEmpty) return;
+      await Modular.get<MgLocationSelection>().loadForLocation(
+        latitude: storedLocation.latitude,
+        longitude: storedLocation.longitude,
+        countryDisplayName: storedLocation.country,
+      );
+    });
   }
 
   @override
@@ -58,7 +79,7 @@ class _AppEntryPointState extends State<AppEntryPoint> with WidgetsBindingObserv
                       itemWidth: MediaQuery.sizeOf(context).width * 0.9,
                     ),
                     child: MaterialApp.router(
-                      title: 'BNB',
+                      title: 'Al-Muslim',
                       debugShowCheckedModeBanner: false,
                       locale: context.locale,
                       localizationsDelegates: context.delegates,

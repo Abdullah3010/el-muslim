@@ -1,31 +1,31 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
+import 'package:al_muslim/modules/prayer_time/data/prayer_notification_options.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WAdhanReminderPickerBottomSheet extends StatefulWidget {
-  const WAdhanReminderPickerBottomSheet({super.key, this.initialIndex = 0});
+  const WAdhanReminderPickerBottomSheet({
+    super.key,
+    this.initialIndex = 0,
+    this.options = prayerNotificationOptions,
+  });
 
   final int initialIndex;
+  final List<PrayerNotificationOption> options;
 
-  static const List<String> options = [
-    'Before 5 minutes',
-    'Before 10 minutes',
-    'Before 15 minutes',
-    'Before 20 minutes',
-    'After 25 minutes',
-    'After 30 minutes',
-    'After 35 minutes',
-  ];
-
-  static Future<int?> show(BuildContext context, {int initialIndex = 0}) {
+  static Future<int?> show(
+    BuildContext context, {
+    int initialIndex = 0,
+    List<PrayerNotificationOption> options = prayerNotificationOptions,
+  }) {
     return showModalBottomSheet<int>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => WAdhanReminderPickerBottomSheet(initialIndex: initialIndex),
+      builder: (context) => WAdhanReminderPickerBottomSheet(initialIndex: initialIndex, options: options),
     );
   }
 
@@ -40,7 +40,7 @@ class _WAdhanReminderPickerBottomSheetState extends State<WAdhanReminderPickerBo
   @override
   void initState() {
     super.initState();
-    _selectedIndex = widget.initialIndex.clamp(0, WAdhanReminderPickerBottomSheet.options.length - 1).toInt();
+    _selectedIndex = widget.initialIndex.clamp(0, widget.options.length - 1).toInt();
     _scrollController = FixedExtentScrollController(initialItem: _selectedIndex);
   }
 
@@ -109,11 +109,11 @@ class _WAdhanReminderPickerBottomSheetState extends State<WAdhanReminderPickerBo
                     perspective: 0.002,
                     onSelectedItemChanged: (value) => setState(() => _selectedIndex = value),
                     childDelegate: ListWheelChildBuilderDelegate(
-                      childCount: WAdhanReminderPickerBottomSheet.options.length,
+                      childCount: widget.options.length,
                       builder: (context, index) {
-                        if (index < 0 || index >= WAdhanReminderPickerBottomSheet.options.length) return null;
+                        if (index < 0 || index >= widget.options.length) return null;
                         final bool isSelected = index == _selectedIndex;
-                        final String option = WAdhanReminderPickerBottomSheet.options[index];
+                        final option = widget.options[index];
                         final TextStyle baseStyle =
                             isSelected
                                 ? context.textTheme.primary18W500
@@ -121,7 +121,7 @@ class _WAdhanReminderPickerBottomSheetState extends State<WAdhanReminderPickerBo
                                   color: context.theme.colorScheme.primaryColor.withValues(alpha: 0.7),
                                 );
 
-                        return Center(child: Text(option.translated.translateNumbers(), style: baseStyle));
+                        return Center(child: Text(option.labelKey.translated.translateNumbers(), style: baseStyle));
                       },
                     ),
                   ),

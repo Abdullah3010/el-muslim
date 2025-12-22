@@ -5,8 +5,9 @@ class MAzkarCategories {
   final String? arName;
   final String? enName;
   final String? filename;
+  final String? image;
 
-  MAzkarCategories({this.id, this.arName, this.enName, this.filename});
+  MAzkarCategories({this.id, this.arName, this.enName, this.filename, this.image});
 
   factory MAzkarCategories.fromJson(Map<String, dynamic>? json) {
     return MAzkarCategories(
@@ -14,6 +15,7 @@ class MAzkarCategories {
       arName: json?['arName'],
       enName: json?['enName'],
       filename: json?['filename'],
+      image: json?['image'],
     );
   }
 
@@ -23,5 +25,10 @@ class MAzkarCategories {
 
   String get filePath {
     return 'assets/json/azkar/$filename';
+  }
+
+  String get imagePath {
+    if (image == null || image!.isEmpty) return '';
+    return 'assets/images/$image';
   }
 }

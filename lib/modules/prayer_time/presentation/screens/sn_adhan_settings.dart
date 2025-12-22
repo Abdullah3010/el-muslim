@@ -4,6 +4,7 @@ import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
 import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
+import 'package:al_muslim/modules/prayer_time/data/prayer_notification_options.dart';
 import 'package:al_muslim/modules/prayer_time/managers/mg_prayer_time.dart';
 import 'package:flutter/material.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/widgets/w_adhan_reminder_picker_bottom_sheet.dart';
@@ -21,13 +22,13 @@ class SnAdhanSettings extends StatefulWidget {
 class _SnAdhanSettingsState extends State<SnAdhanSettings> {
   @override
   Widget build(BuildContext context) {
+    final mgPrayerTime = Modular.get<MgPrayerTime>();
+    final int index = widget.adhanIndex ?? 0;
+    final String prayerName = mgPrayerTime.prayerNames[index.clamp(0, mgPrayerTime.prayerNames.length - 1)];
     return WSharedScaffold(
       padding: EdgeInsets.zero,
       appBar: WSharedAppBar(
-        title:
-            widget.adhanIndex != null
-                ? '${'Adhan'.translated} ${Modular.get<MgPrayerTime>().prayerNames[widget.adhanIndex ?? 0].translated} '
-                : 'Adhan Settings',
+        title: widget.adhanIndex != null ? '${'Adhan'.translated} ${prayerName.translated} ' : 'Adhan Settings',
         withBack: true,
       ),
       body: ListView(
@@ -38,20 +39,33 @@ class _SnAdhanSettingsState extends State<SnAdhanSettings> {
             title: 'Notify Before Adhan'.translated,
             icon: Assets.icons.notification.path,
 
-            onTap: () {
-              WAdhanReminderPickerBottomSheet.show(context, initialIndex: 0);
+            onTap: () async {
+              final selected = await WAdhanReminderPickerBottomSheet.show(
+                context,
+                initialIndex: mgPrayerTime.preAdhanIndexForPrayer(prayerName),
+                options: preAdhanNotificationOptions,
+              );
+              if (selected != null) {
+                await mgPrayerTime.updatePreAdhanReminder(prayerName, selected);
+              }
             },
           ),
           WSettingsSectionHeader(title: 'Before Adhan Notification'.translated),
-          WSettingsRowItem(title: 'Stop'.translated, icon: Assets.icons.notification.path, onTap: () {}),
-          WSettingsRowItem(title: 'Silent'.translated, icon: Assets.icons.notification.path, onTap: () {}),
-          WSettingsRowItem(title: 'Device alert sound'.translated, icon: Assets.icons.notification.path, onTap: () {}),
           WSettingsRowItem(
-            title: 'أذان الحرم المكي ـ علي الملا'.translated,
+            title: 'Stop'.translated,
             icon: Assets.icons.notification.path,
-            onTap: () {},
+            onTap: () async {
+              await mgPrayerTime.updatePreAdhanReminder(prayerName, 0);
+            },
           ),
-          WSettingsRowItem(title: 'أذان المدينة'.translated, icon: Assets.icons.notification.path, onTap: () {}),
+          WSettingsRowItem(title: 'Silent'.translated, icon: Assets.icons.notification.path, onTap: () {}),
+          // WSettingsRowItem(title: 'Device alert sound'.translated, icon: Assets.icons.notification.path, onTap: () {}),
+          // WSettingsRowItem(
+          //   title: 'أذان الحرم المكي ـ علي الملا'.translated,
+          //   icon: Assets.icons.notification.path,
+          //   onTap: () {},
+          // ),
+          // WSettingsRowItem(title: 'أذان المدينة'.translated, icon: Assets.icons.notification.path, onTap: () {}),
         ],
       ),
     );

@@ -74,6 +74,7 @@ class _SnPrayTimeState extends State<SnPrayTime> {
               WNextPrayerTimer(
                 nextPrayerLabel: nextPrayerLabel,
                 countdown: _mgPrayerTime.nextPrayerCountdown,
+                locationLabel: _mgPrayerTime.currentLocationLabel,
                 description: 'Countdown to $nextPrayerLabel',
               ),
               SizedBox(height: 33.h),
@@ -81,13 +82,14 @@ class _SnPrayTimeState extends State<SnPrayTime> {
                 readableLabel: _mgPrayerTime.readableDate,
                 gregorianLabel: _mgPrayerTime.gregorianDateLabel,
                 hijriLabel: _mgPrayerTime.hijriDateLabel,
-                onPrevious: () => _mgPrayerTime.goToPreviousDay(),
+                onPrevious: _mgPrayerTime.canGoToPreviousDay ? () => _mgPrayerTime.goToPreviousDay() : null,
                 onNext: () => _mgPrayerTime.goToNextDay(),
               ),
               // SizedBox(height: 20.h),
               WPrayerTimesList(
                 entries: _mgPrayerTime.prayerTimeEntries,
                 highlightedPrayer: _mgPrayerTime.nextPrayerName,
+                manager: _mgPrayerTime,
               ),
               Constants.navbarHeight.verticalSpace,
             ],

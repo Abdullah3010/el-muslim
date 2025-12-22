@@ -9,22 +9,27 @@ import 'package:intl/intl.dart';
 
 import '../../managers/mg_prayer_time.dart';
 
-class WPrayerTimeCard extends StatefulWidget {
-  const WPrayerTimeCard({required this.entry, this.isHighlighted = false, super.key});
+class WPrayerTimeCard extends StatelessWidget {
+  const WPrayerTimeCard({
+    required this.entry,
+    required this.isMuted,
+    required this.reminderLabelKey,
+    required this.onToggleMute,
+    required this.onSelectReminder,
+    this.isHighlighted = false,
+    super.key,
+  });
 
   final PrayerTimeEntry entry;
+  final bool isMuted;
+  final String reminderLabelKey;
+  final VoidCallback onToggleMute;
+  final VoidCallback onSelectReminder;
   final bool isHighlighted;
 
-  @override
-  State<WPrayerTimeCard> createState() => _WPrayerTimeCardState();
-}
-
-class _WPrayerTimeCardState extends State<WPrayerTimeCard> {
-  bool isMuted = false;
-
   String get _formattedTime {
-    final period = widget.entry.dateTime.hour < 12 ? 'ص' : 'م';
-    final formatted = DateFormat('hh:mm').format(widget.entry.dateTime);
+    final period = entry.dateTime.hour < 12 ? 'ص' : 'م';
+    final formatted = DateFormat('hh:mm').format(entry.dateTime);
     return '${formatted.translateNumbers()} $period';
   }
 
@@ -32,22 +37,26 @@ class _WPrayerTimeCardState extends State<WPrayerTimeCard> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
-      decoration: BoxDecoration(
-        color: widget.isHighlighted ? context.theme.colorScheme.secondaryColor : Colors.transparent,
-      ),
+      decoration: BoxDecoration(color: isHighlighted ? context.theme.colorScheme.secondaryColor : Colors.transparent),
       child: Row(
         children: [
-          Expanded(child: Text(widget.entry.name.translated, style: context.theme.textTheme.primary16W500)),
-          Text(_formattedTime, style: context.theme.textTheme.primary16W500),
-          38.horizontalSpace,
+          Expanded(child: Text(entry.name.translated, style: context.theme.textTheme.primary16W500)),
           InkWell(
-            onTap: () {
-              setState(() {
-                isMuted = !isMuted;
-              });
-            },
-            child: isMuted ? Assets.icons.mute.svg() : Assets.icons.unmute.svg(),
+            onTap: onSelectReminder,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(_formattedTime, style: context.theme.textTheme.primary16W500),
+                // 4.verticalSpace,
+                // Text(
+                //   reminderLabelKey.translated.translateNumbers(),
+                //   style: context.theme.textTheme.primary14W400,
+                // ),
+              ],
+            ),
           ),
+          24.horizontalSpace,
+          InkWell(onTap: onToggleMute, child: isMuted ? Assets.icons.mute.svg() : Assets.icons.unmute.svg()),
         ],
       ),
     );

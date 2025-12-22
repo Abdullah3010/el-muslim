@@ -37,7 +37,7 @@ void main() {
     await BoxAppConfig.init();
     try {
       final notificationService = LocalNotificationService();
-      await notificationService.initialize(androidDefaultIcon: '@mipmap/ic_launcher');
+      await notificationService.initialize(androidDefaultIcon: 'launcher_icon');
       await notificationService.handleInitialNotificationIfPresent();
 
       final prayerBackgroundService = PrayerBackgroundService();

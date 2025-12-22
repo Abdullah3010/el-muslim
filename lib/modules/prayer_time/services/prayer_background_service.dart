@@ -2,7 +2,11 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:al_muslim/core/config/box_app_config/box_app_config.dart';
+import 'package:al_muslim/core/config/box_location_config/box_location_config.dart';
+import 'package:al_muslim/core/config/box_location_config/ds_location_config.dart';
+import 'package:al_muslim/core/config/box_location_config/m_location_config.dart';
 import 'package:al_muslim/core/constants/constants.dart';
+import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
 import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
@@ -34,16 +38,22 @@ class PrayerBackgroundService {
     LocalNotificationService? notificationService,
     BoxNotification? boxNotification,
     DSNotification? dsNotification,
+    BoxLocationConfig? locationBox,
+    DSLocationConfig? locationStore,
     PPrayerTimeParams params = _defaultParams,
   }) {
     final resolvedBox = boxNotification ?? BoxNotification();
     final resolvedStore = dsNotification ?? DSNotification(resolvedBox);
+    final resolvedLocationBox = locationBox ?? BoxLocationConfig();
+    final resolvedLocationStore = locationStore ?? DSLocationConfig(resolvedLocationBox);
     return PrayerBackgroundService._(
       workmanager ?? Workmanager(),
       remoteSource ?? PrayerTimeRemoteSource(),
       notificationService ?? LocalNotificationService(),
       resolvedBox,
       resolvedStore,
+      resolvedLocationBox,
+      resolvedLocationStore,
       params,
     );
   }
@@ -51,12 +61,16 @@ class PrayerBackgroundService {
   factory PrayerBackgroundService.forBackground({Map<String, dynamic>? inputData}) {
     final resolvedBox = BoxNotification();
     final resolvedStore = DSNotification(resolvedBox);
+    final resolvedLocationBox = BoxLocationConfig();
+    final resolvedLocationStore = DSLocationConfig(resolvedLocationBox);
     return PrayerBackgroundService._(
       Workmanager(),
       PrayerTimeRemoteSource(),
       LocalNotificationService(),
       resolvedBox,
       resolvedStore,
+      resolvedLocationBox,
+      resolvedLocationStore,
       _decodeParams(inputData) ?? _defaultParams,
     );
   }
@@ -67,6 +81,8 @@ class PrayerBackgroundService {
     this._notificationService,
     this._boxNotification,
     this._notificationStore,
+    this._locationBox,
+    this._locationStore,
     this._params,
   );
 
@@ -75,12 +91,15 @@ class PrayerBackgroundService {
   final LocalNotificationService _notificationService;
   final BoxNotification _boxNotification;
   final DSNotification _notificationStore;
+  final BoxLocationConfig _locationBox;
+  final DSLocationConfig _locationStore;
   final PPrayerTimeParams _params;
 
   bool _workmanagerInitialized = false;
   bool _notificationsReady = false;
   bool _storageInitialized = false;
   bool _notificationBoxReady = false;
+  bool _locationBoxReady = false;
 
   static const List<String> _prayerNames = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
   static const PPrayerTimeParams _defaultParams = PPrayerTimeParams(
@@ -94,6 +113,7 @@ class PrayerBackgroundService {
     await _prepareStorage();
     await _ensureNotificationsReady();
     await _ensureNotificationBoxReady();
+    await _ensureLocationBoxReady();
     await _initializeWorkmanager();
     await _registerDailyTask();
   }
@@ -102,6 +122,7 @@ class PrayerBackgroundService {
     await _prepareStorage();
     await _ensureNotificationsReady();
     await _ensureNotificationBoxReady();
+    await _ensureLocationBoxReady();
     await _fetchAndScheduleFor(DateTime.now());
   }
 
@@ -110,6 +131,7 @@ class PrayerBackgroundService {
       await _prepareStorage();
       await _ensureNotificationsReady(requestPermissions: false);
       await _ensureNotificationBoxReady();
+      await _ensureLocationBoxReady();
 
       if (taskName == prayerWorkTaskName || taskName == Workmanager.iOSBackgroundTask) {
         await _fetchAndScheduleFor(DateTime.now());
@@ -171,9 +193,22 @@ class PrayerBackgroundService {
 
   Future<void> _fetchAndScheduleFor(DateTime date) async {
     final normalizedDate = DateTime(date.year, date.month, date.day);
-    final response = await _remoteSource.fetchPrayerTimes(_params, date: normalizedDate);
+    final params = await _resolveParams();
+    final response = await _remoteSource.fetchPrayerTimes(params, date: normalizedDate);
     final entries = _buildPrayerEntries(response.times.raw, normalizedDate);
     await _scheduleNotifications(entries);
+  }
+
+  Future<void> _ensureLocationBoxReady() async {
+    if (_locationBoxReady) return;
+    await _locationBox.init();
+    _locationBoxReady = true;
+  }
+
+  Future<PPrayerTimeParams> _resolveParams() async {
+    final MLocationConfig? stored = _locationStore.getCurrent();
+    if (stored == null) return _params;
+    return PPrayerTimeParams(lat: stored.latitude, lon: stored.longitude, method: _params.method, school: _params.school);
   }
 
   List<_PrayerEntry> _buildPrayerEntries(Map<String, String> raw, DateTime baseDate) {
@@ -199,21 +234,99 @@ class PrayerBackgroundService {
     final now = DateTime.now();
     for (int index = 0; index < entries.length; index++) {
       final entry = entries[index];
-      if (!entry.dateTime.isAfter(now)) continue;
-
       final notificationId = Constants.prayNotificationBaseId + index;
-      await _notificationService.cancelNotification(notificationId);
-      final notification = MLocalNotification(
-        id: notificationId,
-        title: '${entry.name} prayer',
-        body: 'It is time for ${entry.name}',
-        scheduledAt: entry.dateTime,
-        repeatDaily: false,
-        payload: {'prayer': entry.name, 'time': entry.dateTime.toIso8601String()},
-        deepLink: null,
+      final stored = await _notificationStore.getById(notificationId);
+      final scheduledAt = entry.dateTime;
+      final resolved = (stored ?? _defaultNotification(notificationId, entry.name)).copyWith(
+        scheduledAt: scheduledAt,
+        payload: _updatedPayload(stored?.payload ?? <String, dynamic>{}, entry.name, 0),
       );
-      await _notificationService.scheduleNotification(notification: notification, androidAllowWhileIdle: true);
-      await _notificationStore.createUpdate(notification);
+
+      await _notificationService.cancelNotification(notificationId);
+      if (!resolved.isEnabled || !scheduledAt.isAfter(now)) {
+        await _notificationStore.createUpdate(resolved);
+      } else {
+        await _notificationService.scheduleNotification(notification: resolved, androidAllowWhileIdle: true);
+        await _notificationStore.createUpdate(resolved);
+      }
+
+      final preAdhanId = Constants.preAdhanNotificationBaseId + index;
+      final storedPreAdhan = await _notificationStore.getById(preAdhanId);
+      final int preAdhanMinutes = _preAdhanMinutes(storedPreAdhan);
+      final preAdhanScheduledAt = entry.dateTime.subtract(Duration(minutes: preAdhanMinutes));
+      final preAdhanResolved = (storedPreAdhan ?? _defaultPreAdhanNotification(preAdhanId, entry.name)).copyWith(
+        scheduledAt: preAdhanScheduledAt,
+        payload: _updatedPreAdhanPayload(storedPreAdhan?.payload ?? <String, dynamic>{}, entry.name, preAdhanMinutes),
+        isEnabled: preAdhanMinutes > 0,
+      );
+
+      await _notificationService.cancelNotification(preAdhanId);
+      if (!resolved.isEnabled || !preAdhanResolved.isEnabled || !preAdhanScheduledAt.isAfter(now)) {
+        await _notificationStore.createUpdate(preAdhanResolved);
+        continue;
+      }
+
+      await _notificationService.scheduleNotification(notification: preAdhanResolved, androidAllowWhileIdle: true);
+      await _notificationStore.createUpdate(preAdhanResolved);
+    }
+  }
+
+  int _preAdhanMinutes(MLocalNotification? notification) {
+    final raw = notification?.payload['preAdhanMinutes'];
+    return raw is int ? raw : int.tryParse(raw?.toString() ?? '') ?? 0;
+  }
+
+  Map<String, dynamic> _updatedPayload(Map<String, dynamic> existing, String prayerName, int preAlertMinutes) {
+    return {
+      ...existing,
+      'prayer': prayerName,
+      'preAlertMinutes': preAlertMinutes,
+    };
+  }
+
+  Map<String, dynamic> _updatedPreAdhanPayload(Map<String, dynamic> existing, String prayerName, int preAdhanMinutes) {
+    return {
+      ...existing,
+      'prayer': prayerName,
+      'preAdhanMinutes': preAdhanMinutes,
+    };
+  }
+
+  MLocalNotification _defaultNotification(int id, String prayerName) {
+    final resolvedPrayer = _safeTranslate(prayerName);
+    final resolvedBody = '${_safeTranslate('It is time for')} $resolvedPrayer';
+    return MLocalNotification(
+      id: id,
+      title: resolvedPrayer,
+      body: resolvedBody,
+      scheduledAt: DateTime.now(),
+      repeatDaily: false,
+      payload: _updatedPayload(<String, dynamic>{}, prayerName, 0),
+      deepLink: null,
+      isEnabled: true,
+    );
+  }
+
+  MLocalNotification _defaultPreAdhanNotification(int id, String prayerName) {
+    final resolvedPrayer = _safeTranslate(prayerName);
+    final title = '${_safeTranslate('Prayer')} $resolvedPrayer ${_safeTranslate('coming soon')}';
+    return MLocalNotification(
+      id: id,
+      title: title,
+      body: title,
+      scheduledAt: DateTime.now(),
+      repeatDaily: false,
+      payload: _updatedPreAdhanPayload(<String, dynamic>{}, prayerName, 0),
+      deepLink: null,
+      isEnabled: false,
+    );
+  }
+
+  String _safeTranslate(String value) {
+    try {
+      return value.translated;
+    } catch (_) {
+      return value;
     }
   }
 

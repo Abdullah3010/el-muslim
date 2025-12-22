@@ -8,12 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WNewWerdDetailsVerse extends StatelessWidget {
-  const WNewWerdDetailsVerse({
-    super.key,
-    required this.title,
-    required this.subtitle,
-    this.onTap,
-  });
+  const WNewWerdDetailsVerse({super.key, required this.title, required this.subtitle, this.onTap});
 
   final String title;
   final String subtitle;
@@ -27,9 +22,7 @@ class WNewWerdDetailsVerse extends StatelessWidget {
         onTap: onTap,
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-          decoration: BoxDecoration(
-            color: context.theme.colorScheme.secondaryColor,
-          ),
+          decoration: BoxDecoration(color: context.theme.colorScheme.secondaryColor),
           child: Row(
             children: [
               Expanded(
@@ -43,10 +36,7 @@ class WNewWerdDetailsVerse extends StatelessWidget {
                 ),
               ),
               12.widthBox,
-              WLocalizeRotation(
-                reverse: true,
-                child: Assets.icons.backGold.svg(width: 18.w, height: 18.h),
-              ),
+              WLocalizeRotation(child: Assets.icons.backGold.svg(width: 18.w, height: 18.h)),
             ],
           ),
         ),

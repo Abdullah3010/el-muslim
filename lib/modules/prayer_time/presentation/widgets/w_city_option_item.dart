@@ -21,15 +21,7 @@ class WCityOptionItem extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-        child: Row(
-          children: [
-            Expanded(child: Text(name, style: context.textTheme.primary18W500)),
-            WLocalizeRotation(
-              reverse: true,
-              child: Icon(Icons.arrow_back_ios_new, color: context.theme.colorScheme.primaryColor, size: 18.sp),
-            ),
-          ],
-        ),
+        child: Row(children: [Expanded(child: Text(name, style: context.textTheme.primary18W500))]),
       ),
     );
   }

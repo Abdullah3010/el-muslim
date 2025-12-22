@@ -15,6 +15,7 @@ class WSharedAppBar extends StatelessWidget {
     this.title,
     this.action,
     this.leading,
+    this.leadingInfo,
     this.withBack = true,
     this.withScaffoldBackground = false,
     this.onBackTap,
@@ -25,6 +26,7 @@ class WSharedAppBar extends StatelessWidget {
   final bool withScaffoldBackground;
   final Widget? action;
   final Widget? leading;
+  final Widget? leadingInfo;
   final void Function()? onBackTap;
   @override
   Widget build(BuildContext context) {
@@ -59,6 +61,10 @@ class WSharedAppBar extends StatelessWidget {
                 ),
               ],
               if (leading != null) leading!,
+              if (leadingInfo != null) ...[
+                8.widthBox,
+                leadingInfo!,
+              ],
               const Spacer(),
               if (action != null) action! else 40.widthBox,
             ],

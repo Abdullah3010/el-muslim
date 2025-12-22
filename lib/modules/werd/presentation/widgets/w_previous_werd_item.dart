@@ -60,7 +60,7 @@ class WPreviousWerdItem extends StatelessWidget {
                 ),
               ),
             8.widthBox,
-            WLocalizeRotation(reverse: true, child: Assets.icons.backGold.svg(width: 16.w, height: 16.h)),
+            WLocalizeRotation(child: Assets.icons.backGold.svg(width: 16.w, height: 16.h)),
           ],
         ),
       ),

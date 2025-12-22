@@ -1,8 +1,14 @@
 import 'package:al_muslim/core/config/box_app_config/box_app_config.dart';
 import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
+import 'package:al_muslim/core/config/box_location_config/box_location_config.dart';
+import 'package:al_muslim/core/config/box_location_config/ds_location_config.dart';
 import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
 import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
+import 'package:al_muslim/modules/prayer_time/data/local/box_location_cities_cache.dart';
+import 'package:al_muslim/modules/prayer_time/data/local/ds_location_cities_cache.dart';
+import 'package:al_muslim/modules/quran/data/local/box_quran_bookmarks.dart';
+import 'package:al_muslim/modules/quran/data/local/ds_quran_bookmarks.dart';
 import 'package:al_muslim/modules/azkar/managers/mg_azkar.dart';
 import 'package:al_muslim/modules/core/managers/mg_core.dart';
 import 'package:al_muslim/modules/more/managers/mg_more.dart';
@@ -20,6 +26,12 @@ class Binds {
   static void binds(Injector i) {
     i.addSingleton(BoxAppConfig.new);
     i.addSingleton(DSAppConfig.new);
+    i.addSingleton(BoxLocationConfig.new);
+    i.addSingleton(DSLocationConfig.new);
+    i.addSingleton(BoxLocationCitiesCache.new);
+    i.addSingleton(DSLocationCitiesCache.new);
+    i.addSingleton(BoxQuranBookmarks.new);
+    i.addSingleton(DSQuranBookmarks.new);
 
     /// ================= Notifications ================= ///
     i.addSingleton(BoxNotification.new);

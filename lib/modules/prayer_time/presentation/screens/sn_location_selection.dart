@@ -46,11 +46,22 @@ class _SnLocationSelectionState extends State<SnLocationSelection> {
   Widget build(BuildContext context) {
     return WSharedScaffold(
       padding: EdgeInsets.zero,
-      appBar: WSharedAppBar(title: _manager.countryName, withBack: true),
+      appBar: WSharedAppBar(
+        title: _manager.countryName.isNotEmpty ? _manager.countryName : 'Location'.translated,
+        withBack: true,
+      ),
       body: AnimatedBuilder(
         animation: _manager,
         builder: (context, _) {
           final cities = _manager.filteredCities;
+
+          if (_manager.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (_manager.errorMessage != null && cities.isEmpty) {
+            return Center(child: Text(_manager.errorMessage!, textAlign: TextAlign.center));
+          }
 
           return Column(
             children: [
@@ -62,7 +73,7 @@ class _SnLocationSelectionState extends State<SnLocationSelection> {
                     hintText: 'Search cities'.translated,
                     prefixIcon: const Icon(Icons.search),
                     filled: true,
-                    fillColor: Colors.grey.shade200,
+                    fillColor: Colors.white,
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.r), borderSide: BorderSide.none),
                     contentPadding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 12.w),
                   ),

@@ -198,7 +198,7 @@ class _SnWerdDetailsState extends State<SnWerdDetails> {
                           const Spacer(),
                           Text('${_mgWerd.totalDays}'.translateNumbers(), style: context.textTheme.primary16W500),
                           10.widthBox,
-                          WLocalizeRotation(reverse: true, child: Assets.icons.backGold.svg(width: 18.w, height: 18.h)),
+                          WLocalizeRotation(child: Assets.icons.backGold.svg(width: 18.w, height: 18.h)),
                         ],
                       ),
                     ),

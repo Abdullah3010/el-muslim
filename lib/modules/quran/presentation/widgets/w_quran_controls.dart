@@ -9,6 +9,9 @@ class WQuranControls extends StatelessWidget {
     super.key,
     required this.isVisible,
     required this.currentPage,
+    required this.currentJuz,
+    required this.currentHizb,
+    required this.currentQuarter,
     required this.onBookmark,
     required this.bookmarkedPage,
     this.onGoToBookmark,
@@ -16,6 +19,9 @@ class WQuranControls extends StatelessWidget {
 
   final bool isVisible;
   final int currentPage;
+  final int currentJuz;
+  final int currentHizb;
+  final int currentQuarter;
   final VoidCallback onBookmark;
   final int? bookmarkedPage;
   final VoidCallback? onGoToBookmark;
@@ -27,6 +33,10 @@ class WQuranControls extends StatelessWidget {
         bookmarkedPage == null
             ? 'No bookmark'.translated
             : '${'Bookmark'.translated}: ${bookmarkedPage!.toString().translateNumbers()}';
+    final infoLabel =
+        '${'Juz'.translated} ${currentJuz.toString().translateNumbers()} | '
+        '${'Hizb'.translated} ${currentHizb.toString().translateNumbers()} | '
+        '${'Quarter'.translated} ${currentQuarter.toString().translateNumbers()}';
 
     return Align(
       alignment: Alignment.bottomCenter,
@@ -63,6 +73,8 @@ class WQuranControls extends StatelessWidget {
                                   style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                                 ),
                                 const SizedBox(height: 4),
+                                Text(infoLabel, style: theme.textTheme.bodyMedium),
+                                const SizedBox(height: 2),
                                 Text(bookmarkLabel, style: theme.textTheme.bodyMedium),
                               ],
                             ),

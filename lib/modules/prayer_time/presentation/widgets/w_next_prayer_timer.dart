@@ -5,10 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WNextPrayerTimer extends StatelessWidget {
-  const WNextPrayerTimer({required this.nextPrayerLabel, required this.countdown, this.description, super.key});
+  const WNextPrayerTimer({
+    required this.nextPrayerLabel,
+    required this.countdown,
+    required this.locationLabel,
+    this.description,
+    super.key,
+  });
 
   final String nextPrayerLabel;
   final Duration countdown;
+  final String locationLabel;
   final String? description;
 
   String get _formattedCountdown {
@@ -29,7 +36,7 @@ class WNextPrayerTimer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('Cairo', style: context.theme.textTheme.primary20W500),
+          Text(locationLabel, style: context.theme.textTheme.primary20W500),
           SizedBox(height: 12.h),
           Text('${'Time until prayer call'.translated} $nextPrayerLabel', style: context.theme.textTheme.primary20W500),
 
