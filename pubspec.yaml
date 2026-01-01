@@ -52,6 +52,7 @@ dependencies:
   flutter_local_notifications: ^19.5.0
   timezone: ^0.10.0
   workmanager: ^0.7.0
+  quran_library: ^2.2.3+1
 
 
 

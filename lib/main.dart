@@ -11,10 +11,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:quran_library/quran_library.dart';
 
 void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await QuranLibrary.init();
 
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark, statusBarBrightness: Brightness.light),
