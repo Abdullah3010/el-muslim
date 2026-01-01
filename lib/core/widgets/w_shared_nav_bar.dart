@@ -19,53 +19,58 @@ class WSharedNavBar extends StatefulWidget {
 class _WSharedNavBarState extends State<WSharedNavBar> {
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Consumer<MgCore>(
-        builder: (context, manager, _) {
-          return Container(
-            height: Constants.navbarHeight.h,
-            width: context.width,
-            padding: EdgeInsets.symmetric(horizontal: 18.w),
-            decoration: BoxDecoration(color: context.theme.colorScheme.primaryColor),
+    return Consumer<MgCore>(
+      builder: (context, manager, _) {
+        final activeColor = context.theme.colorScheme.primaryColor;
+        final inactiveColor = context.theme.colorScheme.gray;
+
+        return Container(
+          height: Constants.navbarHeight.h,
+          width: context.width,
+          padding: EdgeInsets.only(top: 12.h, left: 18.w, right: 18.w),
+          decoration: const BoxDecoration(color: Colors.white),
+          child: SafeArea(
+            bottom: true,
+            top: false,
+            right: true,
+            left: true,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(manager.navBarItems.length, (index) {
-                return InkWell(
-                  onTap: () => manager.setNavBarIndex(index),
-                  child: SizedBox(
-                    width: (context.width / manager.navBarItems.length) - 18.w,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          (manager.navIndex == index
-                                  ? manager.navBarItems[index].activeIcon
-                                  : manager.navBarItems[index].inactiveIcon) ??
-                              '',
-                          width: 30.w,
-                          height: 30.h,
-                        ),
-                        6.heightBox,
-                        Text(
-                          manager.navBarItems[index].label ?? '',
-                          style: context.theme.textTheme.bodyMedium?.copyWith(
-                            color: context.theme.colorScheme.onPrimary,
+                final item = manager.navBarItems[index];
+                final isActive = manager.navIndex == index;
+                final labelStyle = context.theme.textTheme.bodySmall?.copyWith(
+                  color: isActive ? activeColor : inactiveColor,
+                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+                  height: 1.1,
+                );
+
+                return Expanded(
+                  child: InkWell(
+                    onTap: () => manager.setNavBarIndex(index),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset(
+                            (isActive ? item.activeIcon : item.inactiveIcon) ?? '',
+                            width: 26.w,
+                            height: 26.h,
+                            colorFilter: ColorFilter.mode(isActive ? activeColor : inactiveColor, BlendMode.srcIn),
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                          4.heightBox,
+                          Text(item.label ?? '', style: labelStyle, textAlign: TextAlign.center),
+                        ],
+                      ),
                     ),
                   ),
                 );
               }),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

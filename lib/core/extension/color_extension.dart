@@ -6,7 +6,7 @@ extension ColorExtension on ColorScheme {
   Color get white => const Color(0xFFfdfbf6);
   Color get transparent => Colors.transparent;
   Color get lightGray => const Color(0xFFE0E0E0);
-  Color get gray => const Color(0xFFA9A9A9);
+  Color get gray => const Color(0xFFBEC1C6);
   Color get darkGray => const Color(0xFF323844);
   Color get red => const Color(0xFFFE2D30);
   Color get black => const Color(0xFF000000);
