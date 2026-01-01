@@ -17,37 +17,12 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsFontsGen {
   const $AssetsFontsGen();
 
-  /// File path: assets/fonts/Changa-Bold.ttf
-  String get changaBold => 'assets/fonts/Changa-Bold.ttf';
-
-  /// File path: assets/fonts/Changa-ExtraBold.ttf
-  String get changaExtraBold => 'assets/fonts/Changa-ExtraBold.ttf';
-
-  /// File path: assets/fonts/Changa-ExtraLight.ttf
-  String get changaExtraLight => 'assets/fonts/Changa-ExtraLight.ttf';
-
-  /// File path: assets/fonts/Changa-Light.ttf
-  String get changaLight => 'assets/fonts/Changa-Light.ttf';
-
-  /// File path: assets/fonts/Changa-Medium.ttf
-  String get changaMedium => 'assets/fonts/Changa-Medium.ttf';
-
-  /// File path: assets/fonts/Changa-Regular.ttf
-  String get changaRegular => 'assets/fonts/Changa-Regular.ttf';
-
-  /// File path: assets/fonts/Changa-SemiBold.ttf
-  String get changaSemiBold => 'assets/fonts/Changa-SemiBold.ttf';
+  /// File path: assets/fonts/NotoSansArabic-Variable.ttf
+  String get notoSansArabicVariable =>
+      'assets/fonts/NotoSansArabic-Variable.ttf';
 
   /// List of all assets
-  List<String> get values => [
-    changaBold,
-    changaExtraBold,
-    changaExtraLight,
-    changaLight,
-    changaMedium,
-    changaRegular,
-    changaSemiBold,
-  ];
+  List<String> get values => [notoSansArabicVariable];
 }
 
 class $AssetsGifsGen {

@@ -101,10 +101,11 @@ class _SnZekrState extends State<SnZekr> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: WGradientProgressBar(
-              height: 14,
-              value: manager.activeAzkarList.isNotEmpty
-                  ? manager.currentZekrIndexNotifier / manager.activeAzkarList.length
-                  : 0,
+              height: 10.h,
+              value:
+                  manager.activeAzkarList.isNotEmpty
+                      ? manager.currentZekrIndexNotifier / manager.activeAzkarList.length
+                      : 0,
             ),
           ),
           22.heightBox,

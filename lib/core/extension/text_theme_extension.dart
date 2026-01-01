@@ -9,7 +9,7 @@ extension TextStyleExtension on TextTheme {
     fontSize: 14.sp,
     color: const Color(0xFF323844),
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   /// [primary]
@@ -18,7 +18,7 @@ extension TextStyleExtension on TextTheme {
     fontSize: 16.sp,
     color: const Color(0xFFD8B74E),
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   TextStyle get primary18W500 => TextStyle(
@@ -26,7 +26,7 @@ extension TextStyleExtension on TextTheme {
     fontSize: 18.sp,
     color: const Color(0xFFD8B74E),
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   TextStyle get primary16W500 => TextStyle(
@@ -34,7 +34,7 @@ extension TextStyleExtension on TextTheme {
     fontSize: 16.sp,
     color: const Color(0xFFD8B74E),
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   TextStyle get primary14W400 => TextStyle(
@@ -42,14 +42,14 @@ extension TextStyleExtension on TextTheme {
     fontSize: 14.sp,
     color: const Color(0xFFD8B74E),
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
   TextStyle get primary14W500 => TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 14.sp,
     color: const Color(0xFFD8B74E),
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   TextStyle get primary20W500 => TextStyle(
@@ -57,21 +57,21 @@ extension TextStyleExtension on TextTheme {
     fontSize: 20.sp,
     color: const Color(0xFFD8B74E),
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
   TextStyle get primary24W500 => TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 24.sp,
     color: const Color(0xFFD8B74E),
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
   TextStyle get primary30W500 => TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 30.sp,
     color: const Color(0xFFD8B74E),
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   TextStyle get primary43W400 => TextStyle(
@@ -79,7 +79,7 @@ extension TextStyleExtension on TextTheme {
     fontSize: 43.sp,
     color: const Color(0xFFD8B74E),
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   /// [darkGrey]
@@ -88,7 +88,7 @@ extension TextStyleExtension on TextTheme {
     fontSize: 14.sp,
     color: const Color(0xFF323844),
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   /// [White]
@@ -97,7 +97,7 @@ extension TextStyleExtension on TextTheme {
     fontSize: 20.sp,
     color: Colors.white,
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   TextStyle get white14W500 => TextStyle(
@@ -105,7 +105,7 @@ extension TextStyleExtension on TextTheme {
     fontSize: 14.sp,
     color: Colors.white,
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   TextStyle get white16W500 => TextStyle(
@@ -113,7 +113,7 @@ extension TextStyleExtension on TextTheme {
     fontSize: 16.sp,
     color: Colors.white,
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   TextStyle get white16W400 => TextStyle(
@@ -121,7 +121,7 @@ extension TextStyleExtension on TextTheme {
     fontSize: 16.sp,
     color: Colors.white,
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   /// [red]
@@ -130,7 +130,7 @@ extension TextStyleExtension on TextTheme {
     fontSize: 14.sp,
     color: Colors.red,
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 
   TextStyle get red16W500 => TextStyle(
@@ -138,6 +138,6 @@ extension TextStyleExtension on TextTheme {
     fontSize: 16.sp,
     color: Colors.red,
     height: 1.8,
-    fontFamily: FontFamily.changa,
+    fontFamily: FontFamily.notoSansArabic,
   );
 }

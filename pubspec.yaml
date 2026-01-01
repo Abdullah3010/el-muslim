@@ -103,21 +103,21 @@ flutter:
 
   
   fonts:
-    - family: Changa
+    - family: NotoSansArabic
       fonts:
-        - asset: assets/fonts/Changa-ExtraLight.ttf
+        - asset: assets/fonts/NotoSansArabic-Variable.ttf
           weight: 200
-        - asset: assets/fonts/Changa-Light.ttf
+        - asset: assets/fonts/NotoSansArabic-Variable.ttf
           weight: 300
-        - asset: assets/fonts/Changa-Regular.ttf
+        - asset: assets/fonts/NotoSansArabic-Variable.ttf
           weight: 400
-        - asset: assets/fonts/Changa-Regular.ttf
+        - asset: assets/fonts/NotoSansArabic-Variable.ttf
           weight: 500
-        - asset: assets/fonts/Changa-Medium.ttf
+        - asset: assets/fonts/NotoSansArabic-Variable.ttf
           weight: 600
-        - asset: assets/fonts/Changa-SemiBold.ttf
+        - asset: assets/fonts/NotoSansArabic-Variable.ttf
           weight: 700
-        - asset: assets/fonts/Changa-Bold.ttf
+        - asset: assets/fonts/NotoSansArabic-Variable.ttf
           weight: 800
-        - asset: assets/fonts/Changa-ExtraBold.ttf
+        - asset: assets/fonts/NotoSansArabic-Variable.ttf
           weight: 900
