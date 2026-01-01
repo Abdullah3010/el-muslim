@@ -1,10 +1,12 @@
-import 'dart:math';
-
+import 'package:al_muslim/core/extension/build_context.dart';
+import 'package:al_muslim/core/extension/string_extensions.dart';
+import 'package:al_muslim/core/extension/text_theme_extension.dart';
 import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:al_muslim/modules/azkar/managers/mg_azkar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
@@ -123,40 +125,46 @@ class _SnAzkarListState extends State<SnAzkarList> {
 
   @override
   Widget build(BuildContext context) {
+    List<int> cardsHeights = [0, 1, 0, 1, 0, 1, 1];
     return WSharedScaffold(
       withNavBar: true,
-      body: Consumer<MgAzkar>(
-        builder: (context, manager, _) {
-          if (manager.categories.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: Column(
+        children: [
+          Text('El-Muslim'.translated, style: context.textTheme.primary30W500),
+          Expanded(
+            child: Consumer<MgAzkar>(
+              builder: (context, manager, _) {
+                if (manager.categories.isEmpty) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-          const spacing = 12.0;
+                return MasonryGridView.builder(
+                  padding: const EdgeInsets.only(top: 16, bottom: 120),
+                  physics: const BouncingScrollPhysics(),
+                  gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                  mainAxisSpacing: 24.w,
+                  crossAxisSpacing: 20.h,
+                  itemCount: manager.categories.length,
+                  itemBuilder: (context, index) {
+                    final category = manager.categories[index];
+                    final style = _categoryStyles[category.id ?? -1] ?? _defaultCategoryStyle;
 
-          return MasonryGridView.builder(
-            padding: const EdgeInsets.only(top: 16, bottom: 120),
-            physics: const BouncingScrollPhysics(),
-            gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            mainAxisSpacing: spacing,
-            crossAxisSpacing: spacing,
-            itemCount: manager.categories.length,
-            itemBuilder: (context, index) {
-              final category = manager.categories[index];
-              final style = _categoryStyles[category.id ?? -1] ?? _defaultCategoryStyle;
-              final random = Random((category.id ?? index) + 3);
-              final cardHeight = 160.0 + random.nextInt(130);
-              final imagePath = category.imagePath;
+                    final cardHeight = cardsHeights[index % cardsHeights.length] == 0 ? 220.h : 190.h;
+                    final imagePath = category.imagePath;
 
-              return _AzkarCategoryCard(
-                height: cardHeight,
-                style: style,
-                imagePath: imagePath,
-                title: category.displayName,
-                onTap: () => Modular.to.pushNamed(RoutesNames.azkar.zekr(category.id ?? 1)),
-              );
-            },
-          );
-        },
+                    return _AzkarCategoryCard(
+                      height: cardHeight,
+                      style: style,
+                      imagePath: imagePath,
+                      title: category.displayName,
+                      onTap: () => Modular.to.pushNamed(RoutesNames.azkar.zekr(category.id ?? 1)),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -256,37 +264,33 @@ class _AzkarCategoryCardState extends State<_AzkarCategoryCard> {
           decoration: BoxDecoration(
             gradient: widget.style.gradient,
             borderRadius: BorderRadius.circular(28),
-            boxShadow: [BoxShadow(color: widget.style.shadowColor, blurRadius: 16, offset: const Offset(0, 8))],
+            boxShadow: [
+              BoxShadow(
+                color: widget.style.shadowColor.withValues(alpha: 0.05),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
           child: Stack(
+            alignment: Alignment.topLeft,
             children: [
               if (showImage)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(28),
-                  child: Opacity(
-                    opacity: 0.88,
-                    child: Image.asset(
-                      widget.imagePath,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-                    ),
+                  child: Image.asset(
+                    widget.imagePath,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                    errorBuilder: (_, __, ___) => const SizedBox.shrink(),
                   ),
                 ),
               Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (!showImage) Icon(widget.style.icon, size: 44, color: widget.style.iconColor),
-                    const Spacer(),
-                    Text(
-                      widget.title,
-                      style: TextStyle(color: widget.style.textColor, fontSize: 16, fontWeight: FontWeight.w700),
-                    ),
-                  ],
+                padding: EdgeInsets.all(22.w),
+                child: Text(
+                  widget.title,
+                  style: TextStyle(color: const Color(0xff004B40), fontSize: 16.sp, fontWeight: FontWeight.w500),
                 ),
               ),
             ],

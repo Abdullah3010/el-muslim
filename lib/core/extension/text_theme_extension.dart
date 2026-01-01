@@ -59,6 +59,20 @@ extension TextStyleExtension on TextTheme {
     height: 1.8,
     fontFamily: FontFamily.changa,
   );
+  TextStyle get primary24W500 => TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 24.sp,
+    color: const Color(0xFFD8B74E),
+    height: 1.8,
+    fontFamily: FontFamily.changa,
+  );
+  TextStyle get primary30W500 => TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 30.sp,
+    color: const Color(0xFFD8B74E),
+    height: 1.8,
+    fontFamily: FontFamily.changa,
+  );
 
   TextStyle get primary43W400 => TextStyle(
     fontWeight: FontWeight.w400,

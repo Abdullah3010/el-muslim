@@ -35,10 +35,11 @@ void main() {
     }
 
     await BoxAppConfig.init();
+    final notificationService = LocalNotificationService();
+    var notificationReady = false;
     try {
-      final notificationService = LocalNotificationService();
       await notificationService.initialize(androidDefaultIcon: 'launcher_icon');
-      await notificationService.handleInitialNotificationIfPresent();
+      notificationReady = true;
 
       final prayerBackgroundService = PrayerBackgroundService();
       await prayerBackgroundService.initializeBackgroundSync();
@@ -54,5 +55,11 @@ void main() {
         builder: (context) => ModularApp(module: AppModule(), child: const AppEntryPoint()),
       ),
     );
+
+    if (notificationReady) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        unawaited(notificationService.handleInitialNotificationIfPresent());
+      });
+    }
   }, (error, stackTrace) {});
 }

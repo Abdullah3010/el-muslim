@@ -2,9 +2,13 @@
 
 part of 'm_location_config.dart';
 
+// **************************************************************************
+// TypeAdapterGenerator
+// **************************************************************************
+
 class MLocationConfigAdapter extends TypeAdapter<MLocationConfig> {
   @override
-  final int typeId = 2;
+  final typeId = 2;
 
   @override
   MLocationConfig read(BinaryReader reader) {
@@ -13,12 +17,12 @@ class MLocationConfigAdapter extends TypeAdapter<MLocationConfig> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MLocationConfig(
-      latitude: (fields[0] as num?)?.toDouble() ?? 0,
-      longitude: (fields[1] as num?)?.toDouble() ?? 0,
-      city: fields[2] as String? ?? '',
-      country: fields[3] as String? ?? '',
-      updatedAt: fields[4] as DateTime? ?? DateTime.now(),
-      autoDetect: fields[5] as bool? ?? true,
+      latitude: (fields[0] as num).toDouble(),
+      longitude: (fields[1] as num).toDouble(),
+      city: fields[2] as String,
+      country: fields[3] as String,
+      updatedAt: fields[4] as DateTime,
+      autoDetect: fields[5] as bool,
     );
   }
 
@@ -46,5 +50,7 @@ class MLocationConfigAdapter extends TypeAdapter<MLocationConfig> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MLocationConfigAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is MLocationConfigAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

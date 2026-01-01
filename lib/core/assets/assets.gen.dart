@@ -232,36 +232,49 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/after_pray.png
+  AssetGenImage get afterPray =>
+      const AssetGenImage('assets/images/after_pray.png');
+
   /// File path: assets/images/app_logo.png
   AssetGenImage get appLogo =>
       const AssetGenImage('assets/images/app_logo.png');
 
-  /// File path: assets/images/logo.png
-  AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
+  /// File path: assets/images/evening.png
+  AssetGenImage get evening => const AssetGenImage('assets/images/evening.png');
 
-  /// File path: assets/images/profile_placeholder.jpg
-  AssetGenImage get profilePlaceholder =>
-      const AssetGenImage('assets/images/profile_placeholder.jpg');
+  /// File path: assets/images/masged.png
+  AssetGenImage get masged => const AssetGenImage('assets/images/masged.png');
+
+  /// File path: assets/images/morning.png
+  AssetGenImage get morning => const AssetGenImage('assets/images/morning.png');
 
   /// File path: assets/images/quipla_bg.png
   AssetGenImage get quiplaBg =>
       const AssetGenImage('assets/images/quipla_bg.png');
 
-  /// File path: assets/images/splash.png
-  AssetGenImage get splash => const AssetGenImage('assets/images/splash.png');
+  /// File path: assets/images/quran.png
+  AssetGenImage get quran => const AssetGenImage('assets/images/quran.png');
 
-  /// File path: assets/images/syria_flag.png
-  AssetGenImage get syriaFlag =>
-      const AssetGenImage('assets/images/syria_flag.png');
+  /// File path: assets/images/sleeping.png
+  AssetGenImage get sleeping =>
+      const AssetGenImage('assets/images/sleeping.png');
+
+  /// File path: assets/images/wakeing_up.png
+  AssetGenImage get wakeingUp =>
+      const AssetGenImage('assets/images/wakeing_up.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
+    afterPray,
     appLogo,
-    logo,
-    profilePlaceholder,
+    evening,
+    masged,
+    morning,
     quiplaBg,
-    splash,
-    syriaFlag,
+    quran,
+    sleeping,
+    wakeingUp,
   ];
 }
 
@@ -270,6 +283,9 @@ class $AssetsJsonGen {
 
   /// Directory path: assets/json/azkar
   $AssetsJsonAzkarGen get azkar => const $AssetsJsonAzkarGen();
+
+  /// Directory path: assets/json/khatma
+  $AssetsJsonKhatmaGen get khatma => const $AssetsJsonKhatmaGen();
 
   /// Directory path: assets/json/quran
   $AssetsJsonQuranGen get quran => const $AssetsJsonQuranGen();
@@ -2749,6 +2765,38 @@ class $AssetsJsonAzkarGen {
     otherAzkar,
     sleeping,
     wakeingUp,
+  ];
+}
+
+class $AssetsJsonKhatmaGen {
+  const $AssetsJsonKhatmaGen();
+
+  /// File path: assets/json/khatma/khatma_120_days.json
+  String get khatma120Days => 'assets/json/khatma/khatma_120_days.json';
+
+  /// File path: assets/json/khatma/khatma_240_days.json
+  String get khatma240Days => 'assets/json/khatma/khatma_240_days.json';
+
+  /// File path: assets/json/khatma/khatma_30_days.json
+  String get khatma30Days => 'assets/json/khatma/khatma_30_days.json';
+
+  /// File path: assets/json/khatma/khatma_365_days.json
+  String get khatma365Days => 'assets/json/khatma/khatma_365_days.json';
+
+  /// File path: assets/json/khatma/khatma_60_days.json
+  String get khatma60Days => 'assets/json/khatma/khatma_60_days.json';
+
+  /// File path: assets/json/khatma/khatma_metadata.json
+  String get khatmaMetadata => 'assets/json/khatma/khatma_metadata.json';
+
+  /// List of all assets
+  List<String> get values => [
+    khatma120Days,
+    khatma240Days,
+    khatma30Days,
+    khatma365Days,
+    khatma60Days,
+    khatmaMetadata,
   ];
 }
 

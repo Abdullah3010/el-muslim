@@ -3,16 +3,19 @@
 // Check in to version control
 
 import 'package:hive_ce/hive.dart';
+import 'package:al_muslim/core/config/box_location_config/m_location_config.dart';
 import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
     registerAdapter(MLocalNotificationAdapter());
+    registerAdapter(MLocationConfigAdapter());
   }
 }
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
     registerAdapter(MLocalNotificationAdapter());
+    registerAdapter(MLocationConfigAdapter());
   }
 }

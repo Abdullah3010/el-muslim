@@ -7,25 +7,11 @@
         "image": "evening.png"
     },
     {
-        "id": 3,
-        "arName": "أذكار المسجد",
-        "enName": "Masged",
-        "filename": "masged.json",
-        "image": "masged.png"
-    },
-    {
         "id": 4,
         "arName": "أذكار الصباح",
         "enName": "Morning",
         "filename": "morning.json",
         "image": "morning.png"
-    },
-    {
-        "id": 5,
-        "arName": "أذكار النوم",
-        "enName": "Sleeping",
-        "filename": "sleeping.json",
-        "image": "sleeping.png"
     },
     {
         "id": 6,
@@ -35,11 +21,25 @@
         "image": "wakeing_up.png"
     },
     {
+        "id": 5,
+        "arName": "أذكار النوم",
+        "enName": "Sleeping",
+        "filename": "sleeping.json",
+        "image": "sleeping.png"
+    },
+    {
         "id": 1,
         "arName": "أذكار بعد الصلاة",
         "enName": "After Prayer",
         "filename": "after_pray.json",
         "image": "after_pray.png"
+    },
+    {
+        "id": 3,
+        "arName": "أذكار المسجد",
+        "enName": "Masged",
+        "filename": "masged.json",
+        "image": "masged.png"
     },
     {
         "id": 7,

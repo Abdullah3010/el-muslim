@@ -145,7 +145,7 @@ class _SnPrayTimeSettingsState extends State<SnPrayTimeSettings> {
               WSettingsRowItem(
                 title: 'Current Location'.translated,
                 trailing: Text(_mgPrayerTime.currentLocationLabel, style: context.textTheme.primary16W400),
-                onTap: _promptLocationChange,
+                // onTap: _promptLocationChange,
               ),
               WSettingsRowItem(
                 title: 'Automatic location detection'.translated,
@@ -155,14 +155,14 @@ class _SnPrayTimeSettingsState extends State<SnPrayTimeSettings> {
                 ),
                 onTap: () => _mgPrayerTime.setAutoDetectEnabled(!_mgPrayerTime.isAutoDetectEnabled),
               ),
-              WSettingsRowItem(
-                title: 'Manual location selection'.translated,
-                trailing:
-                    _selectedCityLabel != null
-                        ? Text(_selectedCityLabel!, style: context.textTheme.primary16W400)
-                        : null,
-                onTap: _openLocationSelection,
-              ),
+              // WSettingsRowItem(
+              //   title: 'Manual location selection'.translated,
+              //   trailing:
+              //       _selectedCityLabel != null
+              //           ? Text(_selectedCityLabel!, style: context.textTheme.primary16W400)
+              //           : null,
+              //   onTap: _openLocationSelection,
+              // ),
             ],
           );
         },
