@@ -51,7 +51,7 @@
     "Your device does not support compass functionality.": "جهازك لا يدعم وظيفة البوصلة.",
     "Werd": "ورد",
     "Werd Day": "ورد اليوم",
-    "Complete Werd": "اكمال الختمة",
+    "Complete Werd": "التمييز كمكتمل",
     "Reminder": "تذكير",
     "Current Werd": "الختمة الحالية",
     "You are behind by 7 days": "أنت متأخر عن ختمتك بـ 7 أيام",
@@ -137,5 +137,7 @@
     "From": "من",
     "Continue Werd": "الاستمرار في الورد",
     "The Prayer": "الصلاة",
-    "Al-Muslim": "المُسْلِمُ"
+    "Al-Muslim": "المُسْلِمُ",
+    "You are late for your khatma by": "أنت متأخر عن ختمتك بـ",
+    "days": "يوم"
 }

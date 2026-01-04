@@ -196,7 +196,7 @@ class _AzkarCategoryCardState extends State<_AzkarCategoryCard> {
   void didUpdateWidget(covariant _AzkarCategoryCard oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.imagePath != widget.imagePath) {
-      // _resolveImage();
+      _resolveImage();
     }
   }
 
@@ -206,34 +206,34 @@ class _AzkarCategoryCardState extends State<_AzkarCategoryCard> {
     super.dispose();
   }
 
-  // void _resolveImage() {
-  //   _removeImageListener();
-  //   if (widget.imagePath.isEmpty) {
-  //     if (_imageAvailable) {
-  //       setState(() => _imageAvailable = false);
-  //     }
-  //     return;
-  //   }
+  void _resolveImage() {
+    _removeImageListener();
+    if (widget.imagePath.isEmpty) {
+      if (_imageAvailable) {
+        setState(() => _imageAvailable = false);
+      }
+      return;
+    }
 
-  //   final provider = AssetImage(widget.imagePath);
-  //   final stream = provider.resolve(const ImageConfiguration());
-  //   _imageStream = stream;
-  //   _imageListener = ImageStreamListener(
-  //     (_, __) {
-  //       if (!mounted) return;
-  //       if (!_imageAvailable) {
-  //         setState(() => _imageAvailable = true);
-  //       }
-  //     },
-  //     onError: (_, __) {
-  //       if (!mounted) return;
-  //       if (_imageAvailable) {
-  //         setState(() => _imageAvailable = false);
-  //       }
-  //     },
-  //   );
-  //   stream.addListener(_imageListener!);
-  // }
+    final provider = AssetImage(widget.imagePath);
+    final stream = provider.resolve(const ImageConfiguration());
+    _imageStream = stream;
+    _imageListener = ImageStreamListener(
+      (_, __) {
+        if (!mounted) return;
+        if (!_imageAvailable) {
+          setState(() => _imageAvailable = true);
+        }
+      },
+      onError: (_, __) {
+        if (!mounted) return;
+        if (_imageAvailable) {
+          setState(() => _imageAvailable = false);
+        }
+      },
+    );
+    stream.addListener(_imageListener!);
+  }
 
   void _removeImageListener() {
     if (_imageStream != null && _imageListener != null) {
@@ -268,7 +268,7 @@ class _AzkarCategoryCardState extends State<_AzkarCategoryCard> {
             if (showImage)
               ClipRRect(
                 borderRadius: BorderRadius.circular(28),
-                child: SvgPicture.asset(
+                child: Image.asset(
                   widget.imagePath,
                   fit: BoxFit.cover,
                   width: double.infinity,
@@ -280,7 +280,7 @@ class _AzkarCategoryCardState extends State<_AzkarCategoryCard> {
               padding: EdgeInsets.all(22.w),
               child: Text(
                 widget.title,
-                style: TextStyle(color: const Color(0xff004B40), fontSize: 16.sp, fontWeight: FontWeight.w500),
+                style: TextStyle(color: const Color(0xff004B40), fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
             ),
           ],

@@ -49,7 +49,7 @@ class _WSharedNavBarState extends State<WSharedNavBar> {
                   child: InkWell(
                     onTap: () => manager.setNavBarIndex(index),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [

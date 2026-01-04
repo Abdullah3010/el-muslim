@@ -5,4 +5,5 @@ class CSTConfigKey {
   final String languageCode = 'languageCode';
   final String quranLastPage = 'quranLastPage';
   final String quranBookmarkPage = 'quranBookmarkPage';
+  final String werdPlanStartDate = 'werdPlanStartDate';
 }

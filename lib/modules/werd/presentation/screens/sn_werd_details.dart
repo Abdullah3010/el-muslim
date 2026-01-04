@@ -112,9 +112,12 @@ class _SnWerdDetailsState extends State<SnWerdDetails> {
         final int remainingDaysRaw = _mgWerd.remainingDaysCount;
         final int remainingDays = remainingDaysRaw < 0 ? 0 : remainingDaysRaw;
         final int upcomingWerds = (remainingDays - (day.isFinished ? 0 : 1)).clamp(0, remainingDays).toInt();
+        final int lateDays = _mgWerd.currentLateDays;
         final String statusLabel =
             day.isFinished
                 ? 'Completed'.translated
+                : lateDays > 0
+                ? '${'You are late for your khatma by'.translated} ${lateDays.toString().translateNumbers()} ${'days'.translated}'
                 : '${'Remaining'.translated}: ${remainingDays.toString().translateNumbers()}';
 
         return WSharedScaffold(

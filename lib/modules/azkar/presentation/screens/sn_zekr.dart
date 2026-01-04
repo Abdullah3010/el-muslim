@@ -70,6 +70,11 @@ class _SnZekrState extends State<SnZekr> {
 
   Widget _buildZekrReader(BuildContext context, MgAzkar manager) {
     final isLastZekr = manager.currentZekrIndexNotifier >= manager.activeAzkarList.length - 1;
+    final currentZekr = manager.activeAzkarList[manager.currentZekrIndexNotifier];
+    final int maxCount = currentZekr.count ?? 0;
+    final bool isCurrentComplete = maxCount > 0 && manager.currentZekrCount >= maxCount;
+    final double progressValue =
+        isLastZekr && isCurrentComplete ? 1 : manager.currentZekrIndexNotifier / manager.activeAzkarList.length;
 
     return GestureDetector(
       onTap: () {
@@ -102,13 +107,7 @@ class _SnZekrState extends State<SnZekr> {
           16.heightBox,
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 30.w),
-            child: WGradientProgressBar(
-              height: 10.h,
-              value:
-                  manager.activeAzkarList.isNotEmpty
-                      ? manager.currentZekrIndexNotifier / manager.activeAzkarList.length
-                      : 0,
-            ),
+            child: WGradientProgressBar(height: 10.h, value: progressValue),
           ),
           22.heightBox,
           Expanded(
@@ -211,13 +210,33 @@ class _GroupedZekrList extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
       itemBuilder: (context, index) {
         final key = groupedKeys[index];
-        return Card(
-          color: context.theme.cardColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-          child: ListTile(
-            title: Text(key, style: context.textTheme.primary18W500),
-            trailing: Icon(Icons.arrow_forward_ios, color: context.theme.colorScheme.primaryColor, size: 18.sp),
+        return Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(14.r),
             onTap: () => onSelect(key),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+              decoration: BoxDecoration(
+                color: context.theme.colorScheme.white,
+                borderRadius: BorderRadius.circular(14.r),
+                border: Border.all(color: context.theme.colorScheme.lightGray.withValues(alpha: 0.4)),
+                boxShadow: [
+                  BoxShadow(
+                    color: context.theme.colorScheme.lightGray.withValues(alpha: 0.1),
+                    blurRadius: 5,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Expanded(child: Text(key, style: context.textTheme.primary18W500, overflow: TextOverflow.ellipsis)),
+                  8.widthBox,
+                  Icon(Icons.arrow_forward_ios, color: context.theme.colorScheme.primaryColor, size: 16.sp),
+                ],
+              ),
+            ),
           ),
         );
       },

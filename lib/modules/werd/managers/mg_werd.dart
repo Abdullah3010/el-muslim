@@ -23,6 +23,7 @@ class MgWerd extends ChangeNotifier {
   final List<MWerdDay> _planDays = [];
   MWerdPlanOption? selectedOption;
   MWerdDay? selectedPlanDay;
+  DateTime? planStartDate;
   bool isLoading = false;
   bool isPlanLoading = false;
   bool isPlanDetailsLoading = false;
@@ -43,6 +44,7 @@ class MgWerd extends ChangeNotifier {
   int get remainingDaysCount => totalDays - finishedDaysCount;
   double get progress => totalDays == 0 ? 0 : finishedDaysCount / totalDays;
   List<MWerdDetailSegment> get currentDaySegments => selectedPlanDay?.toSegments() ?? const <MWerdDetailSegment>[];
+  int get currentLateDays => _calculateLateDays(DateTime.now());
 
   Future<void> initialize() async {
     await Future.wait([loadOptions(), loadSelectedPlan()]);
@@ -75,6 +77,7 @@ class MgWerd extends ChangeNotifier {
 
     try {
       selectedOption = await _localDataSource.getSelectedPlan();
+      planStartDate = selectedOption != null ? await _localDataSource.getPlanStartDate() : null;
       _planDays.clear();
       selectedPlanDay = null;
       if (selectedOption != null) {
@@ -92,6 +95,9 @@ class MgWerd extends ChangeNotifier {
       _planDays.clear();
       selectedPlanDay = null;
       selectedOption = option;
+      final now = DateTime.now();
+      planStartDate = now;
+      await _localDataSource.savePlanStartDate(now);
       await _ensureDefaultNotification();
       if (selectedOption != null) {
         await _localDataSource.saveSelectedPlan(selectedOption!);
@@ -265,7 +271,9 @@ class MgWerd extends ChangeNotifier {
     _planDays.clear();
     selectedPlanDay = null;
     selectedOption = null;
+    planStartDate = null;
     await _localDataSource.clearSelectedPlan();
+    await _localDataSource.clearPlanStartDate();
     notifyListeners();
   }
 
@@ -377,5 +385,18 @@ class MgWerd extends ChangeNotifier {
       }
     }
     return candidate;
+  }
+
+  int _calculateLateDays(DateTime now) {
+    final start = planStartDate;
+    final day = selectedPlanDay;
+    if (start == null || day == null) return 0;
+    final startDate = DateTime(start.year, start.month, start.day);
+    final currentDate = DateTime(now.year, now.month, now.day);
+    final daysSinceStart = currentDate.difference(startDate).inDays;
+    if (daysSinceStart < 0) return 0;
+    final expectedDay = daysSinceStart + 1;
+    final lateDays = expectedDay - day.dayNumber;
+    return lateDays > 0 ? lateDays : 0;
   }
 }

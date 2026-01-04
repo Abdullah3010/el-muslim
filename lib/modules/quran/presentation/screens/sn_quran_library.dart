@@ -1,51 +1,105 @@
 import 'package:al_muslim/core/extension/build_context.dart';
+import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:al_muslim/modules/index/data/models/m_quran_index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:quran_library/quran_library.dart';
 // ignore: implementation_imports
 import 'package:quran_library/src/audio/audio.dart' as ql_audio;
 
 class SnQuranLibrary extends StatefulWidget {
-  const SnQuranLibrary({super.key, this.firstPage});
+  const SnQuranLibrary({super.key, this.firstPage, this.surahNumber, this.bookmark});
 
   final MQuranFirstPage? firstPage;
+  final int? surahNumber;
+  final BookmarkModel? bookmark;
 
   @override
   State<SnQuranLibrary> createState() => _SnQuranLibraryState();
 }
 
 class _SnQuranLibraryState extends State<SnQuranLibrary> {
-  bool _didJumpToPage = false;
+  String? _lastJumpKey;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_didJumpToPage) return;
+    _jumpToTarget();
+  }
+
+  @override
+  void didUpdateWidget(covariant SnQuranLibrary oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.bookmark?.id != widget.bookmark?.id ||
+        oldWidget.surahNumber != widget.surahNumber ||
+        oldWidget.firstPage?.madani != widget.firstPage?.madani) {
+      _jumpToTarget(force: true);
+    }
+  }
+
+  void _jumpToTarget({bool force = false}) {
+    final bookmark = widget.bookmark;
+    final surahNumber = widget.surahNumber;
     final pageNumber = widget.firstPage?.madani;
-    if (pageNumber == null || pageNumber <= 0) return;
-    _didJumpToPage = true;
+    final targetKey =
+        bookmark != null
+            ? 'bookmark:${bookmark.id}'
+            : surahNumber != null
+            ? 'surah:$surahNumber'
+            : (pageNumber != null ? 'page:$pageNumber' : null);
+    if (targetKey == null) return;
+    if (!force && _lastJumpKey == targetKey) return;
+    _lastJumpKey = targetKey;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      QuranLibrary().jumpToPage(pageNumber);
+      if (bookmark != null) {
+        QuranLibrary().jumpToBookmark(bookmark);
+        return;
+      }
+      if (surahNumber != null && surahNumber > 0) {
+        QuranLibrary().jumpToSurah(surahNumber);
+        return;
+      }
+      if (pageNumber != null && pageNumber > 0) {
+        QuranLibrary().jumpToPage(pageNumber);
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    _resetScreenUtil();
+    super.dispose();
+  }
+
+  void _resetScreenUtil() {
+    final view = WidgetsBinding.instance.platformDispatcher.implicitView;
+    if (view == null) return;
+    ScreenUtil.enableScale(enableText: () => false, enableWH: () => false);
+    ScreenUtil.configure(
+      data: MediaQueryData.fromView(view),
+      designSize: const Size(440, 956),
+      minTextAdapt: true,
+      splitScreenMode: false,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final isDark = context.theme.brightness == Brightness.dark;
     final colorScheme = context.theme.colorScheme;
-    final surfaceColor = colorScheme.surface;
-    final textColor = colorScheme.onSurface;
-    final primaryColor = colorScheme.primary;
-    final secondaryColor = colorScheme.secondary;
+    final primaryColor = colorScheme.darkPrimary;
+    final secondaryColor = colorScheme.primaryLightOrange;
+    final surfaceColor = colorScheme.white;
+    final textColor = colorScheme.black;
     final mutedTextColor = textColor.withValues(alpha: 0.7);
-    final dividerColor = colorScheme.outline.withValues(alpha: 0.3);
-    final shadowColor = context.theme.shadowColor.withValues(alpha: 0.2);
-    final selectionColor = primaryColor.withValues(alpha: 0.2);
-    final selectedItemColor = primaryColor.withValues(alpha: 0.12);
+    final dividerColor = primaryColor.withValues(alpha: 0.2);
+    final shadowColor = primaryColor.withValues(alpha: 0.2);
+    final selectionColor = secondaryColor.withValues(alpha: 0.6);
+    final selectedItemColor = secondaryColor.withValues(alpha: 0.6);
     final titleStyle = context.textTheme.titleMedium?.copyWith(color: textColor);
     final bodyStyle = context.textTheme.bodyMedium?.copyWith(color: textColor);
     final noteStyle = context.textTheme.bodySmall?.copyWith(color: mutedTextColor);
@@ -61,10 +115,10 @@ class _SnQuranLibraryState extends State<SnQuranLibrary> {
         withPageView: true,
         isDark: isDark,
         languageCode: context.locale.languageCode,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         textColor: textColor,
         ayahSelectedBackgroundColor: selectionColor,
-        ayahSelectedFontColor: colorScheme.onPrimary,
+        ayahSelectedFontColor: textColor,
         ayahIconColor: primaryColor,
         bookmarksColor: primaryColor,
         singleAyahTextColors: [textColor, primaryColor, secondaryColor],
@@ -124,15 +178,19 @@ class _SnQuranLibraryState extends State<SnQuranLibrary> {
           audioSliderBackgroundColor: surfaceColor,
           surahNameColor: textColor,
         ),
+        isShowAudioSlider: true,
+
+        showAyahBookmarkedIcon: true,
         topBarStyle: QuranTopBarStyle(
           backIconPath: defaultTopBarStyle.backIconPath,
           menuIconPath: defaultTopBarStyle.menuIconPath,
           audioIconPath: defaultTopBarStyle.audioIconPath,
           optionsIconPath: defaultTopBarStyle.optionsIconPath,
-          backgroundColor: surfaceColor,
+          backgroundColor: colorScheme.white,
           textColor: textColor,
           accentColor: primaryColor,
           shadowColor: shadowColor,
+
           handleColor: dividerColor,
           elevation: defaultTopBarStyle.elevation,
           borderRadius: defaultTopBarStyle.borderRadius,
@@ -148,10 +206,10 @@ class _SnQuranLibraryState extends State<SnQuranLibrary> {
           tabBookmarksLabel: defaultTopBarStyle.tabBookmarksLabel,
           tabSurahsLabel: defaultTopBarStyle.tabSurahsLabel,
           tabJozzLabel: defaultTopBarStyle.tabJozzLabel,
-          showMenuButton: defaultTopBarStyle.showMenuButton,
-          showAudioButton: defaultTopBarStyle.showAudioButton,
-          showFontsButton: defaultTopBarStyle.showFontsButton,
-          showBackButton: defaultTopBarStyle.showBackButton,
+          showMenuButton: true,
+          showAudioButton: false,
+          showFontsButton: false,
+          showBackButton: false,
         ),
       ),
     );

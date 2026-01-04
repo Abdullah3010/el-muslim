@@ -1,28 +1,29 @@
+import 'package:al_muslim/core/constants/constants.dart';
+import 'package:al_muslim/core/services/routes/guards/guards_ensuer_keyboard.dart';
+import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/modules/azkar/presentation/screens/sn_azkar_list.dart';
 import 'package:al_muslim/modules/azkar/presentation/screens/sn_zekr.dart';
 import 'package:al_muslim/modules/core/presentation/screens/sn_splash.dart';
+import 'package:al_muslim/modules/index/data/models/m_quran_index.dart';
 import 'package:al_muslim/modules/index/presentation/screens/sn_index.dart';
 import 'package:al_muslim/modules/more/presentation/screens/sn_more.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_adhan_notifications.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_adhan_settings.dart';
+import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_location_selection.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_pray_time.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_pray_time_settings.dart';
-import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_location_selection.dart';
+import 'package:al_muslim/modules/qibla_direction/presentation/screens/sn_qibla_direction.dart';
+import 'package:al_muslim/modules/quran/presentation/screens/sn_quran_library.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_plan_option.dart';
+import 'package:al_muslim/modules/werd/presentation/screens/sn_all_werd.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_daily_awrad_alarm.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_next_werd.dart';
-import 'package:al_muslim/modules/werd/presentation/screens/sn_all_werd.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_previous_werd.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_werd.dart';
 import 'package:al_muslim/modules/werd/presentation/screens/sn_werd_details.dart';
-import 'package:al_muslim/modules/qibla_direction/presentation/screens/sn_qibla_direction.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:al_muslim/core/constants/constants.dart';
-import 'package:al_muslim/core/services/routes/guards/guards_ensuer_keyboard.dart';
-import 'package:al_muslim/core/services/routes/routes_names.dart';
+import 'package:quran_library/quran_library.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-import 'package:al_muslim/modules/quran/presentation/screens/sn_quran_library.dart';
-import 'package:al_muslim/modules/index/data/models/m_quran_index.dart';
 
 /// [Routes] is a class that contains all the routes in the app.
 class Routes {
@@ -162,8 +163,11 @@ class Routes {
       RoutesNames.quran.quranMain,
       transition: TransitionType.fadeIn,
       child: (_) {
-        final firstPage = r.args.data as MQuranFirstPage?;
-        return SnQuranLibrary(firstPage: firstPage);
+        final data = r.args.data;
+        final firstPage = data is MQuranFirstPage ? data : (data is MQuranIndex ? data.firstPage : null);
+        final surahNumber = data is MQuranIndex ? data.number : null;
+        final bookmark = data is BookmarkModel ? data : null;
+        return SnQuranLibrary(firstPage: firstPage, surahNumber: surahNumber, bookmark: bookmark);
       },
       guards: [EnsureKeyboardDismissed()],
     );

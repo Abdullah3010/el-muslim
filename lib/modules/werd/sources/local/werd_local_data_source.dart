@@ -1,3 +1,5 @@
+import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
+import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
 import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_day.dart';
@@ -75,5 +77,22 @@ class WerdLocalDataSource {
   Future<void> deleteNotification(int notificationId) async {
     await init();
     await _notificationBox.box.delete(notificationId);
+  }
+
+  Future<DateTime?> getPlanStartDate() async {
+    await init();
+    final value = DSAppConfig.getConfigValue(Constants.configKeys.werdPlanStartDate);
+    if (value == null || value.isEmpty) return null;
+    return DateTime.tryParse(value);
+  }
+
+  Future<void> savePlanStartDate(DateTime date) async {
+    await init();
+    await DSAppConfig.setConfigValue(Constants.configKeys.werdPlanStartDate, date.toIso8601String());
+  }
+
+  Future<void> clearPlanStartDate() async {
+    await init();
+    await DSAppConfig.setConfigValue(Constants.configKeys.werdPlanStartDate, '');
   }
 }
