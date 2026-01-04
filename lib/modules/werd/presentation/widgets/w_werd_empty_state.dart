@@ -1,3 +1,4 @@
+import 'package:al_muslim/core/assets/assets.gen.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
@@ -36,7 +37,7 @@ class WWerdEmptyState extends StatelessWidget {
           8.heightBox,
           Text(daysLabel, style: context.textTheme.primary14W400, textAlign: TextAlign.center),
         ],
-        50.heightBox,
+        20.heightBox,
         Center(
           child: GestureDetector(
             onTap: () => onPrimaryAction(hasCurrentWerd),
@@ -63,6 +64,8 @@ class WWerdEmptyState extends StatelessWidget {
             ),
           ),
         ),
+        35.heightBox,
+        Assets.icons.quranLogo.svg(width: 300.w, height: 300.h),
       ],
     );
   }

@@ -71,6 +71,7 @@
     "Unable to load index": "تعذر تحميل الفهرس",
     "Continue": "استمرار",
     "Next": "التالي",
+    "Finish": "إنهاء",
     "Time until prayer call": "باقي علي أذان",
     "Fajr": "الفجر",
     "Sunrise": "الشروق",
@@ -81,7 +82,7 @@
     "Hour": "ساعة",
     "Minutes": "دقيقة",
     "Seconds": "ثانية",
-    "Werd Description": "حدد وردك اليومي أو المده التي \nتريد\n ختم القرآن فيها \nوتابع وردك اليومي\n",
+    "Werd Description": "حدد وردك اليومي أو المده التي تريد\n ختم القرآن فيها \nوتابع وردك اليومي\n",
     "Start New Werd": "بدأ ختمة جديدة",
     "Time Settings": "إعدادات المواقيت",
     "Qiblah": "القبلة",
@@ -135,5 +136,6 @@
     "To": "إلى",
     "From": "من",
     "Continue Werd": "الاستمرار في الورد",
-    "The Prayer": "الصلاة"
+    "The Prayer": "الصلاة",
+    "Al-Muslim": "المُسْلِمُ"
 }

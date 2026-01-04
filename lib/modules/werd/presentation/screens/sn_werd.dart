@@ -36,7 +36,7 @@ class _SnWerdState extends State<SnWerd> {
       builder: (context, _) {
         return WSharedScaffold(
           withNavBar: true,
-          appBar: WSharedAppBar(title: 'Werd'.translated),
+          appBar: WSharedAppBar(title: 'Werd'.translated, withBack: false),
           body:
               _mgWerd.isPlanLoading
                   ? const Center(child: CircularProgressIndicator.adaptive())

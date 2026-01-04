@@ -29,6 +29,6 @@ class MAzkarCategories {
 
   String get imagePath {
     if (image == null || image!.isEmpty) return '';
-    return 'assets/images/$image';
+    return 'assets/icons/$image';
   }
 }

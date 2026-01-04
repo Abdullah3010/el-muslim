@@ -31,7 +31,12 @@ class WNewWerdDetailsVerse extends StatelessWidget {
                   children: [
                     Text(title, style: context.textTheme.primary16W500),
                     6.heightBox,
-                    Text(subtitle, style: context.textTheme.primary14W400),
+                    Text(
+                      subtitle,
+                      style: context.textTheme.primary14W400,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 ),
               ),

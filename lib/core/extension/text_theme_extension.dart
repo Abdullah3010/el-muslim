@@ -124,6 +124,15 @@ extension TextStyleExtension on TextTheme {
     fontFamily: FontFamily.notoSansArabic,
   );
 
+  /// [secondary]
+  TextStyle get secondary16W400 => TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 16.sp,
+    color: Colors.white,
+    height: 1.8,
+    fontFamily: FontFamily.notoSansArabic,
+  );
+
   /// [red]
   TextStyle get red14W500 => TextStyle(
     fontWeight: FontWeight.w500,

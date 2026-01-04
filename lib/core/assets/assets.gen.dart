@@ -39,6 +39,9 @@ class $AssetsGifsGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/after_pray.svg
+  SvgGenImage get afterPray => const SvgGenImage('assets/icons/after_pray.svg');
+
   /// File path: assets/icons/azkar_active.svg
   SvgGenImage get azkarActive =>
       const SvgGenImage('assets/icons/azkar_active.svg');
@@ -86,6 +89,9 @@ class $AssetsIconsGen {
   SvgGenImage get compassSmallBackground =>
       const SvgGenImage('assets/icons/compass_small_background.svg');
 
+  /// File path: assets/icons/evening.svg
+  SvgGenImage get evening => const SvgGenImage('assets/icons/evening.svg');
+
   /// File path: assets/icons/kaaba.svg
   SvgGenImage get kaaba => const SvgGenImage('assets/icons/kaaba.svg');
 
@@ -97,6 +103,9 @@ class $AssetsIconsGen {
   SvgGenImage get listInactive =>
       const SvgGenImage('assets/icons/list_inactive.svg');
 
+  /// File path: assets/icons/masged.svg
+  SvgGenImage get masged => const SvgGenImage('assets/icons/masged.svg');
+
   /// File path: assets/icons/moon.svg
   SvgGenImage get moon => const SvgGenImage('assets/icons/moon.svg');
 
@@ -107,6 +116,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/more_inactive.svg
   SvgGenImage get moreInactive =>
       const SvgGenImage('assets/icons/more_inactive.svg');
+
+  /// File path: assets/icons/morning.svg
+  SvgGenImage get morning => const SvgGenImage('assets/icons/morning.svg');
 
   /// File path: assets/icons/mosque.svg
   SvgGenImage get mosque => const SvgGenImage('assets/icons/mosque.svg');
@@ -133,8 +145,15 @@ class $AssetsIconsGen {
   /// File path: assets/icons/qipla.svg
   SvgGenImage get qipla => const SvgGenImage('assets/icons/qipla.svg');
 
+  /// File path: assets/icons/quran.svg
+  SvgGenImage get quran => const SvgGenImage('assets/icons/quran.svg');
+
   /// File path: assets/icons/quran_logo.svg
   SvgGenImage get quranLogo => const SvgGenImage('assets/icons/quran_logo.svg');
+
+  /// File path: assets/icons/quran_logo1.svg
+  SvgGenImage get quranLogo1 =>
+      const SvgGenImage('assets/icons/quran_logo1.svg');
 
   /// File path: assets/icons/required_field.svg
   SvgGenImage get requiredField =>
@@ -150,11 +169,17 @@ class $AssetsIconsGen {
   /// File path: assets/icons/share.svg
   SvgGenImage get share => const SvgGenImage('assets/icons/share.svg');
 
+  /// File path: assets/icons/sleeping.svg
+  SvgGenImage get sleeping => const SvgGenImage('assets/icons/sleeping.svg');
+
   /// File path: assets/icons/sun.svg
   SvgGenImage get sun => const SvgGenImage('assets/icons/sun.svg');
 
   /// File path: assets/icons/unmute.svg
   SvgGenImage get unmute => const SvgGenImage('assets/icons/unmute.svg');
+
+  /// File path: assets/icons/wakeing_up.svg
+  SvgGenImage get wakeingUp => const SvgGenImage('assets/icons/wakeing_up.svg');
 
   /// File path: assets/icons/werd_active.svg
   SvgGenImage get werdActive =>
@@ -166,6 +191,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
+    afterPray,
     azkarActive,
     azkarInactive,
     backBlack,
@@ -179,12 +205,15 @@ class $AssetsIconsGen {
     compassPinCorrect,
     compassPinWrong,
     compassSmallBackground,
+    evening,
     kaaba,
     listActive,
     listInactive,
+    masged,
     moon,
     moreActive,
     moreInactive,
+    morning,
     mosque,
     mute,
     nextIconWhite,
@@ -192,13 +221,17 @@ class $AssetsIconsGen {
     prayActive,
     prayInactive,
     qipla,
+    quran,
     quranLogo,
+    quranLogo1,
     requiredField,
     rotateRightIcon,
     settings,
     share,
+    sleeping,
     sun,
     unmute,
+    wakeingUp,
     werdActive,
     werdInactive,
   ];
