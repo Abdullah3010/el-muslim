@@ -11,6 +11,6 @@
 class FontFamily {
   FontFamily._();
 
-  /// Font family: Changa
-  static const String changa = 'Changa';
+  /// Font family: NotoSansArabic
+  static const String notoSansArabic = 'NotoSansArabic';
 }

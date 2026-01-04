@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WGradientProgressBar extends StatelessWidget {
-  const WGradientProgressBar({super.key, required this.value, this.height = 14});
+  const WGradientProgressBar({super.key, required this.value, this.height = 10});
 
   final double value;
   final double height;
@@ -12,11 +12,6 @@ class WGradientProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final clamped = value.clamp(0.0, 1.0);
     final theme = Theme.of(context);
-    final gradient = LinearGradient(
-      colors: [theme.colorScheme.goldLight3, theme.colorScheme.goldBright3, theme.colorScheme.goldDark2],
-      begin: Alignment.centerLeft,
-      end: Alignment.centerRight,
-    );
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8.r),
@@ -25,12 +20,15 @@ class WGradientProgressBar extends StatelessWidget {
           final filledWidth = constraints.maxWidth * clamped;
           return Stack(
             children: [
-              Container(width: constraints.maxWidth, height: height.h, color: theme.colorScheme.lightGray),
+              Container(width: constraints.maxWidth, height: height.h, color: theme.colorScheme.secondaryColor),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 150),
                 width: filledWidth,
                 height: height.h,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(50.r), gradient: gradient),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50.r),
+                  color: theme.colorScheme.primaryColor,
+                ),
               ),
             ],
           );

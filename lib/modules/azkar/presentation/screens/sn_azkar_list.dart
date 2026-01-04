@@ -7,7 +7,7 @@ import 'package:al_muslim/modules/azkar/managers/mg_azkar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 const _defaultCategoryStyle = _CategoryStyle(
@@ -125,7 +125,6 @@ class _SnAzkarListState extends State<SnAzkarList> {
 
   @override
   Widget build(BuildContext context) {
-    List<int> cardsHeights = [0, 1, 0, 1, 0, 1, 1];
     return WSharedScaffold(
       withNavBar: true,
       body: Column(
@@ -138,22 +137,22 @@ class _SnAzkarListState extends State<SnAzkarList> {
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                return MasonryGridView.builder(
+                return GridView.builder(
                   padding: const EdgeInsets.only(top: 16, bottom: 120),
                   physics: const BouncingScrollPhysics(),
-                  gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                  mainAxisSpacing: 24.w,
-                  crossAxisSpacing: 20.h,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 24.w,
+                    crossAxisSpacing: 20.h,
+                    childAspectRatio: 1,
+                  ),
                   itemCount: manager.categories.length,
                   itemBuilder: (context, index) {
                     final category = manager.categories[index];
                     final style = _categoryStyles[category.id ?? -1] ?? _defaultCategoryStyle;
-
-                    final cardHeight = cardsHeights[index % cardsHeights.length] == 0 ? 220.h : 190.h;
                     final imagePath = category.imagePath;
 
                     return _AzkarCategoryCard(
-                      height: cardHeight,
                       style: style,
                       imagePath: imagePath,
                       title: category.displayName,
@@ -171,15 +170,8 @@ class _SnAzkarListState extends State<SnAzkarList> {
 }
 
 class _AzkarCategoryCard extends StatefulWidget {
-  const _AzkarCategoryCard({
-    required this.height,
-    required this.style,
-    required this.imagePath,
-    required this.title,
-    required this.onTap,
-  });
+  const _AzkarCategoryCard({required this.style, required this.imagePath, required this.title, required this.onTap});
 
-  final double height;
   final _CategoryStyle style;
   final String imagePath;
   final String title;
@@ -192,19 +184,19 @@ class _AzkarCategoryCard extends StatefulWidget {
 class _AzkarCategoryCardState extends State<_AzkarCategoryCard> {
   ImageStream? _imageStream;
   ImageStreamListener? _imageListener;
-  bool _imageAvailable = false;
+  bool _imageAvailable = true;
 
   @override
   void initState() {
     super.initState();
-    _resolveImage();
+    // _resolveImage();
   }
 
   @override
   void didUpdateWidget(covariant _AzkarCategoryCard oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.imagePath != widget.imagePath) {
-      _resolveImage();
+      // _resolveImage();
     }
   }
 
@@ -214,34 +206,34 @@ class _AzkarCategoryCardState extends State<_AzkarCategoryCard> {
     super.dispose();
   }
 
-  void _resolveImage() {
-    _removeImageListener();
-    if (widget.imagePath.isEmpty) {
-      if (_imageAvailable) {
-        setState(() => _imageAvailable = false);
-      }
-      return;
-    }
+  // void _resolveImage() {
+  //   _removeImageListener();
+  //   if (widget.imagePath.isEmpty) {
+  //     if (_imageAvailable) {
+  //       setState(() => _imageAvailable = false);
+  //     }
+  //     return;
+  //   }
 
-    final provider = AssetImage(widget.imagePath);
-    final stream = provider.resolve(const ImageConfiguration());
-    _imageStream = stream;
-    _imageListener = ImageStreamListener(
-      (_, __) {
-        if (!mounted) return;
-        if (!_imageAvailable) {
-          setState(() => _imageAvailable = true);
-        }
-      },
-      onError: (_, __) {
-        if (!mounted) return;
-        if (_imageAvailable) {
-          setState(() => _imageAvailable = false);
-        }
-      },
-    );
-    stream.addListener(_imageListener!);
-  }
+  //   final provider = AssetImage(widget.imagePath);
+  //   final stream = provider.resolve(const ImageConfiguration());
+  //   _imageStream = stream;
+  //   _imageListener = ImageStreamListener(
+  //     (_, __) {
+  //       if (!mounted) return;
+  //       if (!_imageAvailable) {
+  //         setState(() => _imageAvailable = true);
+  //       }
+  //     },
+  //     onError: (_, __) {
+  //       if (!mounted) return;
+  //       if (_imageAvailable) {
+  //         setState(() => _imageAvailable = false);
+  //       }
+  //     },
+  //   );
+  //   stream.addListener(_imageListener!);
+  // }
 
   void _removeImageListener() {
     if (_imageStream != null && _imageListener != null) {
@@ -254,47 +246,44 @@ class _AzkarCategoryCardState extends State<_AzkarCategoryCard> {
   @override
   Widget build(BuildContext context) {
     final showImage = _imageAvailable && widget.imagePath.isNotEmpty;
-
-    return SizedBox(
-      height: widget.height,
-      child: InkWell(
-        onTap: widget.onTap,
-        borderRadius: BorderRadius.circular(28),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: widget.style.gradient,
-            borderRadius: BorderRadius.circular(28),
-            boxShadow: [
-              BoxShadow(
-                color: widget.style.shadowColor.withValues(alpha: 0.05),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Stack(
-            alignment: Alignment.topLeft,
-            children: [
-              if (showImage)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(28),
-                  child: Image.asset(
-                    widget.imagePath,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                    errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-                  ),
-                ),
-              Padding(
-                padding: EdgeInsets.all(22.w),
-                child: Text(
-                  widget.title,
-                  style: TextStyle(color: const Color(0xff004B40), fontSize: 16.sp, fontWeight: FontWeight.w500),
+    print(" =====>>>> showImage: ${widget.imagePath}");
+    return InkWell(
+      onTap: widget.onTap,
+      borderRadius: BorderRadius.circular(28),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: widget.style.gradient,
+          borderRadius: BorderRadius.circular(28),
+          boxShadow: [
+            BoxShadow(
+              color: widget.style.shadowColor.withValues(alpha: 0.05),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Stack(
+          alignment: Alignment.topLeft,
+          children: [
+            if (showImage)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(28),
+                child: SvgPicture.asset(
+                  widget.imagePath,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                  errorBuilder: (_, __, ___) => const SizedBox.shrink(),
                 ),
               ),
-            ],
-          ),
+            Padding(
+              padding: EdgeInsets.all(22.w),
+              child: Text(
+                widget.title,
+                style: TextStyle(color: const Color(0xff004B40), fontSize: 16.sp, fontWeight: FontWeight.w500),
+              ),
+            ),
+          ],
         ),
       ),
     );

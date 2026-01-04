@@ -43,9 +43,9 @@ class _SnZekrState extends State<SnZekr> {
         final showGroupedList = manager.isGroupedCategory && manager.selectedGroupedKey == null;
         final hasActiveAzkar = manager.activeAzkarList.isNotEmpty;
         final appBarTitle = manager.selectedGroupedKey ?? category.displayName;
-
         return WSharedScaffold(
           padding: EdgeInsets.zero,
+          withSafeArea: false,
           appBar: WSharedAppBar(
             title: appBarTitle,
             action:
@@ -69,6 +69,8 @@ class _SnZekrState extends State<SnZekr> {
   }
 
   Widget _buildZekrReader(BuildContext context, MgAzkar manager) {
+    final isLastZekr = manager.currentZekrIndexNotifier >= manager.activeAzkarList.length - 1;
+
     return GestureDetector(
       onTap: () {
         final currentIndex = manager.currentZekrIndexNotifier;
@@ -101,10 +103,11 @@ class _SnZekrState extends State<SnZekr> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: WGradientProgressBar(
-              height: 14,
-              value: manager.activeAzkarList.isNotEmpty
-                  ? manager.currentZekrIndexNotifier / manager.activeAzkarList.length
-                  : 0,
+              height: 10.h,
+              value:
+                  manager.activeAzkarList.isNotEmpty
+                      ? manager.currentZekrIndexNotifier / manager.activeAzkarList.length
+                      : 0,
             ),
           ),
           22.heightBox,
@@ -157,6 +160,7 @@ class _SnZekrState extends State<SnZekr> {
                     (manager.activeAzkarList[manager.currentZekrIndexNotifier].count != null
                         ? manager.activeAzkarList[manager.currentZekrIndexNotifier].count ?? 0
                         : 1),
+                color: context.theme.colorScheme.primaryColor,
               ),
               Positioned.fill(
                 child: Center(child: Text('${manager.currentZekrCount}', style: context.theme.textTheme.primary16W500)),
@@ -164,7 +168,31 @@ class _SnZekrState extends State<SnZekr> {
             ],
           ),
           15.heightBox,
-          WAppButton(title: 'Next'.translated, onTap: () {}),
+          Container(
+            width: context.width,
+            padding: EdgeInsets.only(bottom: 35.h, top: 15.h),
+            decoration: BoxDecoration(color: context.theme.colorScheme.secondaryColor),
+            child: Center(
+              child: WAppButton(
+                width: 300.w,
+                title: (isLastZekr ? 'Finish' : 'Next').translated,
+                radius: 50.r,
+                withShadow: false,
+                onTap: () {
+                  if (manager.activeAzkarList.isEmpty) return;
+                  if (isLastZekr) {
+                    Modular.to.pop();
+                    return;
+                  }
+                  final nextIndex = manager.currentZekrIndexNotifier + 1;
+                  if (nextIndex < manager.activeAzkarList.length) {
+                    manager.updateCurrentZekrCount(0);
+                    manager.updateCurrentZekrIndex(nextIndex);
+                  }
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );

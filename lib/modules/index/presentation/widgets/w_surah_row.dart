@@ -21,7 +21,7 @@ class WSurahRow extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 4.h),
+        padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 5.h),
 
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,10 +38,13 @@ class WSurahRow extends StatelessWidget {
                         height: 26.w,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: context.theme.colorScheme.primaryColor,
+                          color: context.theme.colorScheme.secondaryColor,
                         ),
                         child: Center(
-                          child: Text(surah.number.toString().translateNumbers(), style: context.textTheme.white16W500),
+                          child: Text(
+                            surah.number.toString().translateNumbers(),
+                            style: context.textTheme.primary14W400,
+                          ),
                         ),
                       ),
                       12.widthBox,

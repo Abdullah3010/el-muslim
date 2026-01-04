@@ -70,6 +70,7 @@
     "Unable to load index": "Unable to load index",
     "Continue": "Continue",
     "Next": "Next",
+    "Finish": "Finish",
     "Time until prayer call": "Time until prayer call",
     "Fajr": "Fajr",
     "Sunrise": "Sunrise",
@@ -134,5 +135,6 @@
     "Ayah": "Ayah",
     "To": "To",
     "From": "From",
-    "Continue Werd": "Continue Werd"
+    "Continue Werd": "Continue Werd",
+    "The Prayer": "Prayer"
 }

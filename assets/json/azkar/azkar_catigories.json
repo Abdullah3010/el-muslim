@@ -4,48 +4,48 @@
         "arName": "أذكار المساء",
         "enName": "Evening",
         "filename": "evening.json",
-        "image": "evening.png"
+        "image": "evening.svg"
     },
     {
         "id": 4,
         "arName": "أذكار الصباح",
         "enName": "Morning",
         "filename": "morning.json",
-        "image": "morning.png"
+        "image": "morning.svg"
     },
     {
         "id": 6,
         "arName": "أذكار الاستيقاظ",
         "enName": "Waking Up",
         "filename": "wakeing_up.json",
-        "image": "wakeing_up.png"
+        "image": "wakeing_up.svg"
     },
     {
         "id": 5,
         "arName": "أذكار النوم",
         "enName": "Sleeping",
         "filename": "sleeping.json",
-        "image": "sleeping.png"
+        "image": "sleeping.svg"
     },
     {
         "id": 1,
         "arName": "أذكار بعد الصلاة",
         "enName": "After Prayer",
         "filename": "after_pray.json",
-        "image": "after_pray.png"
+        "image": "after_pray.svg"
     },
     {
         "id": 3,
         "arName": "أذكار المسجد",
         "enName": "Masged",
         "filename": "masged.json",
-        "image": "masged.png"
+        "image": "masged.svg"
     },
     {
         "id": 7,
         "arName": "اذكار اضافية",
         "enName": "Other Azkar",
         "filename": "other_azkar.json",
-        "image": "other_azkar.png"
+        "image": "other_azkar.svg"
     }
 ]

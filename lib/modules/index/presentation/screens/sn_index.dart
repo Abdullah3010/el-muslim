@@ -102,7 +102,12 @@ class _SnIndexState extends State<SnIndex> {
                         : ListView.separated(
                           padding: EdgeInsets.only(top: 0.h, bottom: Constants.navbarHeight.h),
                           itemCount: surahs.length,
-                          separatorBuilder: (context, index) => Divider(color: context.theme.colorScheme.lightGray),
+                          separatorBuilder:
+                              (context, index) => Divider(
+                                indent: 20.w,
+                                endIndent: 20.w,
+                                color: context.theme.colorScheme.secondaryColor,
+                              ),
                           itemBuilder: (context, index) {
                             final surah = surahs[index];
 

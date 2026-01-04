@@ -19,7 +19,7 @@ class Constants {
 
   static List<int> successStatusCodes = [200, 201, 202, 204];
 
-  static int navbarHeight = 105;
+  static int navbarHeight = 110;
 
   static String prayTimeApiKey = '3cbJ9hkDgWoIex0tIhfM0wrcE9sazUhCotASgShkJy4bAnVT';
 
