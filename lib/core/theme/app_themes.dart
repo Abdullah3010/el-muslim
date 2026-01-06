@@ -16,16 +16,16 @@ class AppThemes {
       linearTrackColor: Color(0xFFE0E0E0),
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: WidgetStateProperty.all(const Color(0xFFD8B74E)),
+      thumbColor: WidgetStateProperty.all(const Color(0xFF60501E)),
       trackColor: WidgetStateProperty.resolveWith<Color>((states) {
-        const Color primary = Color(0xFFD8B74E);
+        const Color primary = Color(0xFF60501E);
         if (states.contains(WidgetState.selected)) {
           return primary.withValues(alpha: 0.5);
         }
         return primary.withValues(alpha: 0.2);
       }),
       overlayColor: WidgetStateProperty.resolveWith<Color>((states) {
-        const Color primary = Color(0xFFD8B74E);
+        const Color primary = Color(0xFF60501E);
         return states.contains(WidgetState.selected) ? primary.withValues(alpha: 0.25) : primary.withValues(alpha: 0.2);
       }),
       trackOutlineColor: WidgetStateProperty.all(Colors.transparent),

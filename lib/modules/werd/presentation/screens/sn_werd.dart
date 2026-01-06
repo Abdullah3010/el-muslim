@@ -20,8 +20,6 @@ class _SnWerdState extends State<SnWerd> {
   late final VoidCallback _listener;
   bool _shouldAutoOpenSaved = true;
   bool _didLoadOnce = false;
-  bool _firstTimeLoader = true;
-
   @override
   void initState() {
     super.initState();

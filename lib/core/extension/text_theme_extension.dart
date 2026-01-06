@@ -16,7 +16,7 @@ extension TextStyleExtension on TextTheme {
   TextStyle get primary16W400 => TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 16.sp,
-    color: const Color(0xFFD8B74E),
+    color: const Color(0xFF60501E),
     height: 1.8,
     fontFamily: FontFamily.notoSansArabic,
   );
@@ -24,7 +24,7 @@ extension TextStyleExtension on TextTheme {
   TextStyle get primary18W500 => TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 18.sp,
-    color: const Color(0xFFD8B74E),
+    color: const Color(0xFF60501E),
     height: 1.8,
     fontFamily: FontFamily.notoSansArabic,
   );
@@ -32,7 +32,7 @@ extension TextStyleExtension on TextTheme {
   TextStyle get primary16W500 => TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 16.sp,
-    color: const Color(0xFFD8B74E),
+    color: const Color(0xFF60501E),
     height: 1.8,
     fontFamily: FontFamily.notoSansArabic,
   );
@@ -40,14 +40,14 @@ extension TextStyleExtension on TextTheme {
   TextStyle get primary14W400 => TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 14.sp,
-    color: const Color(0xFFD8B74E),
+    color: const Color(0xFF60501E),
     height: 1.8,
     fontFamily: FontFamily.notoSansArabic,
   );
   TextStyle get primary14W500 => TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 14.sp,
-    color: const Color(0xFFD8B74E),
+    color: const Color(0xFF60501E),
     height: 1.8,
     fontFamily: FontFamily.notoSansArabic,
   );
@@ -55,21 +55,21 @@ extension TextStyleExtension on TextTheme {
   TextStyle get primary20W500 => TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 20.sp,
-    color: const Color(0xFFD8B74E),
+    color: const Color(0xFF60501E),
     height: 1.8,
     fontFamily: FontFamily.notoSansArabic,
   );
   TextStyle get primary24W500 => TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 24.sp,
-    color: const Color(0xFFD8B74E),
+    color: const Color(0xFF60501E),
     height: 1.8,
     fontFamily: FontFamily.notoSansArabic,
   );
   TextStyle get primary30W500 => TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 30.sp,
-    color: const Color(0xFFD8B74E),
+    color: const Color(0xFF60501E),
     height: 1.8,
     fontFamily: FontFamily.notoSansArabic,
   );
@@ -77,7 +77,7 @@ extension TextStyleExtension on TextTheme {
   TextStyle get primary43W400 => TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 43.sp,
-    color: const Color(0xFFD8B74E),
+    color: const Color(0xFF60501E),
     height: 1.8,
     fontFamily: FontFamily.notoSansArabic,
   );
