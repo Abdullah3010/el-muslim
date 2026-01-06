@@ -11,8 +11,10 @@ class MgAzkar extends ChangeNotifier {
 
   List<MZekr> activeAzkarList = [];
   final Map<String, List<MZekr>> _groupedAzkar = {};
+  final Map<String, List<MZekr>> _groupedAzkarOriginal = {};
   final List<String> groupedAzkarKeys = [];
   String? selectedGroupedKey;
+  int? _currentCategoryId;
 
   Future<void> loadAzkarCategories() async {
     final jsonString = await rootBundle.loadString(Assets.json.azkar.azkarCatigories);
@@ -22,8 +24,10 @@ class MgAzkar extends ChangeNotifier {
 
   Future<void> loadAzkarByCategory(int categoryId) async {
     try {
+      _currentCategoryId = categoryId;
       activeAzkarList.clear();
       _groupedAzkar.clear();
+      _groupedAzkarOriginal.clear();
       groupedAzkarKeys.clear();
       selectedGroupedKey = null;
       resetZekrProgress(shouldNotify: false);
@@ -38,6 +42,7 @@ class MgAzkar extends ChangeNotifier {
         decoded.forEach((key, value) {
           final azkarList = (value as List).map((item) => MZekr.fromJson(item as Map<String, dynamic>?)).toList();
           _groupedAzkar[key] = azkarList;
+          _groupedAzkarOriginal[key] = List<MZekr>.from(azkarList);
           groupedAzkarKeys.add(key);
         });
         activeAzkarList.clear();
@@ -65,6 +70,48 @@ class MgAzkar extends ChangeNotifier {
     if (pageController.hasClients) {
       pageController.jumpToPage(0);
     }
+    notifyListeners();
+  }
+
+  void updateOtherAzkarSearch(String query) {
+    if (_currentCategoryId != 7 || _groupedAzkarOriginal.isEmpty) return;
+    final normalized = query.trim().toLowerCase();
+
+    selectedGroupedKey = null;
+    activeAzkarList.clear();
+    _groupedAzkar.clear();
+    groupedAzkarKeys.clear();
+    resetZekrProgress(shouldNotify: false);
+
+    if (normalized.isEmpty) {
+      _groupedAzkar.addAll(_groupedAzkarOriginal);
+      groupedAzkarKeys.addAll(_groupedAzkarOriginal.keys);
+      notifyListeners();
+      return;
+    }
+
+    _groupedAzkarOriginal.forEach((key, list) {
+      final keyMatch = key.toLowerCase().contains(normalized);
+      if (keyMatch) {
+        _groupedAzkar[key] = List<MZekr>.from(list);
+        groupedAzkarKeys.add(key);
+        return;
+      }
+
+      final matched =
+          list
+              .where((item) {
+                final zekr = item.zekr ?? '';
+                final category = item.category ?? '';
+                return zekr.toLowerCase().contains(normalized) || category.toLowerCase().contains(normalized);
+              })
+              .toList();
+      if (matched.isNotEmpty) {
+        _groupedAzkar[key] = matched;
+        groupedAzkarKeys.add(key);
+      }
+    });
+
     notifyListeners();
   }
 

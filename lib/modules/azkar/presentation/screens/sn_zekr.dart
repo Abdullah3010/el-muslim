@@ -24,6 +24,8 @@ class SnZekr extends StatefulWidget {
 }
 
 class _SnZekrState extends State<SnZekr> {
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -40,32 +42,67 @@ class _SnZekrState extends State<SnZekr> {
           (cat) => cat.id == widget.categoryId,
           orElse: () => MAzkarCategories(),
         );
+        final bool isOtherAzkarCategory = widget.categoryId == 7;
         final showGroupedList = manager.isGroupedCategory && manager.selectedGroupedKey == null;
         final hasActiveAzkar = manager.activeAzkarList.isNotEmpty;
         final appBarTitle = manager.selectedGroupedKey ?? category.displayName;
-        return WSharedScaffold(
-          padding: EdgeInsets.zero,
-          withSafeArea: false,
-          appBar: WSharedAppBar(
-            title: appBarTitle,
-            action:
-                manager.isGroupedCategory && manager.selectedGroupedKey != null
-                    ? IconButton(
-                      onPressed: () => manager.clearGroupedSelection(),
-                      icon: const Icon(Icons.view_list),
-                      color: context.theme.colorScheme.primaryColor,
+        final bodyContent =
+            showGroupedList
+                ? _GroupedZekrList(groupedKeys: manager.groupedAzkarKeys, onSelect: manager.selectGroupedAzkar)
+                : hasActiveAzkar
+                ? _buildZekrReader(context, manager)
+                : const Center(child: CircularProgressIndicator.adaptive());
+        return WillPopScope(
+          onWillPop: () async {
+            if (manager.isGroupedCategory && manager.selectedGroupedKey != null) {
+              manager.clearGroupedSelection();
+              return false;
+            }
+            return true;
+          },
+          child: WSharedScaffold(
+            padding: EdgeInsets.zero,
+            withSafeArea: false,
+            appBar: WSharedAppBar(
+              title: appBarTitle,
+              onBackTap: () {
+                if (manager.isGroupedCategory && manager.selectedGroupedKey != null) {
+                  manager.clearGroupedSelection();
+                } else {
+                  Modular.to.pop();
+                }
+              },
+              action:
+                  manager.isGroupedCategory && manager.selectedGroupedKey != null
+                      ? IconButton(
+                        onPressed: () => manager.clearGroupedSelection(),
+                        icon: const Icon(Icons.view_list),
+                        color: context.theme.colorScheme.primaryColor,
+                      )
+                      : null,
+            ),
+            body:
+                isOtherAzkarCategory
+                    ? Column(
+                      children: [
+                        WOtherAzkarSearchField(
+                          controller: _searchController,
+                          onChanged: manager.updateOtherAzkarSearch,
+                        ),
+                        Expanded(child: bodyContent),
+                      ],
                     )
-                    : null,
+                    : bodyContent,
           ),
-          body:
-              showGroupedList
-                  ? _GroupedZekrList(groupedKeys: manager.groupedAzkarKeys, onSelect: manager.selectGroupedAzkar)
-                  : hasActiveAzkar
-                  ? _buildZekrReader(context, manager)
-                  : const Center(child: CircularProgressIndicator.adaptive()),
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   Widget _buildZekrReader(BuildContext context, MgAzkar manager) {
@@ -75,6 +112,7 @@ class _SnZekrState extends State<SnZekr> {
     final bool isCurrentComplete = maxCount > 0 && manager.currentZekrCount >= maxCount;
     final double progressValue =
         isLastZekr && isCurrentComplete ? 1 : manager.currentZekrIndexNotifier / manager.activeAzkarList.length;
+    final bool isSingleCount = maxCount == 1;
 
     return GestureDetector(
       onTap: () {
@@ -148,24 +186,28 @@ class _SnZekrState extends State<SnZekr> {
             ),
           ),
           30.heightBox,
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              CircularProgressIndicator(
-                constraints: BoxConstraints(minWidth: 61.w, minHeight: 61.w),
-                strokeWidth: 7.w,
-                value:
-                    manager.currentZekrCount /
-                    (manager.activeAzkarList[manager.currentZekrIndexNotifier].count != null
-                        ? manager.activeAzkarList[manager.currentZekrIndexNotifier].count ?? 0
-                        : 1),
-                color: context.theme.colorScheme.primaryColor,
+          isSingleCount
+              ? Text('zekr_single_time'.translated, style: context.theme.textTheme.primary16W500)
+              : Stack(
+                alignment: Alignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    constraints: BoxConstraints(minWidth: 61.w, minHeight: 61.w),
+                    strokeWidth: 7.w,
+                    value:
+                        manager.currentZekrCount /
+                        (manager.activeAzkarList[manager.currentZekrIndexNotifier].count != null
+                            ? manager.activeAzkarList[manager.currentZekrIndexNotifier].count ?? 0
+                            : 1),
+                    color: context.theme.colorScheme.primaryColor,
+                  ),
+                  Positioned.fill(
+                    child: Center(
+                      child: Text('${manager.currentZekrCount}', style: context.theme.textTheme.primary16W500),
+                    ),
+                  ),
+                ],
               ),
-              Positioned.fill(
-                child: Center(child: Text('${manager.currentZekrCount}', style: context.theme.textTheme.primary16W500)),
-              ),
-            ],
-          ),
           15.heightBox,
           Container(
             width: context.width,
@@ -193,6 +235,47 @@ class _SnZekrState extends State<SnZekr> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class WOtherAzkarSearchField extends StatelessWidget {
+  const WOtherAzkarSearchField({super.key, required this.controller, required this.onChanged});
+
+  final TextEditingController controller;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      child: TextField(
+        controller: controller,
+        onChanged: onChanged,
+        textInputAction: TextInputAction.search,
+        cursorColor: context.theme.colorScheme.primaryColor,
+        decoration: InputDecoration(
+          hintText: 'azkar_search_other'.translated,
+          hintStyle: context.theme.textTheme.primary16W500.copyWith(color: Colors.grey),
+          prefixIcon: Icon(Icons.search, color: context.theme.colorScheme.primaryColor),
+          filled: true,
+          fillColor: context.theme.colorScheme.white,
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide(color: context.theme.colorScheme.lightGray.withValues(alpha: 0.4)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide(color: context.theme.colorScheme.lightGray.withValues(alpha: 0.4)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide(color: context.theme.colorScheme.primaryColor),
+          ),
+        ),
       ),
     );
   }
