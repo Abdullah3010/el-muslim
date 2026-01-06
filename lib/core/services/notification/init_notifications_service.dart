@@ -46,7 +46,21 @@ class InitNotificationsService {
     final notifications = await _loadNotifications(assetPath: assetPath);
     for (final notification in notifications) {
       final existing = await _notificationStore.getById(notification.id);
-      if (existing != null) continue;
+      if (existing != null) {
+        final updatedPayload = _mergedPayload(notification.payload, existing.payload);
+        final updatedDeepLink = existing.deepLink ?? notification.deepLink;
+        final shouldReschedule = existing.deepLink == null && updatedDeepLink != null;
+        final updated = existing.copyWith(
+          deepLink: updatedDeepLink,
+          payload: updatedPayload,
+        );
+        await _notificationStore.createUpdate(updated);
+        if (shouldReschedule && existing.isEnabled) {
+          await _notificationService.cancelNotification(existing.id);
+          await _notificationService.scheduleNotification(notification: updated);
+        }
+        continue;
+      }
       await _notificationService.scheduleNotification(notification: notification);
     }
 
@@ -193,7 +207,7 @@ class InitNotificationsService {
       if (params is Map) {
         payload.addAll(params.cast<String, dynamic>());
       }
-      deepLink = _resolveDeepLink(routeValue?.toString());
+      deepLink = _resolveDeepLink(routeValue?.toString(), payload);
     }
 
     if (_isAutoScheduleNotification(notificationId)) {
@@ -206,12 +220,36 @@ class InitNotificationsService {
     return _ResolvedPayload(payload: payload, deepLink: deepLink);
   }
 
-  String? _resolveDeepLink(String? route) {
+  String? _resolveDeepLink(String? route, Map<String, dynamic> payload) {
     if (route == null || route.isEmpty) return null;
     if (route == '/azkar' || route == '/azkar/') {
+      final categoryId = _azkarCategoryIdFromPayload(payload);
+      if (categoryId != null) {
+        return RoutesNames.azkar.zekr(categoryId);
+      }
       return RoutesNames.azkar.azkarMain;
     }
     return route;
+  }
+
+  int? _azkarCategoryIdFromPayload(Map<String, dynamic> payload) {
+    final raw = payload['category'] ?? payload['type'];
+    if (raw == null) return null;
+    if (raw is int) return raw;
+    final value = raw.toString().toLowerCase().trim();
+    if (value.isEmpty) return null;
+    final parsed = int.tryParse(value);
+    if (parsed != null) return parsed;
+    switch (value) {
+      case 'morning':
+        return 4;
+      case 'evening':
+        return 2;
+      case 'sleep':
+        return 5;
+      default:
+        return null;
+    }
   }
 
   int? _notificationIdFor(String id) {
@@ -229,6 +267,13 @@ class InitNotificationsService {
   bool _isAutoScheduleNotification(int notificationId) {
     return notificationId == Constants.morningAzkarNotificationId ||
         notificationId == Constants.eveningAzkarNotificationId;
+  }
+
+  Map<String, dynamic> _mergedPayload(Map<String, dynamic>? base, Map<String, dynamic>? existing) {
+    return <String, dynamic>{
+      ...?base,
+      ...?existing,
+    };
   }
 }
 

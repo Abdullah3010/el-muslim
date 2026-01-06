@@ -7,6 +7,7 @@ import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
 import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
 import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
+import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -48,10 +49,18 @@ class ModularDeepLinkNavigator implements DeepLinkNavigator {
     if (deepLink.isEmpty) return;
 
     try {
-      Modular.to.pushNamed(deepLink, arguments: payload);
+      final resolvedDeepLink = _resolveDeepLink(deepLink, payload);
+      Modular.to.pushNamed(resolvedDeepLink, arguments: payload);
     } catch (error, stackTrace) {
       Constants.talker.error('Failed to navigate deep link: $deepLink', error, stackTrace);
     }
+  }
+
+  String _resolveDeepLink(String deepLink, Map<String, dynamic> payload) {
+    if (deepLink == RoutesNames.werd.werdDetails && payload['planId'] != null) {
+      return RoutesNames.werd.werdMain;
+    }
+    return deepLink;
   }
 }
 
@@ -328,10 +337,10 @@ class LocalNotificationService {
       await _payloadHandler!(payload);
     }
 
-    final deepLink = _extractDeepLink(payload);
+    final deepLink = _extractDeepLink(payload) ?? _fallbackDeepLink(payload);
     if (deepLink != null && deepLink.isNotEmpty) {
-      Future.delayed(const Duration(seconds: 1), () {
-        Modular.to.pushNamed(deepLink, arguments: payload);
+      Future.delayed(const Duration(seconds: 1), () async {
+        await _deepLinkNavigator.navigate(deepLink, payload);
       });
     }
   }
@@ -406,6 +415,58 @@ class LocalNotificationService {
       }
     }
     return null;
+  }
+
+  String? _fallbackDeepLink(Map<String, dynamic> payload) {
+    final surahNumber = _parseInt(payload['surahNumber'] ?? payload['surah_number']);
+    if (surahNumber != null) {
+      return RoutesNames.quran.quranMain;
+    }
+    final surahName = payload['surah']?.toString().toLowerCase().trim();
+    if (surahName != null && surahName.isNotEmpty) {
+      if (surahName == 'al_mulk' || surahName == 'al_baqara' || surahName == 'al_baqarah') {
+        return RoutesNames.quran.quranMain;
+      }
+    }
+
+    if (payload['planId'] != null) {
+      return RoutesNames.werd.werdMain;
+    }
+
+    final categoryId = _azkarCategoryIdFromPayload(payload);
+    if (categoryId != null) {
+      return RoutesNames.azkar.zekr(categoryId);
+    }
+
+    return null;
+  }
+
+  int? _parseInt(dynamic value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value?.toString() ?? '');
+  }
+
+  int? _azkarCategoryIdFromPayload(Map<String, dynamic> payload) {
+    final raw = payload['category'] ?? payload['type'];
+    if (raw == null) return null;
+    if (raw is int) return raw;
+    final value = raw.toString().toLowerCase().trim();
+    if (value.isEmpty) return null;
+    final parsed = int.tryParse(value);
+    if (parsed != null) return parsed;
+    switch (value) {
+      case 'morning':
+      case 'morning_adhkar':
+        return 4;
+      case 'evening':
+      case 'evening_adhkar':
+        return 2;
+      case 'sleep':
+        return 5;
+      default:
+        return null;
+    }
   }
 
   Future<void> _configureTimeZone({String? timeZoneName}) async {

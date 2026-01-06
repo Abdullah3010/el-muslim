@@ -191,14 +191,14 @@ class MgMore extends ChangeNotifier {
         return _NotificationMeta(
           title: 'Surah Al-Mulk Alarm'.translated,
           body: 'Surah Al-Mulk Alarm'.translated,
-          payload: {'surah': 'al_mulk'},
+          payload: {'surah': 'al_mulk', 'surahNumber': 67},
           deepLink: RoutesNames.quran.quranMain,
         );
       case Constants.albakraQuranNotificationId:
         return _NotificationMeta(
           title: 'Surah Al-Baqara Alarm'.translated,
           body: 'Surah Al-Baqara Alarm'.translated,
-          payload: {'surah': 'al_baqara'},
+          payload: {'surah': 'al_baqara', 'surahNumber': 2},
           deepLink: RoutesNames.quran.quranMain,
         );
       default:

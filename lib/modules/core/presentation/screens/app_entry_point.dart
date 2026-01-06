@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:al_muslim/core/config/box_location_config/ds_location_config.dart';
 import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
+import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/config/box_location_config/box_location_config.dart';
 import 'package:al_muslim/modules/prayer_time/data/local/box_location_cities_cache.dart';
 import 'package:al_muslim/modules/azkar/managers/mg_azkar.dart';
@@ -33,6 +34,7 @@ class _AppEntryPointState extends State<AppEntryPoint> with WidgetsBindingObserv
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     Modular.setNavigatorKey(Constants.navigatorKey);
     Modular.get<BoxNotification>().init();
     Modular.get<BoxLocationConfig>().init();
@@ -102,7 +104,15 @@ class _AppEntryPointState extends State<AppEntryPoint> with WidgetsBindingObserv
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      unawaited(LocalNotificationService.instance.handlePendingNotificationIfPresent());
+    }
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 }

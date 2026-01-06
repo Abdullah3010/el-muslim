@@ -19,6 +19,8 @@ class _SnWerdState extends State<SnWerd> {
   late final MgWerd _mgWerd;
   late final VoidCallback _listener;
   bool _shouldAutoOpenSaved = true;
+  bool _didLoadOnce = false;
+  bool _firstTimeLoader = true;
 
   @override
   void initState() {
@@ -34,11 +36,12 @@ class _SnWerdState extends State<SnWerd> {
     return AnimatedBuilder(
       animation: _mgWerd,
       builder: (context, _) {
+        final isLoading = _mgWerd.isPlanLoading || _mgWerd.isPlanDetailsLoading || _mgWerd.isLoading;
         return WSharedScaffold(
           withNavBar: true,
           appBar: WSharedAppBar(title: 'Werd'.translated, withBack: false),
           body:
-              _mgWerd.isPlanLoading
+              !_didLoadOnce || isLoading
                   ? const Center(child: CircularProgressIndicator.adaptive())
                   : WWerdEmptyState(mgWerd: _mgWerd, onPrimaryAction: _handlePrimaryAction),
         );
@@ -61,7 +64,16 @@ class _SnWerdState extends State<SnWerd> {
     }
   }
 
+  void _markLoadedOnce() {
+    if (_didLoadOnce) return;
+    if (_mgWerd.isPlanLoading || _mgWerd.isPlanDetailsLoading || _mgWerd.isLoading) return;
+    setState(() {
+      _didLoadOnce = true;
+    });
+  }
+
   void _handleUpdates() {
+    _markLoadedOnce();
     if (!_shouldAutoOpenSaved) return;
     if (_mgWerd.isPlanLoading || _mgWerd.isPlanDetailsLoading) return;
     if (_mgWerd.selectedPlanDay == null) return;

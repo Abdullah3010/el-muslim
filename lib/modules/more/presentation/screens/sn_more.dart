@@ -4,7 +4,6 @@ import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
-import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
 import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
@@ -16,6 +15,7 @@ import 'package:al_muslim/modules/more/presentation/widgets/w_alarm_row.dart';
 import 'package:al_muslim/modules/more/presentation/widgets/w_language_selector_dialog.dart';
 import 'package:al_muslim/modules/more/presentation/widgets/w_settings_item_divider.dart';
 import 'package:al_muslim/modules/quran/presentation/widgets/w_quran_library_bookmarks_sheet.dart';
+import 'package:al_muslim/modules/werd/presentation/widgets/w_new_werd_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -91,8 +91,7 @@ class SnMore extends StatelessWidget {
           WSettingsRowItem(
             title: 'Start New Khatma'.translated,
             onTap: () async {
-              Modular.get<LocalNotificationService>().debugPrintScheduledNotifications();
-              // Modular.get<LocalNotificationService>().showTestNotification();
+              await WNewWerdBottomSheet.show(context);
             },
           ),
 

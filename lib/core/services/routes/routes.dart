@@ -165,7 +165,7 @@ class Routes {
       child: (_) {
         final data = r.args.data;
         final firstPage = data is MQuranFirstPage ? data : (data is MQuranIndex ? data.firstPage : null);
-        final surahNumber = data is MQuranIndex ? data.number : null;
+        final surahNumber = data is MQuranIndex ? data.number : _surahNumberFromPayload(data);
         final bookmark = data is BookmarkModel ? data : null;
         return SnQuranLibrary(firstPage: firstPage, surahNumber: surahNumber, bookmark: bookmark);
       },
@@ -179,5 +179,34 @@ class Routes {
       child: (_) => const SnQiblaDirection(),
       guards: [EnsureKeyboardDismissed()],
     );
+  }
+
+  static int? _surahNumberFromPayload(dynamic data) {
+    if (data is int) return data;
+    if (data is Map) {
+      final rawNumber = data['surahNumber'] ?? data['surah_number'];
+      final parsed = _parseInt(rawNumber);
+      if (parsed != null) return parsed;
+      final rawName = data['surah']?.toString();
+      if (rawName != null) {
+        final normalized = rawName.toLowerCase().trim();
+        switch (normalized) {
+          case 'al_mulk':
+            return 67;
+          case 'al_baqara':
+          case 'al_baqarah':
+            return 2;
+          default:
+            return _parseInt(normalized);
+        }
+      }
+    }
+    return null;
+  }
+
+  static int? _parseInt(dynamic value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value?.toString() ?? '');
   }
 }

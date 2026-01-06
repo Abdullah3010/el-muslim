@@ -341,7 +341,7 @@ class MgWerd extends ChangeNotifier {
       scheduledAt: scheduledAt,
       repeatDaily: true,
       payload: {'planId': plan.id},
-      deepLink: RoutesNames.werd.werdDetails,
+      deepLink: RoutesNames.werd.werdMain,
     );
   }
 
