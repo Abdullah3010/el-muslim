@@ -1,4 +1,5 @@
 import 'package:al_muslim/core/assets/assets.gen.dart';
+import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
 import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
@@ -89,7 +90,7 @@ class SnMore extends StatelessWidget {
           const WSettingsItemDivider(),
           WSettingsRowItem(
             title: 'Start New Khatma'.translated,
-            onTap: () {
+            onTap: () async {
               Modular.get<LocalNotificationService>().debugPrintScheduledNotifications();
               // Modular.get<LocalNotificationService>().showTestNotification();
             },

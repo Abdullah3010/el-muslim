@@ -57,7 +57,7 @@ class _SnQiblaDirectionState extends State<SnQiblaDirection> {
                   onTap: () {
                     Modular.to.pop();
                   },
-                  child: WLocalizeRotation(child: Assets.icons.backBlack.svg()),
+                  child: WLocalizeRotation(reverse: true, child: Assets.icons.backBlack.svg()),
                 ),
               ),
             ),

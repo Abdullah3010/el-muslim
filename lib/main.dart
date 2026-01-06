@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:al_muslim/core/config/box_app_config/box_app_config.dart';
+import 'package:al_muslim/core/services/notification/init_notifications_service.dart';
 import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/services/routes/app_module.dart';
 import 'package:al_muslim/modules/core/presentation/screens/app_entry_point.dart';
@@ -43,6 +44,9 @@ void main() {
       await notificationService.initialize(androidDefaultIcon: 'launcher_icon');
       notificationReady = true;
 
+      final initNotificationsService = InitNotificationsService(notificationService: notificationService);
+      await initNotificationsService.scheduleInitialNotificationsIfNeeded();
+
       final prayerBackgroundService = PrayerBackgroundService();
       await prayerBackgroundService.initializeBackgroundSync();
       await prayerBackgroundService.scheduleTodayPrayers();
@@ -61,6 +65,7 @@ void main() {
     if (notificationReady) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         unawaited(notificationService.handleInitialNotificationIfPresent());
+        unawaited(notificationService.handlePendingNotificationIfPresent());
       });
     }
   }, (error, stackTrace) {});

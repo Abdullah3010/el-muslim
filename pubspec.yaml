@@ -99,6 +99,7 @@ flutter:
     - assets/json/quran/
     - assets/json/khatma/
     - assets/json/azkar/
+    - assets/json/notifictaions/
     # - assets/quran_image/
 
   

@@ -1,0 +1,103 @@
+{
+    "version": "1.0",
+    "timezone": "Africa/Cairo",
+    "default_locale": "ar",
+    "notifications": [
+        {
+            "id": "azkar_morning",
+            "type": "azkar",
+            "enabled": true,
+            "schedule": {
+                "type": "daily",
+                "time": "08:00"
+            },
+            "content": {
+                "title": {
+                    "ar": "🌅 أذكار الصباح",
+                    "en": "🌅 Morning Azkar"
+                },
+                "body": {
+                    "ar": "اللهم بك أصبحنا وبك أمسينا وبك نحيا وبك نموت",
+                    "en": "O Allah, by You we enter the morning and by You we enter the evening"
+                },
+                "sound": "default",
+                "channel_id": "azkar_channel"
+            },
+            "payload": {
+                "action": "navigate",
+                "route": "/zekr/4",
+                "params": {
+                    "category": "morning"
+                }
+            },
+            "meta": {
+                "category": "morning",
+                "source": "hisn_almuslim"
+            }
+        },
+        {
+            "id": "azkar_evening",
+            "type": "azkar",
+            "enabled": true,
+            "schedule": {
+                "type": "daily",
+                "time": "18:00"
+            },
+            "content": {
+                "title": {
+                    "ar": "🌇 أذكار المساء",
+                    "en": "🌇 Evening Azkar"
+                },
+                "body": {
+                    "ar": "اللهم بك أمسينا وبك أصبحنا وبك نحيا وبك نموت",
+                    "en": "O Allah, by You we enter the evening and by You we enter the morning"
+                },
+                "sound": "default",
+                "channel_id": "azkar_channel"
+            },
+            "payload": {
+                "action": "navigate",
+                "route": "/zekr/2",
+                "params": {
+                    "category": "evening"
+                }
+            },
+            "meta": {
+                "category": "evening",
+                "source": "hisn_almuslim"
+            }
+        },
+        {
+            "id": "azkar_sleep",
+            "type": "azkar",
+            "enabled": true,
+            "schedule": {
+                "type": "daily",
+                "time": "22:00"
+            },
+            "content": {
+                "title": {
+                    "ar": "🌙 أذكار النوم",
+                    "en": "🌙 Sleep Azkar"
+                },
+                "body": {
+                    "ar": "باسمك اللهم أموت وأحيا",
+                    "en": "In Your name, O Allah, I die and I live"
+                },
+                "sound": "default",
+                "channel_id": "azkar_channel"
+            },
+            "payload": {
+                "action": "navigate",
+                "route": "/zekr/5",
+                "params": {
+                    "category": "sleep"
+                }
+            },
+            "meta": {
+                "category": "sleep",
+                "source": "hisn_almuslim"
+            }
+        }
+    ]
+}

@@ -5,10 +5,12 @@ import 'package:al_muslim/core/config/box_location_config/ds_location_config.dar
 import 'package:al_muslim/core/config/box_location_config/m_location_config.dart';
 import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
+import 'package:al_muslim/core/services/notification/init_notifications_service.dart';
 import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
 import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
 import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
+import 'package:al_muslim/core/services/notification/prayer_notifications_service.dart';
 import 'package:al_muslim/modules/prayer_time/data/prayer_notification_options.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +33,22 @@ class MgPrayerTime extends ChangeNotifier {
     DSNotification? notificationStore,
     BoxLocationConfig? locationBox,
     DSLocationConfig? locationStore,
+    InitNotificationsService? initNotificationsService,
+    PrayerNotificationsService? prayerNotificationsService,
   }) : _remoteSource = remoteSource ?? PrayerTimeRemoteSource(),
        _notificationService = notificationService ?? LocalNotificationService(),
        _boxNotification = boxNotification ?? BoxNotification(),
        _locationBox = locationBox ?? BoxLocationConfig() {
     _notificationStore = notificationStore ?? DSNotification(_boxNotification);
     _locationStore = locationStore ?? DSLocationConfig(_locationBox);
+    _initNotificationsService =
+        initNotificationsService ??
+        InitNotificationsService(
+          notificationService: _notificationService,
+          boxNotification: _boxNotification,
+          notificationStore: _notificationStore,
+        );
+    _prayerNotificationsService = prayerNotificationsService ?? PrayerNotificationsService();
   }
 
   static const _defaultParams = PPrayerTimeParams(lat: 30.04442, lon: 31.235712, method: 5, school: 1);
@@ -47,6 +59,8 @@ class MgPrayerTime extends ChangeNotifier {
   final LocalNotificationService _notificationService;
   final BoxNotification _boxNotification;
   late final DSNotification _notificationStore;
+  late final InitNotificationsService _initNotificationsService;
+  late final PrayerNotificationsService _prayerNotificationsService;
   final Map<String, MLocalNotification> _prayerNotifications = {};
   final Map<String, MLocalNotification> _preAdhanNotifications = {};
   bool _notificationBoxReady = false;
@@ -323,7 +337,8 @@ class MgPrayerTime extends ChangeNotifier {
 
   Future<void> setPrayerNotificationEnabled(String prayerName, bool isEnabled) async {
     await _ensureNotificationSettings();
-    final notification = _prayerNotifications[prayerName] ?? _defaultNotification(prayerName);
+    final template = await _prayerNotificationsService.templateForPrayer(prayerName);
+    final notification = _prayerNotifications[prayerName] ?? _defaultNotification(prayerName, template: template);
     final updated = notification.copyWith(isEnabled: isEnabled);
     _prayerNotifications[prayerName] = updated;
     await _notificationStore.createUpdate(updated);
@@ -468,7 +483,8 @@ class MgPrayerTime extends ChangeNotifier {
           _prayerNotifications[prayerName] = stored;
           didUpdate = true;
         } else {
-          final created = _defaultNotification(prayerName);
+          final template = await _prayerNotificationsService.templateForPrayer(prayerName);
+          final created = _defaultNotification(prayerName, template: template);
           _prayerNotifications[prayerName] = created;
           await _notificationStore.createUpdate(created);
           didUpdate = true;
@@ -510,9 +526,15 @@ class MgPrayerTime extends ChangeNotifier {
     return Constants.preAdhanNotificationBaseId + (index < 0 ? 0 : index);
   }
 
-  MLocalNotification _defaultNotification(String prayerName) {
+  MLocalNotification _defaultNotification(String prayerName, {PrayerNotificationTemplate? template}) {
     final now = DateTime.now();
-    return _buildNotification(prayerName: prayerName, scheduledAt: now, preAlertMinutes: 0, isEnabled: true);
+    return _buildNotification(
+      prayerName: prayerName,
+      scheduledAt: now,
+      preAlertMinutes: 0,
+      isEnabled: template?.isEnabled ?? true,
+      template: template,
+    );
   }
 
   MLocalNotification _defaultPreAdhanNotification(String prayerName) {
@@ -526,6 +548,13 @@ class MgPrayerTime extends ChangeNotifier {
       'prayer': prayerName,
       'preAlertMinutes': preAlertMinutes,
       'languageCode': LocalizeAndTranslate.getLanguageCode(),
+    };
+  }
+
+  Map<String, dynamic> _mergedPayload(Map<String, dynamic>? template, Map<String, dynamic>? existing) {
+    return <String, dynamic>{
+      ...?template,
+      ...?existing,
     };
   }
 
@@ -543,18 +572,24 @@ class MgPrayerTime extends ChangeNotifier {
     required DateTime scheduledAt,
     required int preAlertMinutes,
     required bool isEnabled,
+    PrayerNotificationTemplate? template,
   }) {
-    final title = prayerName.translated;
-    final body = '${'It is time for'.translated} ${prayerName.translated}';
+    final title = template?.title ?? prayerName.translated;
+    final body = template?.body ?? _defaultPrayerBody(prayerName);
     return MLocalNotification(
       id: _notificationIdForPrayer(prayerName),
       title: title,
       body: body,
       scheduledAt: scheduledAt,
       repeatDaily: false,
-      payload: _updatedPayload(<String, dynamic>{}, prayerName, preAlertMinutes),
+      payload: _updatedPayload(_mergedPayload(template?.payload, <String, dynamic>{}), prayerName, preAlertMinutes),
+      deepLink: template?.deepLink,
       isEnabled: isEnabled,
     );
+  }
+
+  String _defaultPrayerBody(String prayerName) {
+    return '${'It is time for'.translated} ${prayerName.translated}';
   }
 
   MLocalNotification _buildPreAdhanNotification({
@@ -580,6 +615,10 @@ class MgPrayerTime extends ChangeNotifier {
     if (!_isToday(_selectedDate)) return;
     await _ensureNotificationSettings();
     final entries = _buildPrayerEntries();
+    await _initNotificationsService.updateAzkarNotifications(
+      fajrTime: _timeForPrayer(entries, 'Fajr'),
+      maghribTime: _timeForPrayer(entries, 'Maghrib'),
+    );
     for (final entry in entries) {
       await _schedulePrayerNotification(entry);
       await _schedulePreAdhanNotification(entry);
@@ -600,13 +639,15 @@ class MgPrayerTime extends ChangeNotifier {
 
   Future<void> _schedulePrayerNotification(PrayerTimeEntry entry) async {
     final now = DateTime.now();
-    final notification = _prayerNotifications[entry.name] ?? _defaultNotification(entry.name);
+    final template = await _prayerNotificationsService.templateForPrayer(entry.name);
+    final notification = _prayerNotifications[entry.name] ?? _defaultNotification(entry.name, template: template);
     final scheduledAt = entry.dateTime;
     final localized = notification.copyWith(
-      title: entry.name.translated,
-      body: '${'It is time for'.translated} ${entry.name.translated}',
+      title: template?.title ?? notification.title,
+      body: template?.body ?? notification.body ?? _defaultPrayerBody(entry.name),
       scheduledAt: scheduledAt,
-      payload: _updatedPayload(notification.payload, entry.name, 0),
+      payload: _updatedPayload(_mergedPayload(template?.payload, notification.payload), entry.name, 0),
+      deepLink: template?.deepLink ?? notification.deepLink,
     );
 
     await _notificationService.cancelNotification(localized.id);
@@ -670,6 +711,15 @@ class MgPrayerTime extends ChangeNotifier {
   bool _isToday(DateTime date) {
     final now = DateTime.now();
     return date.year == now.year && date.month == now.month && date.day == now.day;
+  }
+
+  DateTime? _timeForPrayer(List<PrayerTimeEntry> entries, String name) {
+    for (final entry in entries) {
+      if (entry.name == name) {
+        return entry.dateTime;
+      }
+    }
+    return null;
   }
 
   String _localizedValue({required String ar, required String en}) {

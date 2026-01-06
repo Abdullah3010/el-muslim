@@ -6,4 +6,6 @@ class CSTConfigKey {
   final String quranLastPage = 'quranLastPage';
   final String quranBookmarkPage = 'quranBookmarkPage';
   final String werdPlanStartDate = 'werdPlanStartDate';
+  final String initNotificationsScheduled = 'initNotificationsScheduled';
+  final String pendingNotificationPayload = 'pendingNotificationPayload';
 }

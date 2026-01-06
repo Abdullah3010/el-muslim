@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
+import 'package:al_muslim/core/services/notification/init_notifications_service.dart';
 import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
 import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
@@ -54,9 +55,13 @@ class MgMore extends ChangeNotifier {
       final initialTime = _timeOfDayFrom(existing) ?? defaultTime;
       final scheduledAt = _nextDailyTime(initialTime);
       final meta = _notificationMeta(notificationId);
-      final notification = (existing ??
-              _buildNotification(notificationId, meta, scheduledAt))
-          .copyWith(scheduledAt: scheduledAt, isEnabled: true);
+      final baseNotification = existing ?? _buildNotification(notificationId, meta, scheduledAt);
+      final updatedPayload = _applyAutoScheduleOverride(notificationId, baseNotification.payload, true);
+      final notification = baseNotification.copyWith(
+        scheduledAt: scheduledAt,
+        isEnabled: true,
+        payload: updatedPayload,
+      );
       await _notificationService.scheduleNotification(
         notification: notification,
       );
@@ -75,12 +80,13 @@ class MgMore extends ChangeNotifier {
     final existing = notificationFor(notificationId);
     final scheduledAt = _nextDailyTime(selectedTime);
     final meta = _notificationMeta(notificationId);
-    final notification = (existing ??
-            _buildNotification(notificationId, meta, scheduledAt))
-        .copyWith(
-          scheduledAt: scheduledAt,
-          isEnabled: existing?.isEnabled ?? true,
-        );
+    final baseNotification = existing ?? _buildNotification(notificationId, meta, scheduledAt);
+    final updatedPayload = _applyAutoScheduleOverride(notificationId, baseNotification.payload, false);
+    final notification = baseNotification.copyWith(
+      scheduledAt: scheduledAt,
+      isEnabled: existing?.isEnabled ?? true,
+      payload: updatedPayload,
+    );
     await _notificationService.scheduleNotification(notification: notification);
   }
 
@@ -139,6 +145,30 @@ class MgMore extends ChangeNotifier {
       payload: meta.payload,
       deepLink: meta.deepLink,
     );
+  }
+
+  Map<String, dynamic> _applyAutoScheduleOverride(
+    int notificationId,
+    Map<String, dynamic> payload,
+    bool autoSchedule,
+  ) {
+    if (!_isAzkarAutoSchedule(notificationId)) return payload;
+    final raw = payload[InitNotificationsService.autoSchedulePayloadKey];
+    if (autoSchedule && raw is bool && raw == false) {
+      return payload;
+    }
+    if (autoSchedule && raw is String && raw.toLowerCase() == 'false') {
+      return payload;
+    }
+    return <String, dynamic>{
+      ...payload,
+      InitNotificationsService.autoSchedulePayloadKey: autoSchedule,
+    };
+  }
+
+  bool _isAzkarAutoSchedule(int notificationId) {
+    return notificationId == Constants.morningAzkarNotificationId ||
+        notificationId == Constants.eveningAzkarNotificationId;
   }
 
   _NotificationMeta _notificationMeta(int notificationId) {

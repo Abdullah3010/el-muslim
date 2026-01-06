@@ -31,4 +31,5 @@ class Constants {
   static const int eveningAzkarNotificationId = 9001;
   static const int almulkQuranNotificationId = 9002;
   static const int albakraQuranNotificationId = 9003;
+  static const int sleepAzkarNotificationId = 9004;
 }

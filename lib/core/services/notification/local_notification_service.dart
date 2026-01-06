@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:al_muslim/core/config/box_app_config/box_app_config.dart';
 import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
 import 'package:al_muslim/core/constants/constants.dart';
-import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
 import 'package:al_muslim/core/services/notification/notification_box/box_notification.dart';
 import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
+import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -146,6 +148,20 @@ class LocalNotificationService {
         await handleNotificationResponse(response);
       }
     }
+  }
+
+  Future<void> handlePendingNotificationIfPresent() async {
+    final storedPayload = DSAppConfig.getConfigValue(Constants.configKeys.pendingNotificationPayload);
+    if (storedPayload == null || storedPayload.isEmpty) return;
+    await DSAppConfig.setConfigValue(Constants.configKeys.pendingNotificationPayload, '');
+    final payload = _decodePayload(storedPayload);
+    await handlePayload(payload);
+  }
+
+  Future<void> storePendingNotificationPayload(String? payload) async {
+    if (payload == null || payload.isEmpty) return;
+    await _ensureAppConfigReady();
+    await DSAppConfig.setConfigValue(Constants.configKeys.pendingNotificationPayload, payload);
   }
 
   Future<void> setNotificationsEnabled(bool enabled, {bool cancelScheduled = true}) async {
@@ -301,6 +317,7 @@ class LocalNotificationService {
 
   Future<void> handleNotificationResponse(NotificationResponse response) async {
     final payload = _decodePayload(response.payload);
+    print(" =====>>> $payload");
     await handlePayload(payload);
   }
 
@@ -313,7 +330,9 @@ class LocalNotificationService {
 
     final deepLink = _extractDeepLink(payload);
     if (deepLink != null && deepLink.isNotEmpty) {
-      await _deepLinkNavigator.navigate(deepLink, payload);
+      Future.delayed(const Duration(seconds: 1), () {
+        Modular.to.pushNamed(deepLink, arguments: payload);
+      });
     }
   }
 
@@ -381,6 +400,7 @@ class LocalNotificationService {
   String? _extractDeepLink(Map<String, dynamic> payload) {
     for (final key in ['deepLink', 'deeplink', 'route']) {
       final value = payload[key];
+      print(" =====>>>33 $value");
       if (value is String && value.isNotEmpty) {
         return value;
       }
@@ -495,6 +515,13 @@ class LocalNotificationService {
     _notificationBoxReady = true;
   }
 
+  Future<void> _ensureAppConfigReady() async {
+    try {
+      await Hive.initFlutter('al_muslim_data');
+    } catch (_) {}
+    await BoxAppConfig.init();
+  }
+
   static Future<void> _onNotificationResponse(NotificationResponse response) async {
     await LocalNotificationService.instance.handleNotificationResponse(response);
   }
@@ -502,5 +529,6 @@ class LocalNotificationService {
 
 @pragma('vm:entry-point')
 Future<void> notificationTapBackground(NotificationResponse response) async {
-  await LocalNotificationService.instance.handleNotificationResponse(response);
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalNotificationService.instance.storePendingNotificationPayload(response.payload);
 }
