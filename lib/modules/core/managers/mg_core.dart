@@ -13,10 +13,10 @@ class MgCore extends ChangeNotifier {
 
   List<MNavBarItem> get navBarItems => [
     MNavBarItem(
-      label: 'More'.translated,
-      activeIcon: Assets.icons.moreActive.path,
-      inactiveIcon: Assets.icons.moreInactive.path,
-      route: RoutesNames.more.moreMain,
+      label: 'Quran'.translated,
+      activeIcon: Assets.icons.listActive.path,
+      inactiveIcon: Assets.icons.listInactive.path,
+      route: RoutesNames.index.indexMain,
     ),
     MNavBarItem(
       label: 'The Prayer'.translated,
@@ -37,10 +37,10 @@ class MgCore extends ChangeNotifier {
       route: RoutesNames.azkar.azkarMain,
     ),
     MNavBarItem(
-      label: 'Index'.translated,
-      activeIcon: Assets.icons.listActive.path,
-      inactiveIcon: Assets.icons.listInactive.path,
-      route: RoutesNames.index.indexMain,
+      label: 'More'.translated,
+      activeIcon: Assets.icons.moreActive.path,
+      inactiveIcon: Assets.icons.moreInactive.path,
+      route: RoutesNames.more.moreMain,
     ),
   ];
 

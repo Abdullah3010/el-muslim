@@ -129,7 +129,7 @@ class _SnAzkarListState extends State<SnAzkarList> {
       withNavBar: true,
       body: Column(
         children: [
-          Text('El-Muslim'.translated, style: context.textTheme.primary30W500),
+          Text('Al-Muslim'.translated, style: context.textTheme.primary24W500.copyWith(fontSize: 28.sp)),
           Expanded(
             child: Consumer<MgAzkar>(
               builder: (context, manager, _) {
@@ -271,6 +271,7 @@ class _AzkarCategoryCardState extends State<_AzkarCategoryCard> {
                 child: Image.asset(
                   widget.imagePath,
                   fit: BoxFit.cover,
+                  filterQuality: FilterQuality.high,
                   width: double.infinity,
                   height: double.infinity,
                   errorBuilder: (_, __, ___) => const SizedBox.shrink(),

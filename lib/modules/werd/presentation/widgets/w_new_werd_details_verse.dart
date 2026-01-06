@@ -29,11 +29,11 @@ class WNewWerdDetailsVerse extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: context.textTheme.primary16W500),
+                    Text(title, style: context.textTheme.primary16W500.copyWith(fontWeight: FontWeight.w700)),
                     6.heightBox,
                     Text(
                       subtitle,
-                      style: context.textTheme.primary14W400,
+                      style: context.textTheme.primary14W400.copyWith(fontWeight: FontWeight.w500),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),

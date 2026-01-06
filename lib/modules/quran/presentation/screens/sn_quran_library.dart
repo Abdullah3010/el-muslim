@@ -1,7 +1,5 @@
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/color_extension.dart';
-import 'package:al_muslim/core/extension/string_extensions.dart';
-import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:al_muslim/modules/index/data/models/m_quran_index.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +105,7 @@ class _SnQuranLibraryState extends State<SnQuranLibrary> {
     final defaultSurahInfoStyle = SurahInfoStyle.defaults(isDark: isDark);
 
     return WSharedScaffold(
-      appBar: WSharedAppBar(title: 'Quran'.translated),
+      // appBar: WSharedAppBar(title: 'Quran'.translated),
       padding: EdgeInsets.zero,
       body: QuranLibraryScreen(
         parentContext: context,
@@ -178,9 +176,7 @@ class _SnQuranLibraryState extends State<SnQuranLibrary> {
           audioSliderBackgroundColor: surfaceColor,
           surahNameColor: textColor,
         ),
-        isShowAudioSlider: true,
 
-        showAyahBookmarkedIcon: true,
         topBarStyle: QuranTopBarStyle(
           backIconPath: defaultTopBarStyle.backIconPath,
           menuIconPath: defaultTopBarStyle.menuIconPath,
@@ -190,7 +186,6 @@ class _SnQuranLibraryState extends State<SnQuranLibrary> {
           textColor: textColor,
           accentColor: primaryColor,
           shadowColor: shadowColor,
-
           handleColor: dividerColor,
           elevation: defaultTopBarStyle.elevation,
           borderRadius: defaultTopBarStyle.borderRadius,
@@ -209,7 +204,7 @@ class _SnQuranLibraryState extends State<SnQuranLibrary> {
           showMenuButton: true,
           showAudioButton: false,
           showFontsButton: false,
-          showBackButton: false,
+          showBackButton: true,
         ),
       ),
     );

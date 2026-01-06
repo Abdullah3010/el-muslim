@@ -26,7 +26,7 @@ class _SNSplashState extends State<SNSplash> with SingleTickerProviderStateMixin
 
     Future.delayed(Duration.zero, () async {
       await Modular.get<MgCore>().initAppData();
-      Modular.get<MgCore>().setNavBarIndex(0);
+      Modular.get<MgCore>().setNavBarIndex(2);
     });
   }
 
