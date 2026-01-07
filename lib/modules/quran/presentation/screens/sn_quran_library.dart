@@ -176,7 +176,6 @@ class _SnQuranLibraryState extends State<SnQuranLibrary> {
           audioSliderBackgroundColor: surfaceColor,
           surahNameColor: textColor,
         ),
-
         topBarStyle: QuranTopBarStyle(
           backIconPath: defaultTopBarStyle.backIconPath,
           menuIconPath: defaultTopBarStyle.menuIconPath,

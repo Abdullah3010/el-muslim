@@ -59,11 +59,11 @@ class WAppDialog extends StatelessWidget {
                 Text(
                   titleText ?? '',
                   textAlign: TextAlign.center,
-                  style: titleStyle ?? context.textTheme.darkGrey14w500,
+                  style: titleStyle ?? context.textTheme.darkGrey14W600,
                 ),
                 if (description != null) ...[
                   16.heightBox,
-                  Text(description!, textAlign: TextAlign.center, style: context.textTheme.darkGrey14w500),
+                  Text(description!, textAlign: TextAlign.center, style: context.textTheme.darkGrey14W600),
                 ],
                 24.heightBox,
                 Row(
