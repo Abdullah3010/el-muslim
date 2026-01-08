@@ -19,14 +19,48 @@ class SnPrayTime extends StatefulWidget {
   State<SnPrayTime> createState() => _SnPrayTimeState();
 }
 
-class _SnPrayTimeState extends State<SnPrayTime> {
+class _SnPrayTimeState extends State<SnPrayTime> with WidgetsBindingObserver {
   late final MgPrayerTime _mgPrayerTime;
+  DateTime _lastActiveDate = DateTime.now();
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _mgPrayerTime = Modular.get<MgPrayerTime>();
     _mgPrayerTime.loadPrayerTimes();
+    _lastActiveDate = DateTime.now();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkAndRefreshIfDateChanged();
+    }
+  }
+
+  void _checkAndRefreshIfDateChanged() {
+    final now = DateTime.now();
+    final selectedDate = _mgPrayerTime.selectedDate;
+    final hasDateChanged =
+        now.year != _lastActiveDate.year ||
+        now.month != _lastActiveDate.month ||
+        now.day != _lastActiveDate.day;
+    final isSelectedNotToday =
+        selectedDate.year != now.year ||
+        selectedDate.month != now.month ||
+        selectedDate.day != now.day;
+
+    if (hasDateChanged || isSelectedNotToday) {
+      _lastActiveDate = now;
+      _mgPrayerTime.loadPrayerTimes(forDate: now);
+    }
   }
 
   @override
