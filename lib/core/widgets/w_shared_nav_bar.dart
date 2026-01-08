@@ -21,7 +21,7 @@ class _WSharedNavBarState extends State<WSharedNavBar> {
   Widget build(BuildContext context) {
     return Consumer<MgCore>(
       builder: (context, manager, _) {
-        final activeColor = context.theme.colorScheme.primaryColor;
+        final activeColor = context.theme.colorScheme.primaryColor2;
         final inactiveColor = context.theme.colorScheme.gray;
 
         return Container(
@@ -59,7 +59,7 @@ class _WSharedNavBarState extends State<WSharedNavBar> {
                             height: 26.h,
                             colorFilter: ColorFilter.mode(isActive ? activeColor : inactiveColor, BlendMode.srcIn),
                           ),
-                          4.heightBox,
+                          8.heightBox,
                           Text(item.label ?? '', style: labelStyle, textAlign: TextAlign.center),
                         ],
                       ),

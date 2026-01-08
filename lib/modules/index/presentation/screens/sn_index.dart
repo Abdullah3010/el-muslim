@@ -81,15 +81,23 @@ class _SnIndexState extends State<SnIndex> {
                 child: TextField(
                   controller: _searchController,
                   textInputAction: TextInputAction.search,
-                  cursorColor: context.theme.colorScheme.primaryColor,
+                  cursorColor: context.theme.colorScheme.primaryColor2,
                   cursorHeight: 20.h,
                   decoration: InputDecoration(
                     hintText: 'Search surah'.translated,
-                    prefixIcon: Icon(Icons.search, color: context.theme.colorScheme.primaryColor),
+                    prefixIcon: Icon(Icons.search, color: context.theme.colorScheme.primaryColor2),
                     filled: true,
                     fillColor: Colors.white,
                     hintStyle: context.theme.textTheme.primary14W500.copyWith(color: context.theme.colorScheme.gray),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.r), borderSide: BorderSide.none),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide(color: context.theme.colorScheme.primaryColor2, width: 1.5.w),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide(color: context.theme.colorScheme.lightGray, width: 1.w),
+                    ),
                     contentPadding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 12.w),
                   ),
                 ),

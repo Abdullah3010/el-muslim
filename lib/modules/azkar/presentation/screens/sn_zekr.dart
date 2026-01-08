@@ -77,7 +77,7 @@ class _SnZekrState extends State<SnZekr> {
                       ? IconButton(
                         onPressed: () => manager.clearGroupedSelection(),
                         icon: const Icon(Icons.view_list),
-                        color: context.theme.colorScheme.primaryColor,
+                        color: context.theme.colorScheme.primaryColor2,
                       )
                       : null,
             ),
@@ -85,10 +85,12 @@ class _SnZekrState extends State<SnZekr> {
                 isOtherAzkarCategory
                     ? Column(
                       children: [
-                        WOtherAzkarSearchField(
-                          controller: _searchController,
-                          onChanged: manager.updateOtherAzkarSearch,
-                        ),
+                        manager.isGroupedCategory && manager.selectedGroupedKey != null
+                            ? const SizedBox.shrink()
+                            : WOtherAzkarSearchField(
+                              controller: _searchController,
+                              onChanged: manager.updateOtherAzkarSearch,
+                            ),
                         Expanded(child: bodyContent),
                       ],
                     )
@@ -254,14 +256,16 @@ class WOtherAzkarSearchField extends StatelessWidget {
         controller: controller,
         onChanged: onChanged,
         textInputAction: TextInputAction.search,
-        cursorColor: context.theme.colorScheme.primaryColor,
+        cursorColor: context.theme.colorScheme.primaryColor2,
+        cursorHeight: 20.h,
         decoration: InputDecoration(
           hintText: 'azkar_search_other'.translated,
           hintStyle: context.theme.textTheme.primary16W500.copyWith(color: Colors.grey),
-          prefixIcon: Icon(Icons.search, color: context.theme.colorScheme.primaryColor),
+          prefixIcon: Icon(Icons.search, color: context.theme.colorScheme.primaryColor2),
           filled: true,
           fillColor: context.theme.colorScheme.white,
           isDense: true,
+
           contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
@@ -273,7 +277,7 @@ class WOtherAzkarSearchField extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide(color: context.theme.colorScheme.primaryColor),
+            borderSide: BorderSide(color: context.theme.colorScheme.primaryColor2),
           ),
         ),
       ),
@@ -316,7 +320,7 @@ class _GroupedZekrList extends StatelessWidget {
                 children: [
                   Expanded(child: Text(key, style: context.textTheme.primary18W500, overflow: TextOverflow.ellipsis)),
                   8.widthBox,
-                  Icon(Icons.arrow_forward_ios, color: context.theme.colorScheme.primaryColor, size: 16.sp),
+                  Icon(Icons.arrow_forward_ios, color: context.theme.colorScheme.primaryColor2, size: 16.sp),
                 ],
               ),
             ),

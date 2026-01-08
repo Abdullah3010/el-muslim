@@ -281,7 +281,7 @@ class _AzkarCategoryCardState extends State<_AzkarCategoryCard> {
               padding: EdgeInsets.all(22.w),
               child: Text(
                 widget.title,
-                style: TextStyle(color: const Color(0xff004B40), fontSize: 16.sp, fontWeight: FontWeight.w600),
+                style: TextStyle(color: const Color(0xff60501E), fontSize: 16.sp, fontWeight: FontWeight.w700),
               ),
             ),
           ],

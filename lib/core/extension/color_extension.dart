@@ -20,6 +20,7 @@ extension ColorExtension on ColorScheme {
   // Color get gray => const Color(0xFF7E8190);
   /// [New Colors]
   Color get primaryColor => const Color(0xFFD8B74E);
+  Color get primaryColor2 => const Color(0xFF60501E);
   Color get secondaryColor => const Color(0xFFFFFAF0);
 
   Color get goldDark1 => const Color(0xFFAE8625);
