@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:al_muslim/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
 import 'package:geolocator/geolocator.dart';
@@ -33,6 +34,7 @@ class MgQibla extends ChangeNotifier {
       }
     } catch (error) {
       _locationStreamController.addError(error);
+      Constants.talker.error(" ======>> Error in Qibla Direction manager refreshLocationStatus: $error");
     }
   }
 
@@ -43,20 +45,25 @@ class MgQibla extends ChangeNotifier {
   }
 
   Future<Position?> fetchUserPosition() async {
-    final status = await FlutterQiblah.checkLocationStatus();
-    if (!status.enabled || status.status == LocationPermission.deniedForever) {
-      return null;
-    }
-
-    if (status.status == LocationPermission.denied) {
-      await FlutterQiblah.requestPermissions();
-      final refreshed = await FlutterQiblah.checkLocationStatus();
-      if (!refreshed.enabled || refreshed.status == LocationPermission.denied) {
+    try {
+      final status = await FlutterQiblah.checkLocationStatus();
+      if (!status.enabled || status.status == LocationPermission.deniedForever) {
         return null;
       }
-    }
 
-    return await Geolocator.getCurrentPosition();
+      if (status.status == LocationPermission.denied) {
+        await FlutterQiblah.requestPermissions();
+        final refreshed = await FlutterQiblah.checkLocationStatus();
+        if (!refreshed.enabled || refreshed.status == LocationPermission.denied) {
+          return null;
+        }
+      }
+
+      return await Geolocator.getCurrentPosition();
+    } catch (e) {
+      Constants.talker.error(" ======>> Error in Qibla Direction manager fetchUserPosition: $e");
+      return null;
+    }
   }
 
   @override

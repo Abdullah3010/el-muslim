@@ -9,7 +9,7 @@ class Constants {
   static CSTConfigKey get configKeys => CSTConfigKey();
   static CstFakeData get fakeData => CstFakeData();
 
-  static bool get showTalker => false;
+  static bool get showTalker => true;
 
   static final Talker talker = TalkerFlutter.init(
     logger: TalkerLogger(

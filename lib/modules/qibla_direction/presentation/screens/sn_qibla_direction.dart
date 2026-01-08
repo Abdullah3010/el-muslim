@@ -1,4 +1,5 @@
 import 'package:al_muslim/core/assets/assets.gen.dart';
+import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
@@ -27,8 +28,12 @@ class _SnQiblaDirectionState extends State<SnQiblaDirection> {
   void initState() {
     super.initState();
     _mgQibla = Modular.get<MgQibla>();
-    _deviceSupportFuture = _mgQibla.deviceSupportFuture;
-    _mgQibla.refreshLocationStatus();
+    try {
+      _deviceSupportFuture = _mgQibla.deviceSupportFuture;
+      _mgQibla.refreshLocationStatus();
+    } catch (e) {
+      Constants.talker.error(" ======>> Error in Qibla Direction screen initState: $e");
+    }
   }
 
   @override

@@ -32,7 +32,7 @@ class WLanguageSelectorDialog extends StatelessWidget {
                 IconButton(
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
-                  icon: Icon(Icons.close, color: context.theme.colorScheme.primaryColor),
+                  icon: Icon(Icons.close, color: context.theme.colorScheme.primaryColor2),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
                 Expanded(
@@ -99,14 +99,14 @@ class _LanguageButton extends StatelessWidget {
       child: Container(
         height: 50.h,
         decoration: BoxDecoration(
-          color: isSelected ? colors.primaryColor : colors.secondaryColor,
+          color: isSelected ? colors.primaryColor2 : colors.secondaryColor,
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: colors.primaryColor.withValues(alpha: isSelected ? 1 : 0.3)),
+          border: Border.all(color: colors.primaryColor2.withValues(alpha: isSelected ? 1 : 0.3)),
         ),
         child: Center(
           child: Text(
             title,
-            style: context.textTheme.primary16W500.copyWith(color: isSelected ? colors.white : colors.primaryColor),
+            style: context.textTheme.primary16W500.copyWith(color: isSelected ? colors.white : colors.primaryColor2),
           ),
         ),
       ),
