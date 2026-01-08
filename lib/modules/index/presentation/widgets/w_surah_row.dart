@@ -48,7 +48,10 @@ class WSurahRow extends StatelessWidget {
                         ),
                       ),
                       12.widthBox,
-                      Text(context.isRTL ? surah.name.ar : surah.name.en, style: context.textTheme.primary18W500),
+                      Text(
+                        context.isRTL ? surah.name.ar : surah.name.transliteration,
+                        style: context.textTheme.primary18W500,
+                      ),
                     ],
                   ),
                 ),
