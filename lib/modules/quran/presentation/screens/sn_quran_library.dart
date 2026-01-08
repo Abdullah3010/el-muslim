@@ -89,15 +89,15 @@ class _SnQuranLibraryState extends State<SnQuranLibrary> {
   Widget build(BuildContext context) {
     final isDark = context.theme.brightness == Brightness.dark;
     final colorScheme = context.theme.colorScheme;
-    final primaryColor = colorScheme.darkPrimary;
-    final secondaryColor = colorScheme.primaryLightOrange;
-    final surfaceColor = colorScheme.white;
-    final textColor = colorScheme.black;
-    final mutedTextColor = textColor.withValues(alpha: 0.7);
+    final primaryColor = colorScheme.primaryColor2;
+    final secondaryColor = colorScheme.secondaryColor;
+    final surfaceColor = secondaryColor;
+    final textColor = primaryColor;
+    final mutedTextColor = primaryColor.withValues(alpha: 0.7);
     final dividerColor = primaryColor.withValues(alpha: 0.2);
     final shadowColor = primaryColor.withValues(alpha: 0.2);
-    final selectionColor = secondaryColor.withValues(alpha: 0.6);
-    final selectedItemColor = secondaryColor.withValues(alpha: 0.6);
+    final selectionColor = colorScheme.primaryColor.withValues(alpha: 0.4);
+    final selectedItemColor = colorScheme.primaryColor.withValues(alpha: 0.4);
     final titleStyle = context.textTheme.titleMedium?.copyWith(color: textColor);
     final bodyStyle = context.textTheme.bodyMedium?.copyWith(color: textColor);
     final noteStyle = context.textTheme.bodySmall?.copyWith(color: mutedTextColor);
@@ -114,14 +114,14 @@ class _SnQuranLibraryState extends State<SnQuranLibrary> {
         isDark: isDark,
         languageCode: context.locale.languageCode,
         backgroundColor: Colors.white,
-        textColor: textColor,
+        textColor: Colors.black,
         ayahSelectedBackgroundColor: selectionColor,
         ayahSelectedFontColor: textColor,
         ayahIconColor: primaryColor,
         bookmarksColor: primaryColor,
         singleAyahTextColors: [textColor, primaryColor, secondaryColor],
         basmalaStyle: BasmalaStyle(basmalaColor: textColor),
-        surahNameStyle: SurahNameStyle(surahNameColor: textColor, surahNameSize: 24),
+        surahNameStyle: SurahNameStyle(surahNameColor: Colors.black, surahNameSize: 24),
         surahInfoStyle: SurahInfoStyle(
           ayahCount: defaultSurahInfoStyle.ayahCount,
           secondTabText: defaultSurahInfoStyle.secondTabText,
