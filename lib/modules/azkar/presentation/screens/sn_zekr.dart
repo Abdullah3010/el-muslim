@@ -178,7 +178,7 @@ class _SnZekrState extends State<SnZekr> {
                     ),
                     23.heightBox,
                     Text(
-                      zekr.description?.displayDescription ?? '',
+                      zekr.fadelZeker ?? '',
                       style: context.theme.textTheme.primary16W500,
                       textAlign: TextAlign.center,
                     ),

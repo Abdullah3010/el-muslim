@@ -7,8 +7,9 @@ class MZekr {
   final String? zekr;
   final String? reference;
   final String? category;
+  final String? fadelZeker;
 
-  MZekr({this.id, this.description, this.count, this.zekr, this.reference, this.category});
+  MZekr({this.id, this.description, this.count, this.zekr, this.reference, this.category, this.fadelZeker});
 
   factory MZekr.fromJson(Map<String, dynamic>? json) {
     return MZekr(
@@ -18,6 +19,7 @@ class MZekr {
       zekr: json?['zekr'],
       reference: json?['reference'],
       category: json?['category'],
+      fadelZeker: json?['fadel_zeker'],
     );
   }
 }

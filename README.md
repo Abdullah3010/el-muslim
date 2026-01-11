@@ -1,16 +1,310 @@
-# al_muslim
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+// [
+//     {
+//         "id": 3561,
+//         "description": {},
+//         "count": 1,
+//         "zekr": "أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر.",
+//         "reference": "مسلم",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 1564,
+//         "description": {},
+//         "count": 1,
+//         "zekr": "اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَـينا ، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ النُّـشُور.",
+//         "reference": "الترمذي",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 2374,
+//         "description": {},
+//         "count": 1,
+//         "zekr": "أَصْبَـحْـنا عَلَى فِطْرَةِ الإسْلاَمِ، وَعَلَى كَلِمَةِ الإِخْلاَصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ، وَعَلَى مِلَّةِ أَبِينَا إبْرَاهِيمَ حَنِيفاً مُسْلِماً وَمَا كَانَ مِنَ المُشْرِكِينَ.",
+//         "reference": "أحمد",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 2338,
+//         "description": {},
+//         "count": 3,
+//         "zekr": "سُبْحـانَ اللهِ وَبِحَمْـدِهِ عَدَدَ خَلْـقِه ، وَرِضـا نَفْسِـه ، وَزِنَـةَ عَـرْشِـه ، وَمِـدادَ كَلِمـاتِـه.",
+//         "reference": "مسلم",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 3829,
+//         "description": {},
+//         "count": 3,
+//         "zekr": "اللّهُـمَّ عافِـني في بَدَنـي ، اللّهُـمَّ عافِـني في سَمْـعي ، اللّهُـمَّ عافِـني في بَصَـري ، لا إلهَ إلاّ أَنْـتَ.",
+//         "reference": "أحمد",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 2138,
+//         "description": {},
+//         "count": 3,
+//         "zekr": "اللّهُـمَّ إِنّـي أَعـوذُ بِكَ مِنَ الْكُـفر ، وَالفَـقْر ، وَأَعـوذُ بِكَ مِنْ عَذابِ القَـبْر ، لا إلهَ إلاّ أَنْـتَ.",
+//         "reference": "",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 1089,
+//         "description": {},
+//         "count": 1,
+//         "zekr": "اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ في الدُّنْـيا وَالآخِـرَة ، اللّهُـمَّ إِنِّـي أسْـأَلُـكَ العَـفْوَ وَالعـافِـيةَ في ديني وَدُنْـيايَ وَأهْـلي وَمالـي ، اللّهُـمَّ اسْتُـرْ عـوْراتي وَآمِـنْ رَوْعاتـي ، اللّهُـمَّ احْفَظْـني مِن بَـينِ يَدَيَّ وَمِن خَلْفـي وَعَن يَمـيني وَعَن شِمـالي ، وَمِن فَوْقـي ، وَأَعـوذُ بِعَظَمَـتِكَ أَن أُغْـتالَ مِن تَحْتـي.",
+//         "reference": "أبو داود",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 1443,
+//         "description": {},
+//         "count": 3,
+//         "zekr": "يَا حَيُّ يَا قيُّومُ بِرَحْمَتِكَ أسْتَغِيثُ أصْلِحْ لِي شَأنِي كُلَّهُ وَلاَ تَكِلْنِي إلَى نَفْسِي طَـرْفَةَ عَيْنٍ.",
+//         "reference": "الترمذي",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 3677,
+//         "description": {},
+//         "count": 1,
+//         "zekr": "أَصْبَـحْـنا وَأَصْبَـحْ المُـلكُ للهِ رَبِّ العـالَمـين ، اللّهُـمَّ إِنِّـي أسْـأَلُـكَ خَـيْرَ هـذا الـيَوْم ، فَـتْحَهُ ، وَنَصْـرَهُ ، وَنـورَهُ وَبَـرَكَتَـهُ ، وَهُـداهُ ، وَأَعـوذُ بِـكَ مِـنْ شَـرِّ ما فـيهِ وَشَـرِّ ما بَعْـدَه.",
+//         "reference": "أبو داود",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 1445,
+//         "description": {},
+//         "count": 1,
+//         "zekr": "اللّهُـمَّ عالِـمَ الغَـيْبِ وَالشّـهادَةِ فاطِـرَ السّماواتِ وَالأرْضِ رَبَّ كـلِّ شَـيءٍ وَمَليـكَه ، أَشْهَـدُ أَنْ لا إِلـهَ إِلاّ أَنْت ، أَعـوذُ بِكَ مِن شَـرِّ نَفْسـي وَمِن شَـرِّ الشَّيْـطانِ وَشِرْكِهِ ، وَأَنْ أَقْتَـرِفَ عَلـى نَفْسـي سوءاً أَوْ أَجُـرَّهُ إِلـى مُسْـلِم.",
+//         "reference": "الترمذي",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 1056,
+//         "description": {},
+//         "count": 3,
+//         "zekr": "أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ مِنْ شَـرِّ ما خَلَـق.",
+//         "reference": "",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 3203,
+//         "description": {},
+//         "count": 3,
+//         "zekr": "اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ ، وَنَسْتَغْفِرُكَ لِمَا لَا نَعْلَمُهُ.",
+//         "reference": "",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 2829,
+//         "description": {},
+//         "count": 3,
+//         "zekr": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنْ الْعَجْزِ وَالْكَسَلِ، وَأَعُوذُ بِكَ مِنْ الْجُبْنِ وَالْبُخْلِ، وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَقَهْرِ الرِّجَالِ.",
+//         "reference": "أبو داود",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 3185,
+//         "description": {},
+//         "count": 3,
+//         "zekr": "أسْتَغْفِرُ اللهَ العَظِيمَ الَّذِي لاَ إلَهَ إلاَّ هُوَ، الحَيُّ القَيُّومُ، وَأتُوبُ إلَيهِ.",
+//         "reference": "",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 1395,
+//         "description": {},
+//         "count": 3,
+//         "zekr": "يَا رَبِّ , لَكَ الْحَمْدُ كَمَا يَنْبَغِي لِجَلَالِ وَجْهِكَ , وَلِعَظِيمِ سُلْطَانِكَ.",
+//         "reference": "",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 992,
+//         "description": {},
+//         "count": 1,
+//         "zekr": "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا.",
+//         "reference": "ابن ماجة",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 306,
+//         "description": {
+//             "arabic": "من قالها أعتقه الله من النار.",
+//             "english": "He who said to God from the fire.",
+//             "french": "Celui qui dit à Dieu du feu."
+//         },
+//         "count": 4,
+//         "zekr": "اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك ، وَأُشْـهِدُ حَمَلَـةَ عَـرْشِـك ، وَمَلَائِكَتَكَ ، وَجَمـيعَ خَلْـقِك ، أَنَّـكَ أَنْـتَ اللهُ لا إلهَ إلاّ أَنْـتَ وَحْـدَكَ لا شَريكَ لَـك ، وَأَنَّ ُ مُحَمّـداً عَبْـدُكَ وَرَسـولُـك.",
+//         "reference": "أبو داود",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 528,
+//         "description": {
+//             "arabic": "لم يضره من الله شيء.",
+//             "english": "He did not hurt him from God.",
+//             "french": "Il ne lui a pas fait mal de Dieu."
+//         },
+//         "count": 3,
+//         "zekr": "بِسـمِ اللهِ الذي لا يَضُـرُّ مَعَ اسمِـهِ شَيءٌ في الأرْضِ وَلا في السّمـاءِ وَهـوَ السّمـيعُ العَلـيم.",
+//         "reference": "ابن ماجة",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 2673,
+//         "description": {
+//             "arabic": "من قالها كفاه الله ما أهمه من أمر الدنيا والأخرة.",
+//             "english": "Who said to God, what is the most important thing of the world and the hereafter.",
+//             "french": "Qui a dit à Dieu, quelle est la chose la plus importante du monde et de l'au-delà."
+//         },
+//         "count": 7,
+//         "zekr": "حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ عَلَـيهِ تَوَكَّـلتُ وَهُوَ رَبُّ العَرْشِ العَظـيم.",
+//         "reference": "أبن السني",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 1522,
+//         "description": {
+//             "arabic": "من قالها حين يصبح وحين يمسى كفته من كل شىء (الإخلاص والمعوذتين).",
+//             "english": "Who said when he becomes and when he is prisoning him from everything (sincerity and sincerity).",
+//             "french": "Qui a dit quand il devient et quand il lui emprisonne de tout (sincérité et sincérité)."
+//         },
+//         "count": 3,
+//         "zekr": "بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\nقُلْ هُوَ ٱللَّهُ أَحَدٌ، ٱللَّهُ ٱلصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ.",
+//         "reference": "سورة الإخلاص",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 2597,
+//         "description": {
+//             "arabic": "من قالها حين يصبح وحين يمسى كفته من كل شىء (الإخلاص والمعوذتين).",
+//             "english": "Who said when he becomes and when he is prisoning him from everything (sincerity and sincerity).",
+//             "french": "Qui a dit quand il devient et quand il lui emprisonne de tout (sincérité et sincérité)."
+//         },
+//         "count": 3,
+//         "zekr": "بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\nقُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ، مَلِكِ ٱلنَّاسِ، إِلَٰهِ ٱلنَّاسِ، مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ، ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ، مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ.",
+//         "reference": "سورة الناس",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 789,
+//         "description": {
+//             "arabic": "من قالها حين يصبح أدى شكر يومه.",
+//             "english": "Who said when he became ahead of his day.",
+//             "french": "Qui a dit quand il est devenu avancé de sa journée."
+//         },
+//         "count": 1,
+//         "zekr": "اللّهُـمَّ ما أَصْبَـَحَ بي مِـنْ نِعْـمَةٍ أَو بِأَحَـدٍ مِـنْ خَلْـقِك ، فَمِـنْكَ وَحْـدَكَ لا شريكَ لَـك ، فَلَـكَ الْحَمْـدُ وَلَـكَ الشُّكْـر.",
+//         "reference": "أبو داود",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 2412,
+//         "description": {
+//             "arabic": "ذكر طيب.",
+//             "english": "Male ok.",
+//             "french": "Homme ok."
+//         },
+//         "count": 1,
+//         "zekr": "اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ ، عَلَيْكَ تَوَكَّلْتُ ، وَأَنْتَ رَبُّ الْعَرْشِ الْعَظِيمِ , مَا شَاءَ اللَّهُ كَانَ ، وَمَا لَمْ يَشَأْ لَمْ يَكُنْ ، وَلا حَوْلَ وَلا قُوَّةَ إِلا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ , أَعْلَمُ أَنَّ اللَّهَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ ، وَأَنَّ اللَّهَ قَدْ أَحَاطَ بِكُلِّ شَيْءٍ عِلْمًا , اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي ، وَمِنْ شَرِّ كُلِّ دَابَّةٍ أَنْتَ آخِذٌ بِنَاصِيَتِهَا ، إِنَّ رَبِّي عَلَى صِرَاطٍ مُسْتَقِيمٍ.",
+//         "reference": "",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 2064,
+//         "description": {
+//             "arabic": "من قالها حين يصبح وحين يمسى كان حقا على الله أن يرضيه يوم القيامة.",
+//             "english": "Who said when he becomes and when he was really in God to satisfy him on the Day of Resurrection.",
+//             "french": "Qui a dit quand il devient et quand il était vraiment en Dieu pour le satisfaire le jour de la résurrection."
+//         },
+//         "count": 3,
+//         "zekr": "رَضيـتُ بِاللهِ رَبَّـاً وَبِالإسْلامِ ديـناً وَبِمُحَـمَّدٍ صلى الله عليه وسلم نَبِيّـاً.",
+//         "reference": "أحمد",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 3567,
+//         "description": {
+//             "arabic": "من قالها حين يصبح وحين يمسى كفته من كل شىء (الإخلاص والمعوذتين).",
+//             "english": "Who said when he becomes and when he is prisoning him from everything (sincerity and sincerity).",
+//             "french": "Qui a dit quand il devient et quand il lui emprisonne de tout (sincérité et sincérité)."
+//         },
+//         "count": 3,
+//         "zekr": "بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\nقُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ، مِن شَرِّ مَا خَلَقَ، وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ، وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ.",
+//         "reference": "سورة الفلق",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 590,
+//         "description": {
+//             "arabic": "من قالها موقنا بها حين يمسى ومات من ليلته دخل الجنة وكذلك حين يصبح.",
+//             "english": "Who said to be our time when he laes and died of his night income of Paradise as well as when it becomes.",
+//             "french": "Qui a dit être notre temps quand il laes et est mort de son revenu de nuit du paradis ainsi que quand il devient."
+//         },
+//         "count": 1,
+//         "zekr": "اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ ، خَلَقْتَنـي وَأَنا عَبْـدُك ، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت ، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت ، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ .",
+//         "reference": "البخاري",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 1112,
+//         "description": {
+//             "arabic": "مائة حسنة، ومُحيت عنه مائة سيئة، وكانت له حرزاً من الشيطان حتى يمسى.",
+//             "english": "One hundred good, greeted him 100 bad, and had a confusion of the devil until he was prison.",
+//             "french": "Cent bons, la salua 100 mal et avait une confusion du diable jusqu'à ce qu'il soit prison."
+//         },
+//         "count": 100,
+//         "zekr": "أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ",
+//         "reference": "البخاري",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 1033,
+//         "description": {
+//             "arabic": "من قالها 100 مرة في يوم كانت له عدل عشر رقاب، وكتبت له مئة حسنة، ومحيت عنه مئة سيئة، وكانت له حرزا من الشيطان في يومه ذلك حتى يمسي ولم يأتي أحد بأفضل مما جاء به إلا احد عمل أكثر من ذلك",
+//             "english": "Who said 100 times a day he had amended twelve necks, written for him hundred a good, and he had a hundred bad, and had a confusion of Satan on his day so to touch and did not come one better than one more work",
+//             "french": "Qui a dit 100 fois par jour, il avait modifié douze cou, écrit pour lui centail un centail, et il avait une centaine de mal, et avait une confusion de Satan à sa journée afin de toucher et de ne pas venir un de plus qu'un travail de plus"
+//         },
+//         "count": 100,
+//         "zekr": "لَا إلَه إلّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءِ قَدِيرِ.",
+//         "reference": "الترمذي",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 1095,
+//         "description": {
+//             "arabic": "من صلى على حين يصبح وحين يمسى ادركته شفاعتى يوم القيامة.",
+//             "english": "Whoever prays when he becomes and when I realize my story on the Day of Resurrection.",
+//             "french": "Quiconque prie quand il devient et quand je réalise mon histoire le jour de la résurrection."
+//         },
+//         "count": 10,
+//         "zekr": "اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد.",
+//         "reference": "الطبراني",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 2776,
+//         "description": {
+//             "arabic": "حُطَّتْ خَطَايَاهُ وَإِنْ كَانَتْ مِثْلَ زَبَدِ الْبَحْرِ. لَمْ يَأْتِ أَحَدٌ يَوْمَ الْقِيَامَةِ بِأَفْضَلَ مِمَّا جَاءَ بِهِ إِلَّا أَحَدٌ قَالَ مِثْلَ مَا قَالَ أَوْ زَادَ عَلَيْهِ.",
+//             "english": "Stei ang See version of the megness.PRandentology (قيقيr) minated ammantal",
+//             "french": "Stei Ang Voir la version de la mégness.Prandentationologie (قيقي R) Minimée ammante"
+//         },
+//         "count": 100,
+//         "zekr": "سُبْحـانَ اللهِ وَبِحَمْـدِهِ.",
+//         "reference": "مسلم",
+//         "category": "أذكار الصباح"
+//     },
+//     {
+//         "id": 311,
+//         "description": {
+//             "arabic": "من قالها حين يصبح أجير من الجن حتى يمسى ومن قالها حين يمسى أجير من الجن حتى يصبح.",
+//             "english": "Who said when he becomes a wage from the jinn until I prison and he said when he walks from the jinn until he becomes.",
+//             "french": "Qui a dit quand il devient un salaire de la Jinn jusqu'à ce que je sache et il a dit quand il marche du Jinn jusqu'à ce qu'il devienne."
+//         },
+//         "count": 1,
+//         "zekr": "أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ\nاللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ.\n[آية الكرسى - البقرة 255].",
+//         "reference": "[آية الكرسى - البقرة 255].",
+//         "category": "أذكار الصباح"
+//     }
+// ]
