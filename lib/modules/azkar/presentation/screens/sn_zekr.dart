@@ -167,13 +167,13 @@ class _SnZekrState extends State<SnZekr> {
                       width: double.infinity,
                       padding: EdgeInsets.all(24.r),
                       decoration: BoxDecoration(
-                        color: context.theme.colorScheme.primaryColor,
+                        color: context.theme.colorScheme.secondaryColor,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         zekr.zekr ?? '',
-                        style: context.theme.textTheme.white20W500,
-                        textAlign: TextAlign.center,
+                        style: context.theme.textTheme.primary20W500.copyWith(height: 2.1),
+                        textAlign: TextAlign.start,
                       ),
                     ),
                     23.heightBox,
