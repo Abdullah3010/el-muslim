@@ -3,42 +3,42 @@
         "id": 2,
         "arName": "أذكار المساء",
         "enName": "Evening",
-        "filename": "evening.json",
+        "filename": "evening_new.json",
         "image": "evening.png"
     },
     {
         "id": 4,
         "arName": "أذكار الصباح",
         "enName": "Morning",
-        "filename": "morning.json",
+        "filename": "morning_new.json",
         "image": "morning.png"
     },
     {
         "id": 6,
         "arName": "أذكار الاستيقاظ",
         "enName": "Waking Up",
-        "filename": "wakeing_up.json",
+        "filename": "wakeing_up_new.json",
         "image": "wakeing_up.png"
     },
     {
         "id": 5,
         "arName": "أذكار النوم",
         "enName": "Sleeping",
-        "filename": "sleeping.json",
+        "filename": "sleeping_new.json",
         "image": "sleeping.png"
     },
     {
         "id": 1,
         "arName": "أذكار بعد الصلاة",
         "enName": "After Prayer",
-        "filename": "after_pray.json",
+        "filename": "after_pray_new.json",
         "image": "after_pray.png"
     },
     {
         "id": 3,
         "arName": "أذكار المسجد",
         "enName": "Masged",
-        "filename": "masged.json",
+        "filename": "masged_new.json",
         "image": "masged.png"
     },
     {

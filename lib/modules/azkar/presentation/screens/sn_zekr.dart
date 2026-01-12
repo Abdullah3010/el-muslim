@@ -161,7 +161,7 @@ class _SnZekrState extends State<SnZekr> {
               itemBuilder: (context, index) {
                 final zekr = manager.activeAzkarList[index];
                 return ListView(
-                  padding: EdgeInsets.symmetric(horizontal: 13.w),
+                  padding: EdgeInsets.symmetric(horizontal: 22.w),
                   children: [
                     Container(
                       width: double.infinity,
@@ -178,9 +178,9 @@ class _SnZekrState extends State<SnZekr> {
                     ),
                     23.heightBox,
                     Text(
-                      zekr.fadelZeker ?? '',
+                      zekr.fadelZeker?.join('\n') ?? '',
                       style: context.theme.textTheme.primary16W500,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.start,
                     ),
                   ],
                 );

@@ -7,7 +7,7 @@ class MZekr {
   final String? zekr;
   final String? reference;
   final String? category;
-  final String? fadelZeker;
+  final List<String>? fadelZeker;
 
   MZekr({this.id, this.description, this.count, this.zekr, this.reference, this.category, this.fadelZeker});
 
@@ -19,7 +19,7 @@ class MZekr {
       zekr: json?['zekr'],
       reference: json?['reference'],
       category: json?['category'],
-      fadelZeker: json?['fadel_zeker'],
+      fadelZeker: (json?['fadel_zeker'] as List<dynamic>?)?.map((e) => e.toString()).toList(),
     );
   }
 }
