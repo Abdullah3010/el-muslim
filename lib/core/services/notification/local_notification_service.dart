@@ -103,6 +103,18 @@ class LocalNotificationService {
   bool _exactSchedulingAvailable = true;
   bool _allowPermissionRequests = true;
 
+  static String? _pendingDeepLink;
+  static Map<String, dynamic>? _pendingPayload;
+
+  static bool get hasPendingNavigation => _pendingDeepLink != null && _pendingDeepLink!.isNotEmpty;
+  static String? get pendingDeepLink => _pendingDeepLink;
+  static Map<String, dynamic>? get pendingPayload => _pendingPayload;
+
+  static void clearPendingNavigation() {
+    _pendingDeepLink = null;
+    _pendingPayload = null;
+  }
+
   static const String _defaultChannelId = 'al_muslim_local_notifications';
   static const String _defaultChannelName = 'Al Muslim Alerts';
   static const String _defaultChannelDescription = 'Scheduled reminders and alarms';
@@ -327,10 +339,10 @@ class LocalNotificationService {
   Future<void> handleNotificationResponse(NotificationResponse response) async {
     final payload = _decodePayload(response.payload);
     print(" =====>>> $payload");
-    await handlePayload(payload);
+    await handlePayload(payload, navigateImmediately: true);
   }
 
-  Future<void> handlePayload(Map<String, dynamic> payload) async {
+  Future<void> handlePayload(Map<String, dynamic> payload, {bool navigateImmediately = false}) async {
     if (payload.isEmpty) return;
 
     if (_payloadHandler != null) {
@@ -339,10 +351,23 @@ class LocalNotificationService {
 
     final deepLink = _extractDeepLink(payload) ?? _fallbackDeepLink(payload);
     if (deepLink != null && deepLink.isNotEmpty) {
-      Future.delayed(const Duration(seconds: 1), () async {
-        await _deepLinkNavigator.navigate(deepLink, payload);
-      });
+      _pendingDeepLink = deepLink;
+      _pendingPayload = payload;
+
+      if (navigateImmediately) {
+        await navigateToPendingIfExists();
+      }
     }
+  }
+
+  Future<void> navigateToPendingIfExists() async {
+    if (!hasPendingNavigation) return;
+
+    final deepLink = _pendingDeepLink!;
+    final payload = _pendingPayload ?? {};
+    clearPendingNavigation();
+
+    await _deepLinkNavigator.navigate(deepLink, payload);
   }
 
   void registerPayloadHandler(NotificationPayloadHandler handler) {

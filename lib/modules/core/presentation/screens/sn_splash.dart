@@ -5,6 +5,7 @@ import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
+import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/modules/core/managers/mg_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -26,7 +27,12 @@ class _SNSplashState extends State<SNSplash> with SingleTickerProviderStateMixin
 
     Future.delayed(Duration.zero, () async {
       await Modular.get<MgCore>().initAppData();
-      Modular.get<MgCore>().setNavBarIndex(2);
+
+      if (LocalNotificationService.hasPendingNavigation) {
+        await LocalNotificationService.instance.navigateToPendingIfExists();
+      } else {
+        Modular.get<MgCore>().setNavBarIndex(2);
+      }
     });
   }
 
