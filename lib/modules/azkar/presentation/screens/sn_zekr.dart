@@ -172,7 +172,7 @@ class _SnZekrState extends State<SnZekr> {
                       ),
                       child: Text(
                         zekr.zekr ?? '',
-                        style: context.theme.textTheme.primary20W500.copyWith(height: 2.1),
+                        style: context.theme.textTheme.primary18W500.copyWith(height: 2.1),
                         textAlign: TextAlign.start,
                       ),
                     ),
