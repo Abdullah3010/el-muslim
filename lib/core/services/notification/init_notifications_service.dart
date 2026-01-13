@@ -38,6 +38,24 @@ class InitNotificationsService {
     final storedFlag = DSAppConfig.getConfigValue(Constants.configKeys.initNotificationsScheduled);
     if (storedFlag?.toLowerCase() == _scheduledFlagValue) return;
 
+    await _scheduleNotifications(assetPath: assetPath);
+    await DSAppConfig.setConfigValue(Constants.configKeys.initNotificationsScheduled, _scheduledFlagValue);
+  }
+
+  Future<void> resetAndRescheduleNotifications({String assetPath = InitNotificationsService.assetPath}) async {
+    await _boxNotification.init();
+    final notifications = await _loadNotifications(assetPath: assetPath);
+
+    for (final notification in notifications) {
+      await _notificationService.cancelNotification(notification.id);
+      await _notificationStore.delete(notification.id);
+    }
+
+    await _scheduleNotifications(assetPath: assetPath);
+    await DSAppConfig.setConfigValue(Constants.configKeys.initNotificationsScheduled, _scheduledFlagValue);
+  }
+
+  Future<void> _scheduleNotifications({required String assetPath}) async {
     await _boxNotification.init();
     final notifications = await _loadNotifications(assetPath: assetPath);
     for (final notification in notifications) {
@@ -56,8 +74,6 @@ class InitNotificationsService {
       }
       await _notificationService.scheduleNotification(notification: notification);
     }
-
-    await DSAppConfig.setConfigValue(Constants.configKeys.initNotificationsScheduled, _scheduledFlagValue);
   }
 
   Future<void> updateAzkarNotifications({required DateTime? fajrTime, required DateTime? maghribTime}) async {

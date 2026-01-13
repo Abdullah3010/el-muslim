@@ -4,8 +4,10 @@ import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
+import 'package:al_muslim/core/services/notification/init_notifications_service.dart';
 import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/services/routes/routes_names.dart';
+import 'package:al_muslim/core/utils/helper/app_dialogs.dart';
 import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
 import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
@@ -87,6 +89,12 @@ class SnMore extends StatelessWidget {
             title: 'Daily Awrad Alarm'.translated,
             icon: Assets.icons.notification.path,
             onTap: () => Modular.to.pushNamed(RoutesNames.werd.dailyAwradAlarm),
+          ),
+          const WSettingsItemDivider(),
+          WSettingsRowItem(
+            title: 'Reset Notifications'.translated,
+            icon: Assets.icons.notification.path,
+            onTap: () => _showResetNotificationsDialog(context),
           ),
           const WSettingsItemDivider(),
           WSettingsRowItem(
@@ -223,5 +231,42 @@ class SnMore extends StatelessWidget {
     final BookmarkModel? selected = await WQuranLibraryBookmarksSheet.show(context);
     if (selected == null) return;
     Modular.to.pushNamed(RoutesNames.quran.quranMain, arguments: selected);
+  }
+
+  void _showResetNotificationsDialog(BuildContext context) {
+    AppDialogs.dialog(
+      titleText: 'Reset Notifications Confirmation'.translated,
+      description: 'Reset Notifications Description'.translated,
+      mainActionTitle: 'Reset'.translated,
+      secondActionTitle: 'Cancel'.translated,
+      onMainAction: () async {
+        Navigator.of(context).pop();
+        await _resetNotifications(context);
+      },
+      onSecondAction: () {
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  Future<void> _resetNotifications(BuildContext context) async {
+    try {
+      final notificationService = LocalNotificationService();
+      final initNotificationsService = InitNotificationsService(notificationService: notificationService);
+
+      await initNotificationsService.resetAndRescheduleNotifications();
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Notifications Reset Successfully'.translated), duration: const Duration(seconds: 2)),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e'), duration: const Duration(seconds: 3)));
+      }
+    }
   }
 }
