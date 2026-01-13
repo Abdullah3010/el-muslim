@@ -2,6 +2,7 @@ import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:al_muslim/modules/index/data/models/m_quran_index.dart';
+import 'package:al_muslim/modules/quran/services/quran_reading_time_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -22,6 +23,12 @@ class SnQuranLibrary extends StatefulWidget {
 
 class _SnQuranLibraryState extends State<SnQuranLibrary> {
   String? _lastJumpKey;
+
+  @override
+  void initState() {
+    super.initState();
+    QuranReadingTimeService.instance.startSession();
+  }
 
   @override
   void didChangeDependencies() {
@@ -69,6 +76,7 @@ class _SnQuranLibraryState extends State<SnQuranLibrary> {
 
   @override
   void dispose() {
+    QuranReadingTimeService.instance.endSession();
     _resetScreenUtil();
     super.dispose();
   }

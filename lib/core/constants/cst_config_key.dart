@@ -8,4 +8,5 @@ class CSTConfigKey {
   final String werdPlanStartDate = 'werdPlanStartDate';
   final String initNotificationsScheduled = 'initNotificationsScheduled';
   final String pendingNotificationPayload = 'pendingNotificationPayload';
+  final String quranReadingTimeSeconds = 'quranReadingTimeSeconds';
 }
