@@ -11,13 +11,10 @@ import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 class MgMore extends ChangeNotifier {
-  MgMore._(
-    this._boxNotification,
-    this._notificationService,
-    this._dsNotification,
-  );
+  MgMore._(this._boxNotification, this._notificationService, this._dsNotification);
 
   factory MgMore({
     BoxNotification? boxNotification,
@@ -38,12 +35,10 @@ class MgMore extends ChangeNotifier {
 
   Box<MLocalNotification> get notificationBox => _boxNotification.box;
 
-  ValueListenable<Box<MLocalNotification>> notificationListenable(
-    int notificationId,
-  ) => _boxNotification.box.listenable(keys: [notificationId]);
+  ValueListenable<Box<MLocalNotification>> notificationListenable(int notificationId) =>
+      _boxNotification.box.listenable(keys: [notificationId]);
 
-  MLocalNotification? notificationFor(int notificationId) =>
-      notificationBox.get(notificationId);
+  MLocalNotification? notificationFor(int notificationId) => notificationBox.get(notificationId);
 
   Future<void> toggleNotification({
     required int notificationId,
@@ -62,9 +57,7 @@ class MgMore extends ChangeNotifier {
         isEnabled: true,
         payload: updatedPayload,
       );
-      await _notificationService.scheduleNotification(
-        notification: notification,
-      );
+      await _notificationService.scheduleNotification(notification: notification);
       return;
     }
 
@@ -90,33 +83,19 @@ class MgMore extends ChangeNotifier {
     await _notificationService.scheduleNotification(notification: notification);
   }
 
-  String formatNotificationTimeLabel(
-    int notificationId,
-    TimeOfDay defaultTime,
-  ) {
-    final scheduledAt =
-        notificationFor(notificationId)?.scheduledAt ??
-        _nextDailyTime(defaultTime);
+  String formatNotificationTimeLabel(int notificationId, TimeOfDay defaultTime) {
+    final scheduledAt = notificationFor(notificationId)?.scheduledAt ?? _nextDailyTime(defaultTime);
     return _formatTime(scheduledAt);
   }
 
   TimeOfDay? _timeOfDayFrom(MLocalNotification? notification) {
     if (notification == null) return null;
-    return TimeOfDay(
-      hour: notification.scheduledAt.hour,
-      minute: notification.scheduledAt.minute,
-    );
+    return TimeOfDay(hour: notification.scheduledAt.hour, minute: notification.scheduledAt.minute);
   }
 
   DateTime _nextDailyTime(TimeOfDay time) {
     final now = DateTime.now();
-    var scheduled = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      time.hour,
-      time.minute,
-    );
+    var scheduled = DateTime(now.year, now.month, now.day, time.hour, time.minute);
     if (!scheduled.isAfter(now)) {
       scheduled = scheduled.add(const Duration(days: 1));
     }
@@ -131,11 +110,7 @@ class MgMore extends ChangeNotifier {
     return '${hour.toString().padLeft(2, '0')}:$minute $period';
   }
 
-  MLocalNotification _buildNotification(
-    int notificationId,
-    _NotificationMeta meta,
-    DateTime scheduledAt,
-  ) {
+  MLocalNotification _buildNotification(int notificationId, _NotificationMeta meta, DateTime scheduledAt) {
     return MLocalNotification(
       id: notificationId,
       title: meta.title,
@@ -147,11 +122,7 @@ class MgMore extends ChangeNotifier {
     );
   }
 
-  Map<String, dynamic> _applyAutoScheduleOverride(
-    int notificationId,
-    Map<String, dynamic> payload,
-    bool autoSchedule,
-  ) {
+  Map<String, dynamic> _applyAutoScheduleOverride(int notificationId, Map<String, dynamic> payload, bool autoSchedule) {
     if (!_isAzkarAutoSchedule(notificationId)) return payload;
     final raw = payload[InitNotificationsService.autoSchedulePayloadKey];
     if (autoSchedule && raw is bool && raw == false) {
@@ -160,10 +131,7 @@ class MgMore extends ChangeNotifier {
     if (autoSchedule && raw is String && raw.toLowerCase() == 'false') {
       return payload;
     }
-    return <String, dynamic>{
-      ...payload,
-      InitNotificationsService.autoSchedulePayloadKey: autoSchedule,
-    };
+    return <String, dynamic>{...payload, InitNotificationsService.autoSchedulePayloadKey: autoSchedule};
   }
 
   bool _isAzkarAutoSchedule(int notificationId) {
@@ -188,34 +156,35 @@ class MgMore extends ChangeNotifier {
           deepLink: RoutesNames.azkar.azkarMain,
         );
       case Constants.almulkQuranNotificationId:
+        final isArabic = LocalizeAndTranslate.getLanguageCode() == 'ar';
         return _NotificationMeta(
-          title: 'Surah Al-Mulk Alarm'.translated,
-          body: 'Surah Al-Mulk Alarm'.translated,
+          title: isArabic ? 'منبه سورة الملك' : 'Surah Al-Mulk Alarm',
+          body:
+              isArabic
+                  ? 'لا تنسَ قراءة سورة الملك قبل النوم، فهي المنجية من عذاب القبر.'
+                  : 'Remember to recite Surah Al-Mulk before sleeping — it protects from the punishment of the grave.',
           payload: {'surah': 'al_mulk', 'surahNumber': 67},
           deepLink: RoutesNames.quran.quranMain,
         );
       case Constants.albakraQuranNotificationId:
+        final isArabic = LocalizeAndTranslate.getLanguageCode() == 'ar';
         return _NotificationMeta(
-          title: 'Surah Al-Baqara Alarm'.translated,
-          body: 'Surah Al-Baqara Alarm'.translated,
+          title: isArabic ? 'منبه سورة البقرة' : 'Surah Al-Baqara Alarm',
+          body:
+              isArabic
+                  ? 'قراءة سورة البقرة( إن لكل شيء سناما، وإن سنام القرآن البقرة، وإن من قرأها في بيته ليلة لم يدخله الشيطان 3 ليال)'
+                  : 'Reciting Surah Al-Baqara brings blessings; neglecting it brings regret and falsehood cannot overcome it.',
           payload: {'surah': 'al_baqara', 'surahNumber': 2},
           deepLink: RoutesNames.quran.quranMain,
         );
       default:
-        throw ArgumentError(
-          'Notification meta is not defined for id=$notificationId',
-        );
+        throw ArgumentError('Notification meta is not defined for id=$notificationId');
     }
   }
 }
 
 class _NotificationMeta {
-  const _NotificationMeta({
-    required this.title,
-    required this.body,
-    required this.deepLink,
-    this.payload = const {},
-  });
+  const _NotificationMeta({required this.title, required this.body, required this.deepLink, this.payload = const {}});
 
   final String title;
   final String body;

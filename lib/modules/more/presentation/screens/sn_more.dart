@@ -4,6 +4,7 @@ import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
+import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
 import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
@@ -91,7 +92,8 @@ class SnMore extends StatelessWidget {
           WSettingsRowItem(
             title: 'Start New Khatma'.translated,
             onTap: () async {
-              await WNewWerdBottomSheet.show(context);
+              // await WNewWerdBottomSheet.show(context);
+              LocalNotificationService().debugPrintScheduledNotifications();
             },
           ),
 

@@ -65,8 +65,11 @@ class _SnWerdState extends State<SnWerd> {
   void _markLoadedOnce() {
     if (_didLoadOnce) return;
     if (_mgWerd.isPlanLoading || _mgWerd.isPlanDetailsLoading || _mgWerd.isLoading) return;
-    setState(() {
-      _didLoadOnce = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      setState(() {
+        _didLoadOnce = true;
+      });
     });
   }
 
@@ -77,6 +80,9 @@ class _SnWerdState extends State<SnWerd> {
     if (_mgWerd.selectedPlanDay == null) return;
 
     _shouldAutoOpenSaved = false;
-    Modular.to.pushNamed(RoutesNames.werd.werdDetails);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      Modular.to.pushNamed(RoutesNames.werd.werdDetails);
+    });
   }
 }

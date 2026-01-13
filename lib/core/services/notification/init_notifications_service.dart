@@ -24,11 +24,7 @@ class InitNotificationsService {
     );
   }
 
-  InitNotificationsService._(
-    this._notificationService,
-    this._boxNotification,
-    this._notificationStore,
-  );
+  InitNotificationsService._(this._notificationService, this._boxNotification, this._notificationStore);
 
   static const String assetPath = 'assets/json/notifictaions/init_notifications.json';
   static const String autoSchedulePayloadKey = 'autoSchedule';
@@ -50,10 +46,7 @@ class InitNotificationsService {
         final updatedPayload = _mergedPayload(notification.payload, existing.payload);
         final updatedDeepLink = existing.deepLink ?? notification.deepLink;
         final shouldReschedule = existing.deepLink == null && updatedDeepLink != null;
-        final updated = existing.copyWith(
-          deepLink: updatedDeepLink,
-          payload: updatedPayload,
-        );
+        final updated = existing.copyWith(deepLink: updatedDeepLink, payload: updatedPayload);
         await _notificationStore.createUpdate(updated);
         if (shouldReschedule && existing.isEnabled) {
           await _notificationService.cancelNotification(existing.id);
@@ -67,10 +60,7 @@ class InitNotificationsService {
     await DSAppConfig.setConfigValue(Constants.configKeys.initNotificationsScheduled, _scheduledFlagValue);
   }
 
-  Future<void> updateAzkarNotifications({
-    required DateTime? fajrTime,
-    required DateTime? maghribTime,
-  }) async {
+  Future<void> updateAzkarNotifications({required DateTime? fajrTime, required DateTime? maghribTime}) async {
     if (fajrTime == null && maghribTime == null) return;
     await _boxNotification.init();
     if (fajrTime != null) {
@@ -87,24 +77,14 @@ class InitNotificationsService {
     }
   }
 
-  Future<void> _updateAzkarNotification({
-    required int notificationId,
-    required DateTime scheduledAt,
-  }) async {
+  Future<void> _updateAzkarNotification({required int notificationId, required DateTime scheduledAt}) async {
     final existing = await _notificationStore.getById(notificationId);
     if (existing == null) return;
     if (!_isAutoScheduleEnabled(existing.payload)) return;
 
     final nextSchedule = _nextDailyDateTime(scheduledAt);
-    final updatedPayload = <String, dynamic>{
-      ...existing.payload,
-      autoSchedulePayloadKey: true,
-    };
-    final updated = existing.copyWith(
-      scheduledAt: nextSchedule,
-      repeatDaily: true,
-      payload: updatedPayload,
-    );
+    final updatedPayload = <String, dynamic>{...existing.payload, autoSchedulePayloadKey: true};
+    final updated = existing.copyWith(scheduledAt: nextSchedule, repeatDaily: true, payload: updatedPayload);
 
     await _notificationService.cancelNotification(notificationId);
     if (!updated.isEnabled) {
@@ -211,10 +191,7 @@ class InitNotificationsService {
     }
 
     if (_isAutoScheduleNotification(notificationId)) {
-      payload = <String, dynamic>{
-        ...payload,
-        autoSchedulePayloadKey: true,
-      };
+      payload = <String, dynamic>{...payload, autoSchedulePayloadKey: true};
     }
 
     return _ResolvedPayload(payload: payload, deepLink: deepLink);
@@ -260,6 +237,10 @@ class InitNotificationsService {
         return Constants.eveningAzkarNotificationId;
       case 'azkar_sleep':
         return Constants.sleepAzkarNotificationId;
+      case 'quran_almulk':
+        return Constants.almulkQuranNotificationId;
+      case 'quran_albaqara':
+        return Constants.albakraQuranNotificationId;
     }
     return null;
   }
@@ -270,10 +251,7 @@ class InitNotificationsService {
   }
 
   Map<String, dynamic> _mergedPayload(Map<String, dynamic>? base, Map<String, dynamic>? existing) {
-    return <String, dynamic>{
-      ...?base,
-      ...?existing,
-    };
+    return <String, dynamic>{...?base, ...?existing};
   }
 }
 

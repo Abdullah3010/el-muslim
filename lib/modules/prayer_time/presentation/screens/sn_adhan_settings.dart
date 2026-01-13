@@ -4,10 +4,8 @@ import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
 import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
-import 'package:al_muslim/modules/prayer_time/data/prayer_notification_options.dart';
 import 'package:al_muslim/modules/prayer_time/managers/mg_prayer_time.dart';
 import 'package:flutter/material.dart';
-import 'package:al_muslim/modules/prayer_time/presentation/widgets/w_adhan_reminder_picker_bottom_sheet.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class SnAdhanSettings extends StatefulWidget {
@@ -34,30 +32,7 @@ class _SnAdhanSettingsState extends State<SnAdhanSettings> {
       body: ListView(
         padding: EdgeInsets.zero,
         children: [
-          WSettingsSectionHeader(title: 'Before Adhan Notification'.translated),
-          WSettingsRowItem(
-            title: 'Notify Before Adhan'.translated,
-            icon: Assets.icons.notification.path,
-
-            onTap: () async {
-              final selected = await WAdhanReminderPickerBottomSheet.show(
-                context,
-                initialIndex: mgPrayerTime.preAdhanIndexForPrayer(prayerName),
-                options: preAdhanNotificationOptions,
-              );
-              if (selected != null) {
-                await mgPrayerTime.updatePreAdhanReminder(prayerName, selected);
-              }
-            },
-          ),
-          WSettingsSectionHeader(title: 'Before Adhan Notification'.translated),
-          WSettingsRowItem(
-            title: 'Stop'.translated,
-            icon: Assets.icons.notification.path,
-            onTap: () async {
-              await mgPrayerTime.updatePreAdhanReminder(prayerName, 0);
-            },
-          ),
+          WSettingsSectionHeader(title: 'Adhan Settings'.translated),
           WSettingsRowItem(title: 'Silent'.translated, icon: Assets.icons.notification.path, onTap: () {}),
           // WSettingsRowItem(title: 'Device alert sound'.translated, icon: Assets.icons.notification.path, onTap: () {}),
           // WSettingsRowItem(

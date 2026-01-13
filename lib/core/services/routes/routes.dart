@@ -146,7 +146,12 @@ class Routes {
     r.child(
       RoutesNames.azkar.zekrbase,
       transition: TransitionType.fadeIn,
-      child: (_) => SnZekr(categoryId: int.tryParse(r.args.params['categoryId']) ?? 0),
+      child: (_) {
+        print(" =====>>>> params: ${r.args.params}");
+        print(" =====>>>> categoryId: ${r.args.params['categoryId']}");
+
+        return SnZekr(categoryId: int.tryParse(r.args.params['categoryId']) ?? 0);
+      },
       guards: [EnsureKeyboardDismissed()],
     );
 

@@ -235,7 +235,12 @@ class PrayerBackgroundService {
   Future<PPrayerTimeParams> _resolveParams() async {
     final MLocationConfig? stored = _locationStore.getCurrent();
     if (stored == null) return _params;
-    return PPrayerTimeParams(lat: stored.latitude, lon: stored.longitude, method: _params.method, school: _params.school);
+    return PPrayerTimeParams(
+      lat: stored.latitude,
+      lon: stored.longitude,
+      method: _params.method,
+      school: _params.school,
+    );
   }
 
   List<_PrayerEntry> _buildPrayerEntries(Map<String, String> raw, DateTime baseDate) {
@@ -280,35 +285,13 @@ class PrayerBackgroundService {
         await _notificationService.scheduleNotification(notification: resolved, androidAllowWhileIdle: true);
         await _notificationStore.createUpdate(resolved);
       }
-
-      final preAdhanId = Constants.preAdhanNotificationBaseId + index;
-      final storedPreAdhan = await _notificationStore.getById(preAdhanId);
-      final int preAdhanMinutes = _preAdhanMinutes(storedPreAdhan);
-      final preAdhanScheduledAt = entry.dateTime.subtract(Duration(minutes: preAdhanMinutes));
-      final preAdhanResolved = (storedPreAdhan ?? _defaultPreAdhanNotification(preAdhanId, entry.name)).copyWith(
-        scheduledAt: preAdhanScheduledAt,
-        payload: _updatedPreAdhanPayload(storedPreAdhan?.payload ?? <String, dynamic>{}, entry.name, preAdhanMinutes),
-        isEnabled: preAdhanMinutes > 0,
-      );
-
-      await _notificationService.cancelNotification(preAdhanId);
-      if (!resolved.isEnabled || !preAdhanResolved.isEnabled || !preAdhanScheduledAt.isAfter(now)) {
-        await _notificationStore.createUpdate(preAdhanResolved);
-        continue;
-      }
-
-      await _notificationService.scheduleNotification(notification: preAdhanResolved, androidAllowWhileIdle: true);
-      await _notificationStore.createUpdate(preAdhanResolved);
     }
   }
 
   Future<void> _updateAzkarNotifications(List<_PrayerEntry> entries) async {
     final fajrTime = _timeForPrayer(entries, 'Fajr');
     final maghribTime = _timeForPrayer(entries, 'Maghrib');
-    await _initNotificationsService.updateAzkarNotifications(
-      fajrTime: fajrTime,
-      maghribTime: maghribTime,
-    );
+    await _initNotificationsService.updateAzkarNotifications(fajrTime: fajrTime, maghribTime: maghribTime);
   }
 
   DateTime? _timeForPrayer(List<_PrayerEntry> entries, String name) {
@@ -320,25 +303,8 @@ class PrayerBackgroundService {
     return null;
   }
 
-  int _preAdhanMinutes(MLocalNotification? notification) {
-    final raw = notification?.payload['preAdhanMinutes'];
-    return raw is int ? raw : int.tryParse(raw?.toString() ?? '') ?? 0;
-  }
-
   Map<String, dynamic> _updatedPayload(Map<String, dynamic> existing, String prayerName, int preAlertMinutes) {
-    return {
-      ...existing,
-      'prayer': prayerName,
-      'preAlertMinutes': preAlertMinutes,
-    };
-  }
-
-  Map<String, dynamic> _updatedPreAdhanPayload(Map<String, dynamic> existing, String prayerName, int preAdhanMinutes) {
-    return {
-      ...existing,
-      'prayer': prayerName,
-      'preAdhanMinutes': preAdhanMinutes,
-    };
+    return {...existing, 'prayer': prayerName, 'preAlertMinutes': preAlertMinutes};
   }
 
   MLocalNotification _defaultNotification(int id, String prayerName, {PrayerNotificationTemplate? template}) {
@@ -362,25 +328,7 @@ class PrayerBackgroundService {
   }
 
   Map<String, dynamic> _mergedPayload(Map<String, dynamic>? template, Map<String, dynamic>? existing) {
-    return <String, dynamic>{
-      ...?template,
-      ...?existing,
-    };
-  }
-
-  MLocalNotification _defaultPreAdhanNotification(int id, String prayerName) {
-    final resolvedPrayer = _safeTranslate(prayerName);
-    final title = '${_safeTranslate('Prayer')} $resolvedPrayer ${_safeTranslate('coming soon')}';
-    return MLocalNotification(
-      id: id,
-      title: title,
-      body: title,
-      scheduledAt: DateTime.now(),
-      repeatDaily: false,
-      payload: _updatedPreAdhanPayload(<String, dynamic>{}, prayerName, 0),
-      deepLink: null,
-      isEnabled: false,
-    );
+    return <String, dynamic>{...?template, ...?existing};
   }
 
   String _safeTranslate(String value) {

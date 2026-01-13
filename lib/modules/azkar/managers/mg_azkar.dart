@@ -31,7 +31,9 @@ class MgAzkar extends ChangeNotifier {
       groupedAzkarKeys.clear();
       selectedGroupedKey = null;
       resetZekrProgress(shouldNotify: false);
-
+      if (categories.isEmpty) {
+        await loadAzkarCategories();
+      }
       final category = categories.firstWhere((cat) => cat.id == categoryId, orElse: () => MAzkarCategories());
       final jsonString = await rootBundle.loadString(category.filePath);
 
@@ -99,13 +101,11 @@ class MgAzkar extends ChangeNotifier {
       }
 
       final matched =
-          list
-              .where((item) {
-                final zekr = item.zekr ?? '';
-                final category = item.category ?? '';
-                return zekr.toLowerCase().contains(normalized) || category.toLowerCase().contains(normalized);
-              })
-              .toList();
+          list.where((item) {
+            final zekr = item.zekr ?? '';
+            final category = item.category ?? '';
+            return zekr.toLowerCase().contains(normalized) || category.toLowerCase().contains(normalized);
+          }).toList();
       if (matched.isNotEmpty) {
         _groupedAzkar[key] = matched;
         groupedAzkarKeys.add(key);

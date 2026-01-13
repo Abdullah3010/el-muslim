@@ -11,7 +11,6 @@ import 'package:al_muslim/core/services/notification/notification_box/box_notifi
 import 'package:al_muslim/core/services/notification/notification_box/ds_notification.dart';
 import 'package:al_muslim/core/services/notification/notification_box/m_notification.dart';
 import 'package:al_muslim/core/services/notification/prayer_notifications_service.dart';
-import 'package:al_muslim/modules/prayer_time/data/prayer_notification_options.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -62,7 +61,6 @@ class MgPrayerTime extends ChangeNotifier {
   late final InitNotificationsService _initNotificationsService;
   late final PrayerNotificationsService _prayerNotificationsService;
   final Map<String, MLocalNotification> _prayerNotifications = {};
-  final Map<String, MLocalNotification> _preAdhanNotifications = {};
   bool _notificationBoxReady = false;
   final BoxLocationConfig _locationBox;
   late final DSLocationConfig _locationStore;
@@ -270,19 +268,20 @@ class MgPrayerTime extends ChangeNotifier {
   }
 
   void _updateNextPrayerInfo({bool notify = true}) {
-    final entries = _buildPrayerEntries();
-    if (entries.isEmpty) {
+    final now = DateTime.now();
+    final todayEntries = _buildPrayerEntriesForDate(_normalizeDate(now));
+
+    if (todayEntries.isEmpty) {
       _nextPrayerName = '';
       _nextPrayerCountdown = Duration.zero;
       if (notify) notifyListeners();
       return;
     }
 
-    final now = DateTime.now();
-    final upcoming = entries.firstWhere(
+    final upcoming = todayEntries.firstWhere(
       (entry) => entry.dateTime.isAfter(now),
       orElse: () {
-        final first = entries.first;
+        final first = todayEntries.first;
         return PrayerTimeEntry(
           name: first.name,
           time: first.time,
@@ -301,17 +300,23 @@ class MgPrayerTime extends ChangeNotifier {
   }
 
   List<PrayerTimeEntry> _buildPrayerEntries() {
-    final data = _currentData;
+    return _buildPrayerEntriesForDate(_selectedDate);
+  }
+
+  List<PrayerTimeEntry> _buildPrayerEntriesForDate(DateTime date) {
+    final normalizedDate = _normalizeDate(date);
+    final cacheKey = _cacheKeyFor(normalizedDate);
+    final data = _cache[cacheKey];
+
     if (data == null) return [];
 
-    final baseDate = _selectedDate;
     const displayOrder = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
 
     return displayOrder
         .map((name) {
           final time = data.times.raw[name];
           if (time == null || time.isEmpty) return null;
-          return PrayerTimeEntry(name: name, time: time, dateTime: _parseDateTime(baseDate, time));
+          return PrayerTimeEntry(name: name, time: time, dateTime: _parseDateTime(normalizedDate, time));
         })
         .whereType<PrayerTimeEntry>()
         .toList();
@@ -322,19 +327,6 @@ class MgPrayerTime extends ChangeNotifier {
     return !(notification?.isEnabled ?? true);
   }
 
-  int preAdhanIndexForPrayer(String prayerName) {
-    final notification = _preAdhanNotifications[prayerName];
-    final rawMinutes = notification?.payload['preAdhanMinutes'];
-    final int minutes = rawMinutes is int ? rawMinutes : int.tryParse(rawMinutes?.toString() ?? '') ?? 0;
-    final index = preAdhanNotificationOptions.indexWhere((option) => option.offsetMinutes == minutes);
-    return index >= 0 ? index : 0;
-  }
-
-  String preAdhanLabelKeyForPrayer(String prayerName) {
-    final index = preAdhanIndexForPrayer(prayerName);
-    return preAdhanNotificationOptions[index].labelKey;
-  }
-
   Future<void> setPrayerNotificationEnabled(String prayerName, bool isEnabled) async {
     await _ensureNotificationSettings();
     final template = await _prayerNotificationsService.templateForPrayer(prayerName);
@@ -343,29 +335,6 @@ class MgPrayerTime extends ChangeNotifier {
     _prayerNotifications[prayerName] = updated;
     await _notificationStore.createUpdate(updated);
     if (!isEnabled) {
-      await _notificationService.cancelNotification(updated.id);
-      final preAdhan = _preAdhanNotifications[prayerName];
-      if (preAdhan != null) {
-        await _notificationService.cancelNotification(preAdhan.id);
-      }
-    } else {
-      await _reschedulePrayer(prayerName);
-    }
-    notifyListeners();
-  }
-
-  Future<void> updatePreAdhanReminder(String prayerName, int optionIndex) async {
-    await _ensureNotificationSettings();
-    final notification = _preAdhanNotifications[prayerName] ?? _defaultPreAdhanNotification(prayerName);
-    final minutes = preAdhanNotificationOptions[optionIndex].offsetMinutes;
-    final enabled = minutes > 0;
-    final updated = notification.copyWith(
-      payload: _updatedPreAdhanPayload(notification.payload, prayerName, minutes),
-      isEnabled: enabled,
-    );
-    _preAdhanNotifications[prayerName] = updated;
-    await _notificationStore.createUpdate(updated);
-    if (!enabled) {
       await _notificationService.cancelNotification(updated.id);
     } else {
       await _reschedulePrayer(prayerName);
@@ -490,20 +459,6 @@ class MgPrayerTime extends ChangeNotifier {
           didUpdate = true;
         }
       }
-
-      if (!_preAdhanNotifications.containsKey(prayerName)) {
-        final preAdhanId = _preAdhanNotificationIdForPrayer(prayerName);
-        final storedPreAdhan = await _notificationStore.getById(preAdhanId);
-        if (storedPreAdhan != null) {
-          _preAdhanNotifications[prayerName] = storedPreAdhan;
-          didUpdate = true;
-        } else {
-          final created = _defaultPreAdhanNotification(prayerName);
-          _preAdhanNotifications[prayerName] = created;
-          await _notificationStore.createUpdate(created);
-          didUpdate = true;
-        }
-      }
     }
     if (didUpdate) {
       notifyListeners();
@@ -521,11 +476,6 @@ class MgPrayerTime extends ChangeNotifier {
     return Constants.prayNotificationBaseId + (index < 0 ? 0 : index);
   }
 
-  int _preAdhanNotificationIdForPrayer(String prayerName) {
-    final index = prayerNames.indexOf(prayerName);
-    return Constants.preAdhanNotificationBaseId + (index < 0 ? 0 : index);
-  }
-
   MLocalNotification _defaultNotification(String prayerName, {PrayerNotificationTemplate? template}) {
     final now = DateTime.now();
     return _buildNotification(
@@ -535,11 +485,6 @@ class MgPrayerTime extends ChangeNotifier {
       isEnabled: template?.isEnabled ?? true,
       template: template,
     );
-  }
-
-  MLocalNotification _defaultPreAdhanNotification(String prayerName) {
-    final now = DateTime.now();
-    return _buildPreAdhanNotification(prayerName: prayerName, scheduledAt: now, preAdhanMinutes: 0, isEnabled: false);
   }
 
   Map<String, dynamic> _updatedPayload(Map<String, dynamic> existing, String prayerName, int preAlertMinutes) {
@@ -552,19 +497,7 @@ class MgPrayerTime extends ChangeNotifier {
   }
 
   Map<String, dynamic> _mergedPayload(Map<String, dynamic>? template, Map<String, dynamic>? existing) {
-    return <String, dynamic>{
-      ...?template,
-      ...?existing,
-    };
-  }
-
-  Map<String, dynamic> _updatedPreAdhanPayload(Map<String, dynamic> existing, String prayerName, int preAdhanMinutes) {
-    return {
-      ...existing,
-      'prayer': prayerName,
-      'preAdhanMinutes': preAdhanMinutes,
-      'languageCode': LocalizeAndTranslate.getLanguageCode(),
-    };
+    return <String, dynamic>{...?template, ...?existing};
   }
 
   MLocalNotification _buildNotification({
@@ -592,24 +525,6 @@ class MgPrayerTime extends ChangeNotifier {
     return '${'It is time for'.translated} ${prayerName.translated}';
   }
 
-  MLocalNotification _buildPreAdhanNotification({
-    required String prayerName,
-    required DateTime scheduledAt,
-    required int preAdhanMinutes,
-    required bool isEnabled,
-  }) {
-    final title = '${'Prayer'.translated} ${prayerName.translated} ${'coming soon'.translated}';
-    return MLocalNotification(
-      id: _preAdhanNotificationIdForPrayer(prayerName),
-      title: title,
-      body: title,
-      scheduledAt: scheduledAt,
-      repeatDaily: false,
-      payload: _updatedPreAdhanPayload(<String, dynamic>{}, prayerName, preAdhanMinutes),
-      isEnabled: isEnabled,
-    );
-  }
-
   Future<void> _refreshPrayerNotifications() async {
     if (_currentData == null) return;
     if (!_isToday(_selectedDate)) return;
@@ -621,7 +536,6 @@ class MgPrayerTime extends ChangeNotifier {
     );
     for (final entry in entries) {
       await _schedulePrayerNotification(entry);
-      await _schedulePreAdhanNotification(entry);
     }
   }
 
@@ -634,7 +548,6 @@ class MgPrayerTime extends ChangeNotifier {
     );
     if (entry.time.isEmpty) return;
     await _schedulePrayerNotification(entry);
-    await _schedulePreAdhanNotification(entry);
   }
 
   Future<void> _schedulePrayerNotification(PrayerTimeEntry entry) async {
@@ -659,52 +572,6 @@ class MgPrayerTime extends ChangeNotifier {
 
     await _notificationService.scheduleNotification(notification: localized, androidAllowWhileIdle: true);
     _prayerNotifications[entry.name] = localized;
-    await _notificationStore.createUpdate(localized);
-  }
-
-  Future<void> _schedulePreAdhanNotification(PrayerTimeEntry entry) async {
-    final now = DateTime.now();
-    final mainNotification = _prayerNotifications[entry.name];
-    if (mainNotification != null && !mainNotification.isEnabled) {
-      final existing = _preAdhanNotifications[entry.name];
-      if (existing != null) {
-        await _notificationService.cancelNotification(existing.id);
-      }
-      return;
-    }
-    final notification = _preAdhanNotifications[entry.name] ?? _defaultPreAdhanNotification(entry.name);
-    final rawMinutes = notification.payload['preAdhanMinutes'];
-    final int offsetMinutes = rawMinutes is int ? rawMinutes : int.tryParse(rawMinutes?.toString() ?? '') ?? 0;
-    if (offsetMinutes <= 0) {
-      await _notificationService.cancelNotification(notification.id);
-      final disabled = notification.copyWith(
-        isEnabled: false,
-        scheduledAt: entry.dateTime,
-        payload: _updatedPreAdhanPayload(notification.payload, entry.name, offsetMinutes),
-      );
-      _preAdhanNotifications[entry.name] = disabled;
-      await _notificationStore.createUpdate(disabled);
-      return;
-    }
-
-    final scheduledAt = entry.dateTime.subtract(Duration(minutes: offsetMinutes));
-    final localized = notification.copyWith(
-      title: '${'Prayer'.translated} ${entry.name.translated} ${'coming soon'.translated}',
-      body: '${'Prayer'.translated} ${entry.name.translated} ${'coming soon'.translated}',
-      scheduledAt: scheduledAt,
-      isEnabled: true,
-      payload: _updatedPreAdhanPayload(notification.payload, entry.name, offsetMinutes),
-    );
-
-    await _notificationService.cancelNotification(localized.id);
-    if (!localized.isEnabled || !scheduledAt.isAfter(now)) {
-      _preAdhanNotifications[entry.name] = localized;
-      await _notificationStore.createUpdate(localized);
-      return;
-    }
-
-    await _notificationService.scheduleNotification(notification: localized, androidAllowWhileIdle: true);
-    _preAdhanNotifications[entry.name] = localized;
     await _notificationStore.createUpdate(localized);
   }
 

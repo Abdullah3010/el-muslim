@@ -8,6 +8,7 @@ import 'package:al_muslim/modules/prayer_time/managers/mg_prayer_time.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/widgets/w_date_switcher.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/widgets/w_next_prayer_timer.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/widgets/w_prayer_times_list.dart';
+import 'package:al_muslim/modules/prayer_time/presentation/widgets/w_prayer_times_list_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,13 +50,9 @@ class _SnPrayTimeState extends State<SnPrayTime> with WidgetsBindingObserver {
     final now = DateTime.now();
     final selectedDate = _mgPrayerTime.selectedDate;
     final hasDateChanged =
-        now.year != _lastActiveDate.year ||
-        now.month != _lastActiveDate.month ||
-        now.day != _lastActiveDate.day;
+        now.year != _lastActiveDate.year || now.month != _lastActiveDate.month || now.day != _lastActiveDate.day;
     final isSelectedNotToday =
-        selectedDate.year != now.year ||
-        selectedDate.month != now.month ||
-        selectedDate.day != now.day;
+        selectedDate.year != now.year || selectedDate.month != now.month || selectedDate.day != now.day;
 
     if (hasDateChanged || isSelectedNotToday) {
       _lastActiveDate = now;
@@ -80,10 +77,6 @@ class _SnPrayTimeState extends State<SnPrayTime> with WidgetsBindingObserver {
       body: AnimatedBuilder(
         animation: _mgPrayerTime,
         builder: (context, child) {
-          if (_mgPrayerTime.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
           if (_mgPrayerTime.status == PrayerTimeStatus.error) {
             return Center(
               child: Column(
@@ -95,10 +88,6 @@ class _SnPrayTimeState extends State<SnPrayTime> with WidgetsBindingObserver {
                 ],
               ),
             );
-          }
-
-          if (!_mgPrayerTime.hasData) {
-            return const SizedBox.shrink();
           }
 
           final nextPrayerLabel =
@@ -119,12 +108,14 @@ class _SnPrayTimeState extends State<SnPrayTime> with WidgetsBindingObserver {
                 onPrevious: _mgPrayerTime.canGoToPreviousDay ? () => _mgPrayerTime.goToPreviousDay() : null,
                 onNext: () => _mgPrayerTime.goToNextDay(),
               ),
-              // SizedBox(height: 20.h),
-              WPrayerTimesList(
-                entries: _mgPrayerTime.prayerTimeEntries,
-                highlightedPrayer: _mgPrayerTime.nextPrayerName,
-                manager: _mgPrayerTime,
-              ),
+              if (_mgPrayerTime.isLoading)
+                const WPrayerTimesListShimmer()
+              else
+                WPrayerTimesList(
+                  entries: _mgPrayerTime.prayerTimeEntries,
+                  highlightedPrayer: _mgPrayerTime.nextPrayerName,
+                  manager: _mgPrayerTime,
+                ),
               Constants.navbarHeight.verticalSpace,
             ],
           );

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:al_muslim/core/config/box_app_config/box_app_config.dart';
+import 'package:al_muslim/core/services/notification/hourly_zekr/hourly_zekr_notification_service.dart';
 import 'package:al_muslim/core/services/notification/init_notifications_service.dart';
 import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/services/routes/app_module.dart';
@@ -43,6 +44,13 @@ void main() {
     try {
       await notificationService.initialize(androidDefaultIcon: 'launcher_icon');
       notificationReady = true;
+
+      final hourlyZekrService = HourlyZekrNotificationService(notificationService: notificationService);
+      await hourlyZekrService.initialize();
+
+      notificationService.registerPayloadHandler((payload) async {
+        await hourlyZekrService.handleNotificationResponse(payload);
+      });
 
       final initNotificationsService = InitNotificationsService(notificationService: notificationService);
       await initNotificationsService.scheduleInitialNotificationsIfNeeded();

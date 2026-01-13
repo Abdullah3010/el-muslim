@@ -44,23 +44,80 @@ abstract class DeepLinkNavigator {
 }
 
 class ModularDeepLinkNavigator implements DeepLinkNavigator {
+  bool _isNavigating = false;
+
   @override
   Future<void> navigate(String deepLink, Map<String, dynamic> payload) async {
     if (deepLink.isEmpty) return;
+    if (_isNavigating) return;
 
+    _isNavigating = true;
     try {
       final resolvedDeepLink = _resolveDeepLink(deepLink, payload);
+      Constants.talker.info('Navigating to deep link: $resolvedDeepLink (original: $deepLink)');
       Modular.to.pushNamed(resolvedDeepLink, arguments: payload);
     } catch (error, stackTrace) {
       Constants.talker.error('Failed to navigate deep link: $deepLink', error, stackTrace);
+      _navigateToFallback();
+    } finally {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _isNavigating = false;
+      });
     }
   }
 
   String _resolveDeepLink(String deepLink, Map<String, dynamic> payload) {
-    if (deepLink == RoutesNames.werd.werdDetails && payload['planId'] != null) {
-      return RoutesNames.werd.werdMain;
-    }
+    // if (deepLink == RoutesNames.werd.werdDetails && payload['planId'] != null) {
+    //   return RoutesNames.werd.werdMain;
+    // }
+
+    // // Fix legacy incorrect azkar deep links: /zekr/* -> /azkar/zekr/*
+    // if (deepLink.startsWith('/zekr/') && !deepLink.startsWith('/azkar/')) {
+    //   final categoryId = deepLink.replaceFirst('/zekr/', '');
+    //   final parsed = int.tryParse(categoryId);
+    //   if (parsed != null) {
+    //     return RoutesNames.azkar.zekr(parsed);
+    //   }
+    // }
+
+    // // Handle category-based fallback for azkar
+    // if (deepLink == '/azkar' || deepLink == '/azkar/') {
+    //   final categoryId = _azkarCategoryIdFromPayload(payload);
+    //   if (categoryId != null) {
+    //     return RoutesNames.azkar.zekr(categoryId);
+    //   }
+    //   return RoutesNames.azkar.azkarMain;
+    // }
+
     return deepLink;
+  }
+
+  int? _azkarCategoryIdFromPayload(Map<String, dynamic> payload) {
+    final raw = payload['category'] ?? payload['type'];
+    if (raw == null) return null;
+    if (raw is int) return raw;
+    final value = raw.toString().toLowerCase().trim();
+    if (value.isEmpty) return null;
+    final parsed = int.tryParse(value);
+    if (parsed != null) return parsed;
+    switch (value) {
+      case 'morning':
+      case 'morning_adhkar':
+        return 4;
+      case 'evening':
+      case 'evening_adhkar':
+        return 2;
+      case 'sleep':
+        return 5;
+      default:
+        return null;
+    }
+  }
+
+  void _navigateToFallback() {
+    try {
+      Modular.to.pushNamed('/');
+    } catch (_) {}
   }
 }
 

@@ -11,6 +11,7 @@ import 'package:al_muslim/modules/werd/data/models/m_werd_plan_option.dart';
 import 'package:al_muslim/modules/werd/sources/local/werd_local_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 class MgWerd extends ChangeNotifier {
   MgWerd({WerdLocalDataSource? localDataSource, LocalNotificationService? notificationService})
@@ -333,11 +334,14 @@ class MgWerd extends ChangeNotifier {
   }
 
   MLocalNotification _buildNotification(MWerdPlanOption plan, DateTime scheduledAt) {
-    final reminderTitle = 'Daily Werd Reminder'.translated;
+    final isArabic = LocalizeAndTranslate.getLanguageCode() == 'ar';
     return MLocalNotification(
       id: _generateNotificationId(),
-      title: reminderTitle.isEmpty ? 'Daily Werd Reminder' : reminderTitle,
-      body: plan.titleEn,
+      title: isArabic ? 'تذكير الورد اليومي' : 'Daily Werd Reminder',
+      body:
+          isArabic
+              ? 'لا تنسَ وردك اليومي، فهو زاد القلب وروح الإيمان.'
+              : 'Don\'t forget your daily Werd — it nourishes the heart and strengthens faith.',
       scheduledAt: scheduledAt,
       repeatDaily: true,
       payload: {'planId': plan.id},

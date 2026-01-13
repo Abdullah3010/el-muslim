@@ -18,8 +18,8 @@
                     "en": "🕌 Fajr Prayer"
                 },
                 "body": {
-                    "ar": "حان الآن وقت صلاة الفجر",
-                    "en": "It is time for Fajr prayer"
+                    "ar": "حان وقت صلاة الفجر، قم إلى الصلاة فهي خير من النوم.",
+                    "en": "It is time for Fajr prayer — rise to prayer, for it is better than sleep."
                 },
                 "sound": "adhan",
                 "channel_id": "prayer_channel"
@@ -50,8 +50,8 @@
                     "en": "🕌 Sunrise Prayer"
                 },
                 "body": {
-                    "ar": "حان الآن وقت صلاة الشروق",
-                    "en": "It is time for Sunrise prayer"
+                    "ar": "حان وقت صلاة الشروق، اجعل يومك يبدأ بالنور والبركة.",
+                    "en": "It is time for Sunrise prayer — begin your day with light and blessings."
                 },
                 "sound": "adhan",
                 "channel_id": "prayer_channel"
@@ -82,8 +82,8 @@
                     "en": "🕌 Dhuhr Prayer"
                 },
                 "body": {
-                    "ar": "حان الآن وقت صلاة الظهر",
-                    "en": "It is time for Dhuhr prayer"
+                    "ar": "حان وقت صلاة الظهر، استعن بالله وسط يومك.",
+                    "en": "It is time for Dhuhr prayer — seek strength from Allah in the middle of your day."
                 },
                 "sound": "adhan",
                 "channel_id": "prayer_channel"
@@ -114,8 +114,8 @@
                     "en": "🕌 Asr Prayer"
                 },
                 "body": {
-                    "ar": "حان الآن وقت صلاة العصر",
-                    "en": "It is time for Asr prayer"
+                    "ar": "حان وقت صلاة العصر، لا تفوّت ذكر الله في وقت العمل.",
+                    "en": "It is time for Asr prayer — don't miss Allah's remembrance during your busy hours."
                 },
                 "sound": "adhan",
                 "channel_id": "prayer_channel"
@@ -146,8 +146,8 @@
                     "en": "🕌 Maghrib Prayer"
                 },
                 "body": {
-                    "ar": "حان الآن وقت صلاة المغرب",
-                    "en": "It is time for Maghrib prayer"
+                    "ar": "حان وقت صلاة المغرب، افتتح ليلك بالصلاة والذكر.",
+                    "en": "It is time for Maghrib prayer — begin your evening with prayer and remembrance."
                 },
                 "sound": "adhan",
                 "channel_id": "prayer_channel"
@@ -178,8 +178,8 @@
                     "en": "🕌 Isha Prayer"
                 },
                 "body": {
-                    "ar": "حان الآن وقت صلاة العشاء",
-                    "en": "It is time for Isha prayer"
+                    "ar": "حان وقت صلاة العشاء، اختم يومك بالقرب من الله.",
+                    "en": "It is time for Isha prayer — end your day close to Allah."
                 },
                 "sound": "adhan",
                 "channel_id": "prayer_channel"

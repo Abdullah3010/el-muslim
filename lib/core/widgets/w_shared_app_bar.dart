@@ -49,9 +49,8 @@ class WSharedAppBar extends StatelessWidget {
                       },
                   child: Transform.rotate(
                     angle: context.languageCode == 'ar' ? 180 * 3.14 / 180 : 0,
-                    child: SizedBox(
-                      width: 14.w,
-                      height: 25.h,
+                    child: Padding(
+                      padding: EdgeInsets.all(10.w),
                       child: SvgPicture.asset(
                         Assets.icons.backGold.path,
                         colorFilter: ColorFilter.mode(context.theme.colorScheme.primaryColor2, BlendMode.srcIn),

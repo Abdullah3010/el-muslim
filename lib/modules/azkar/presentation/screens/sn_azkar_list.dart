@@ -246,7 +246,6 @@ class _AzkarCategoryCardState extends State<_AzkarCategoryCard> {
   @override
   Widget build(BuildContext context) {
     final showImage = _imageAvailable && widget.imagePath.isNotEmpty;
-    print(" =====>>>> showImage: ${widget.imagePath}");
     return InkWell(
       onTap: widget.onTap,
       borderRadius: BorderRadius.circular(28),

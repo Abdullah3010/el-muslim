@@ -3,6 +3,7 @@ import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/extension/text_theme_extension.dart';
+import 'package:al_muslim/core/services/notification/hourly_zekr/hourly_zekr_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -79,7 +80,13 @@ class WLanguageSelectorDialog extends StatelessWidget {
 
     context.setLanguageCode(code);
     LocalizeAndTranslate.setLanguageCode(code);
-    Navigator.of(context).pop();
+
+    final hourlyZekrService = HourlyZekrNotificationService();
+    await hourlyZekrService.rescheduleIfNeeded();
+
+    if (context.mounted) {
+      Navigator.of(context).pop();
+    }
   }
 }
 
