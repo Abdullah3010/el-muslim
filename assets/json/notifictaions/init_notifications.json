@@ -17,8 +17,8 @@
                     "en": "🌅 Morning Azkar"
                 },
                 "body": {
-                    "ar": "ابدأ يومك بذكر الله، فالذكر نور للقلب وطمأنينة للنفس.",
-                    "en": "Start your morning with Allah's remembrance — it brings light to the heart and peace to the soul."
+                    "ar": "ابدأ يومك بذكر الله، فالذكر نور للقلب وطمأنينة للنفس.\nاضغط للقراءة",
+                    "en": "Start your morning with Allah's remembrance — it brings light to the heart and peace to the soul.\nTap to read"
                 },
                 "sound": "default",
                 "channel_id": "azkar_channel"
@@ -49,8 +49,8 @@
                     "en": "🌇 Evening Azkar"
                 },
                 "body": {
-                    "ar": "اختم يومك بذكر الله، فهو حصنٌ من الهموم وراحةٌ للروح.",
-                    "en": "End your day with Allah's remembrance — a shield from worries and comfort for the soul."
+                    "ar": "اختم يومك بذكر الله، فهو حصنٌ من الهموم وراحةٌ للروح.\nاضغط للقراءة",
+                    "en": "End your day with Allah's remembrance — a shield from worries and comfort for the soul.\nTap to read"
                 },
                 "sound": "default",
                 "channel_id": "azkar_channel"
@@ -81,8 +81,8 @@
                     "en": "🌙 Sleep Azkar"
                 },
                 "body": {
-                    "ar": "نم على ذكر الله، فهو أمانٌ للقلب وسكينةٌ للنفس.",
-                    "en": "Sleep with Allah's remembrance — it brings safety to the heart and serenity to the soul."
+                    "ar": "نم على ذكر الله، فهو أمانٌ للقلب وسكينةٌ للنفس.\nاضغط للقراءة",
+                    "en": "Sleep with Allah's remembrance — it brings safety to the heart and serenity to the soul.\nTap to read"
                 },
                 "sound": "default",
                 "channel_id": "azkar_channel"
@@ -109,12 +109,12 @@
             },
             "content": {
                 "title": {
-                    "ar": "منبه سورة الملك",
-                    "en": "Surah Al-Mulk Alarm"
+                    "ar": "سورة الملك",
+                    "en": "Surah Al-Mulk"
                 },
                 "body": {
-                    "ar": "لا تنسَ قراءة سورة الملك قبل النوم، فهي المنجية من عذاب القبر.",
-                    "en": "Remember to recite Surah Al-Mulk before sleeping — it protects from the punishment of the grave."
+                    "ar": "لا تنسَ قراءة سورة الملك قبل النوم، فهي المنجية من عذاب القبر.\nاضغط للقراءة",
+                    "en": "Remember to recite Surah Al-Mulk before sleeping — it protects from the punishment of the grave.\nTap to read"
                 },
                 "sound": "default",
                 "channel_id": "al_muslim_local_notifications"
@@ -142,12 +142,12 @@
             },
             "content": {
                 "title": {
-                    "ar": "منبه سورة البقرة",
-                    "en": "Surah Al-Baqara Alarm"
+                    "ar": "سورة البقرة",
+                    "en": "Surah Al-Baqara"
                 },
                 "body": {
-                    "ar": "قراءة سورة البقرة( إن لكل شيء سناما، وإن سنام القرآن البقرة، وإن من قرأها في بيته ليلة لم يدخله الشيطان 3 ليال)",
-                    "en": "Reciting Surah Al-Baqara brings blessings; neglecting it brings regret and falsehood cannot overcome it."
+                    "ar": "قراءة سورة البقرة (إن لكل شيء سناما، وإن سنام القرآن البقرة، وإن من قرأها في بيته ليلة لم يدخله الشيطان 3 ليال)\nاضغط للقراءة",
+                    "en": "Reciting Surah Al-Baqara brings blessings; neglecting it brings regret and falsehood cannot overcome it.\nTap to read"
                 },
                 "sound": "default",
                 "channel_id": "al_muslim_local_notifications"
