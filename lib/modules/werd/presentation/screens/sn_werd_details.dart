@@ -236,7 +236,12 @@ class _SnWerdDetailsState extends State<SnWerdDetails> {
   }
 
   Future<void> _onCompleteCurrentWerd() async {
+    final wasLastWerd = _mgWerd.remainingDaysCount == 1;
     await _mgWerd.markCurrentDayFinished();
+
+    if (wasLastWerd && mounted) {
+      Modular.to.popUntil((route) => route.settings.name == RoutesNames.werd.werdMain);
+    }
   }
 
   void _openPage(int pageNumber) {

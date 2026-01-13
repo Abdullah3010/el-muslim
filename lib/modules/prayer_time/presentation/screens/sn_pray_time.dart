@@ -70,7 +70,10 @@ class _SnPrayTimeState extends State<SnPrayTime> with WidgetsBindingObserver {
           onTap: () => Modular.to.pushNamed(RoutesNames.prayTime.prayTimeSettings),
           child: Assets.icons.settings.svg(),
         ),
-        action: Assets.icons.qipla.svg(),
+        action: InkWell(
+          onTap: () => Modular.to.pushNamed(RoutesNames.qibla.qiblaMain),
+          child: Assets.icons.qipla.svg(),
+        ),
         title: 'Prayer Times'.translated,
         withBack: false,
       ),

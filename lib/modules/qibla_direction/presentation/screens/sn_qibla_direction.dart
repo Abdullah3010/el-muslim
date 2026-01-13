@@ -12,6 +12,7 @@ import 'package:al_muslim/modules/qibla_direction/presentation/widgets/qiblah_co
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 class SnQiblaDirection extends StatefulWidget {
   const SnQiblaDirection({super.key});
@@ -62,7 +63,10 @@ class _SnQiblaDirectionState extends State<SnQiblaDirection> {
                   onTap: () {
                     Modular.to.pop();
                   },
-                  child: WLocalizeRotation(reverse: true, child: Assets.icons.backBlack.svg()),
+                  child:
+                      context.isRTL
+                          ? WLocalizeRotation(reverse: true, child: Assets.icons.backBlack.svg())
+                          : Assets.icons.backBlack.svg(),
                 ),
               ),
             ),

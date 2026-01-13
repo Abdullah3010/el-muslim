@@ -8,6 +8,7 @@ import 'package:al_muslim/core/services/notification/local_notification_service.
 import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/core/utils/helper/app_dialogs.dart';
 import 'package:al_muslim/modules/quran/services/quran_reading_time_service.dart';
+import 'package:al_muslim/modules/werd/services/khatma_completion_service.dart';
 import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
 import 'package:al_muslim/core/widgets/w_settings_section_header.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
@@ -100,14 +101,20 @@ class SnMore extends StatelessWidget {
           WSettingsRowItem(
             title: 'Start New Khatma'.translated,
             onTap: () async {
-              // await WNewWerdBottomSheet.show(context);
-              LocalNotificationService().debugPrintScheduledNotifications();
+              await WNewWerdBottomSheet.show(context);
+              // LocalNotificationService().debugPrintScheduledNotifications();
             },
           ),
 
           // ===== 4. Prayer Times =====
           WSettingsSectionHeader(title: 'Prayer Times'.translated),
-          WSettingsRowItem(title: 'Prayer Time Settings'.translated, icon: Assets.icons.mosque.path, onTap: () {}),
+          WSettingsRowItem(
+            title: 'Prayer Time Settings'.translated,
+            icon: Assets.icons.mosque.path,
+            onTap: () {
+              Modular.to.pushNamed(RoutesNames.prayTime.prayTimeSettings);
+            },
+          ),
           const WSettingsItemDivider(),
           WSettingsRowItem(
             title: 'Qiblah Direction'.translated,
@@ -189,13 +196,19 @@ class SnMore extends StatelessWidget {
           WSettingsSectionHeader(title: 'Statistics'.translated),
           WSettingsRowItem(
             title: 'Number of Khatmas'.translated,
-            trailing: Text('-'.translated, style: context.theme.textTheme.primary16W400),
+            trailing: Text(
+              KhatmaCompletionService.instance.getFormattedKhatmasCount(),
+              style: context.theme.textTheme.primary16W400,
+            ),
             onTap: () {},
           ),
           const WSettingsItemDivider(),
           WSettingsRowItem(
             title: 'Last Completed Khatma'.translated,
-            trailing: Text('-'.translated, style: context.theme.textTheme.primary16W400),
+            trailing: Text(
+              KhatmaCompletionService.instance.getFormattedLastCompletionDate(),
+              style: context.theme.textTheme.primary16W400,
+            ),
             onTap: () {},
           ),
           const WSettingsItemDivider(),

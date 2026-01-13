@@ -9,4 +9,6 @@ class CSTConfigKey {
   final String initNotificationsScheduled = 'initNotificationsScheduled';
   final String pendingNotificationPayload = 'pendingNotificationPayload';
   final String quranReadingTimeSeconds = 'quranReadingTimeSeconds';
+  final String completedKhatmasCount = 'completedKhatmasCount';
+  final String lastKhatmaCompletionDate = 'lastKhatmaCompletionDate';
 }

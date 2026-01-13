@@ -8,6 +8,7 @@ import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_day.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_detail_segment.dart';
 import 'package:al_muslim/modules/werd/data/models/m_werd_plan_option.dart';
+import 'package:al_muslim/modules/werd/services/khatma_completion_service.dart';
 import 'package:al_muslim/modules/werd/sources/local/werd_local_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -157,6 +158,14 @@ class MgWerd extends ChangeNotifier {
     if (index == -1) return;
 
     _planDays[index] = current.copyWith(isFinished: true);
+
+    final isLastWerd = _planDays.every((day) => day.isFinished);
+    if (isLastWerd) {
+      await KhatmaCompletionService.instance.recordKhatmaCompletion();
+      await deleteCurrentWerdPlan();
+      return;
+    }
+
     selectedPlanDay = _chooseDay();
     final updatedPlan = plan.copyWith(planDays: List<MWerdDay>.unmodifiable(_planDays));
     selectedOption = updatedPlan;
