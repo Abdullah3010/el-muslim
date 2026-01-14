@@ -21,7 +21,7 @@ class WSettingsRowItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: 60.h,
+        height: subtitle != null ? 70.h : 60.h,
         padding: EdgeInsets.symmetric(horizontal: 19.w),
         child: Row(
           children: [
@@ -33,7 +33,6 @@ class WSettingsRowItem extends StatelessWidget {
                 children: [
                   Text(title, style: context.textTheme.primary16W500),
                   if (subtitle != null) ...[
-                    4.heightBox,
                     Text(subtitle!, style: context.textTheme.primary14W400.copyWith(color: Colors.grey)),
                   ],
                 ],

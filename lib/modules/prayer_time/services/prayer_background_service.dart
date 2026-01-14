@@ -285,7 +285,7 @@ class PrayerBackgroundService {
         await _notificationService.scheduleNotification(
           notification: resolved,
           androidAllowWhileIdle: true,
-          soundName: 'maka_azhan',
+          // soundName: 'maka_azhan',
         );
         await _notificationStore.createUpdate(resolved);
       }

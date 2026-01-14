@@ -1,3 +1,4 @@
+import 'package:al_muslim/core/assets/assets.gen.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
@@ -8,11 +9,17 @@ import 'package:al_muslim/core/widgets/w_gradient_progress_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_app_bar.dart';
 import 'package:al_muslim/core/widgets/w_shared_scaffold.dart';
 import 'package:al_muslim/modules/azkar/data/models/m_azkar_categories.dart';
+import 'package:al_muslim/modules/azkar/data/models/m_zekr.dart';
 import 'package:al_muslim/modules/azkar/managers/mg_azkar.dart';
+import 'package:al_muslim/modules/azkar/presentation/utils/azkar_count_formatter.dart';
+import 'package:al_muslim/modules/azkar/presentation/widgets/w_grouped_zekr_list.dart';
+import 'package:al_muslim/modules/azkar/presentation/widgets/w_other_azkar_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SnZekr extends StatefulWidget {
   const SnZekr({super.key, required this.categoryId});
@@ -48,9 +55,9 @@ class _SnZekrState extends State<SnZekr> {
         final appBarTitle = manager.selectedGroupedKey ?? category.displayName;
         final bodyContent =
             showGroupedList
-                ? _GroupedZekrList(groupedKeys: manager.groupedAzkarKeys, onSelect: manager.selectGroupedAzkar)
+                ? WGroupedZekrList(groupedKeys: manager.groupedAzkarKeys, onSelect: manager.selectGroupedAzkar)
                 : hasActiveAzkar
-                ? _buildZekrReader(context, manager)
+                ? _buildZekrReader(context, manager, category.displayName)
                 : const Center(child: CircularProgressIndicator.adaptive());
         return WillPopScope(
           onWillPop: () async {
@@ -107,14 +114,14 @@ class _SnZekrState extends State<SnZekr> {
     super.dispose();
   }
 
-  Widget _buildZekrReader(BuildContext context, MgAzkar manager) {
+  Widget _buildZekrReader(BuildContext context, MgAzkar manager, String categoryName) {
     final isLastZekr = manager.currentZekrIndexNotifier >= manager.activeAzkarList.length - 1;
     final currentZekr = manager.activeAzkarList[manager.currentZekrIndexNotifier];
     final int maxCount = currentZekr.count ?? 0;
     final bool isCurrentComplete = maxCount > 0 && manager.currentZekrCount >= maxCount;
     final double progressValue =
         isLastZekr && isCurrentComplete ? 1 : manager.currentZekrIndexNotifier / manager.activeAzkarList.length;
-    final bool isSingleCount = maxCount == 1;
+    final int effectiveMaxCount = maxCount <= 0 ? 1 : maxCount;
 
     return GestureDetector(
       onTap: () {
@@ -188,28 +195,52 @@ class _SnZekrState extends State<SnZekr> {
             ),
           ),
           30.heightBox,
-          isSingleCount
-              ? Text('zekr_single_time'.translated, style: context.theme.textTheme.primary16W500)
-              : Stack(
-                alignment: Alignment.center,
-                children: [
-                  CircularProgressIndicator(
-                    constraints: BoxConstraints(minWidth: 61.w, minHeight: 61.w),
-                    strokeWidth: 7.w,
-                    value:
-                        manager.currentZekrCount /
-                        (manager.activeAzkarList[manager.currentZekrIndexNotifier].count != null
-                            ? manager.activeAzkarList[manager.currentZekrIndexNotifier].count ?? 0
-                            : 1),
-                    color: context.theme.colorScheme.primaryColor,
-                  ),
-                  Positioned.fill(
-                    child: Center(
-                      child: Text('${manager.currentZekrCount}', style: context.theme.textTheme.primary16W500),
+          Container(
+            width: context.width,
+            padding: EdgeInsets.symmetric(horizontal: 30.w),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20.r),
+                      onTap: () => _shareCurrentZekr(manager, categoryName),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.w),
+                        child: Assets.icons.share.svg(
+                          width: 22.w,
+                          height: 22.w,
+                          colorFilter: ColorFilter.mode(context.theme.colorScheme.primaryColor2, BlendMode.srcIn),
+                        ),
+                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+                CircularProgressIndicator(
+                  constraints: BoxConstraints(minWidth: 61.w, minHeight: 61.w),
+                  strokeWidth: 7.w,
+                  value: manager.currentZekrCount / effectiveMaxCount,
+                  color: context.theme.colorScheme.primaryColor,
+                ),
+                Positioned.fill(
+                  child: Center(
+                    child: Text('${manager.currentZekrCount}', style: context.theme.textTheme.primary16W500),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    formatZekrCountText(maxCount),
+                    style: context.theme.textTheme.primary16W500,
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+              ],
+            ),
+          ),
           15.heightBox,
           Container(
             width: context.width,
@@ -240,95 +271,32 @@ class _SnZekrState extends State<SnZekr> {
       ),
     );
   }
-}
 
-class WOtherAzkarSearchField extends StatelessWidget {
-  const WOtherAzkarSearchField({super.key, required this.controller, required this.onChanged});
-
-  final TextEditingController controller;
-  final ValueChanged<String> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      child: TextField(
-        controller: controller,
-        onChanged: onChanged,
-        textInputAction: TextInputAction.search,
-        cursorColor: context.theme.colorScheme.primaryColor2,
-        cursorHeight: 20.h,
-        decoration: InputDecoration(
-          hintText: 'azkar_search_other'.translated,
-          hintStyle: context.theme.textTheme.primary16W500.copyWith(color: Colors.grey),
-          prefixIcon: Icon(Icons.search, color: context.theme.colorScheme.primaryColor2),
-          filled: true,
-          fillColor: context.theme.colorScheme.white,
-          isDense: true,
-
-          contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide(color: context.theme.colorScheme.lightGray.withValues(alpha: 0.4)),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide(color: context.theme.colorScheme.lightGray.withValues(alpha: 0.4)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide(color: context.theme.colorScheme.primaryColor2),
-          ),
-        ),
-      ),
-    );
+  void _shareCurrentZekr(MgAzkar manager, String categoryName) {
+    if (manager.activeAzkarList.isEmpty) return;
+    final currentZekr = manager.activeAzkarList[manager.currentZekrIndexNotifier];
+    final message = _buildShareMessage(zekr: currentZekr, categoryName: categoryName);
+    Share.share(message, subject: categoryName);
   }
-}
 
-class _GroupedZekrList extends StatelessWidget {
-  const _GroupedZekrList({required this.groupedKeys, required this.onSelect});
+  String _buildShareMessage({required MZekr zekr, required String categoryName}) {
+    final isArabic = LocalizeAndTranslate.getLanguageCode() == 'ar';
+    final categoryLabel = isArabic ? 'التصنيف' : 'Category';
+    final zekrLabel = isArabic ? 'الذكر' : 'Zekr';
+    final fadelLabel = isArabic ? 'فضل الذكر' : 'Fadel Zekr';
+    final countLabel = isArabic ? 'العدد' : 'Count';
+    final linksLabel = isArabic ? 'روابط التطبيق' : 'App links';
+    final fadelText = (zekr.fadelZeker ?? []).map((line) => line.trim()).where((line) => line.isNotEmpty).join('\n');
+    final countText = formatZekrCountText(zekr.count ?? 0);
+    const androidLink = 'https://example.com/android';
+    const iosLink = 'https://example.com/ios';
 
-  final List<String> groupedKeys;
-  final void Function(String key) onSelect;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-      itemBuilder: (context, index) {
-        final key = groupedKeys[index];
-        return Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(14.r),
-            onTap: () => onSelect(key),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-              decoration: BoxDecoration(
-                color: context.theme.colorScheme.white,
-                borderRadius: BorderRadius.circular(14.r),
-                border: Border.all(color: context.theme.colorScheme.lightGray.withValues(alpha: 0.4)),
-                boxShadow: [
-                  BoxShadow(
-                    color: context.theme.colorScheme.lightGray.withValues(alpha: 0.1),
-                    blurRadius: 5,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Expanded(child: Text(key, style: context.textTheme.primary18W500, overflow: TextOverflow.ellipsis)),
-                  8.widthBox,
-                  Icon(Icons.arrow_forward_ios, color: context.theme.colorScheme.primaryColor2, size: 16.sp),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-      separatorBuilder: (_, __) => 12.heightBox,
-      itemCount: groupedKeys.length,
-    );
+    return [
+      '$categoryLabel: $categoryName',
+      '$zekrLabel: ${zekr.zekr ?? ''}',
+      '$fadelLabel: ${fadelText.isEmpty ? '-' : fadelText}',
+      '$countLabel: $countText',
+      '$linksLabel:\n$androidLink\n$iosLink',
+    ].join('\n\n');
   }
 }
