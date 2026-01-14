@@ -282,7 +282,11 @@ class PrayerBackgroundService {
       if (!resolved.isEnabled || !scheduledAt.isAfter(now)) {
         await _notificationStore.createUpdate(resolved);
       } else {
-        await _notificationService.scheduleNotification(notification: resolved, androidAllowWhileIdle: true);
+        await _notificationService.scheduleNotification(
+          notification: resolved,
+          androidAllowWhileIdle: true,
+          soundName: 'maka_azhan',
+        );
         await _notificationStore.createUpdate(resolved);
       }
     }

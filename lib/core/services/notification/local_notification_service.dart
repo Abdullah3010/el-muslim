@@ -262,6 +262,7 @@ class LocalNotificationService {
     String? channelId,
     String? channelName,
     String? channelDescription,
+    String? soundName,
   }) async {
     _ensureInitialized();
     await _ensureNotificationStoreReady();
@@ -296,6 +297,7 @@ class LocalNotificationService {
           channelId: channelId,
           channelName: channelName,
           channelDescription: channelDescription,
+          soundName: soundName,
         ),
         payload: encodedPayload,
         androidScheduleMode: androidScheduleMode,
@@ -320,6 +322,7 @@ class LocalNotificationService {
             channelId: channelId,
             channelName: channelName,
             channelDescription: channelDescription,
+            soundName: soundName,
           ),
           payload: encodedPayload,
           androidScheduleMode: fallbackMode,
@@ -442,7 +445,12 @@ class LocalNotificationService {
     return scheduled.add(const Duration(days: 1));
   }
 
-  NotificationDetails _buildNotificationDetails({String? channelId, String? channelName, String? channelDescription}) {
+  NotificationDetails _buildNotificationDetails({
+    String? channelId,
+    String? channelName,
+    String? channelDescription,
+    String? soundName,
+  }) {
     return NotificationDetails(
       android: AndroidNotificationDetails(
         channelId ?? _defaultChannelId,
@@ -453,8 +461,14 @@ class LocalNotificationService {
         enableLights: true,
         enableVibration: true,
         playSound: true,
+        sound: soundName != null ? RawResourceAndroidNotificationSound(soundName) : null,
       ),
-      iOS: const DarwinNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true),
+      iOS: DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+        sound: soundName != null ? '$soundName.mp3' : null,
+      ),
     );
   }
 

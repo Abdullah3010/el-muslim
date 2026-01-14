@@ -570,7 +570,11 @@ class MgPrayerTime extends ChangeNotifier {
       return;
     }
 
-    await _notificationService.scheduleNotification(notification: localized, androidAllowWhileIdle: true);
+    await _notificationService.scheduleNotification(
+      notification: localized,
+      androidAllowWhileIdle: true,
+      soundName: 'maka_azhan',
+    );
     _prayerNotifications[entry.name] = localized;
     await _notificationStore.createUpdate(localized);
   }
