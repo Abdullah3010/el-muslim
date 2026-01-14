@@ -69,6 +69,7 @@ class AlarmTimeRow extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.defaultTime,
+    this.isFridayOnly = false,
   });
 
   final MgMore manager;
@@ -76,6 +77,7 @@ class AlarmTimeRow extends StatelessWidget {
   final String title;
   final String icon;
   final TimeOfDay defaultTime;
+  final bool isFridayOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +89,7 @@ class AlarmTimeRow extends StatelessWidget {
         return WSettingsRowItem(
           title: title,
           icon: icon,
+          subtitle: isFridayOnly ? 'Every Friday'.translated : null,
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

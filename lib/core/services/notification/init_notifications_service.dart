@@ -141,8 +141,9 @@ class InitNotificationsService {
       final schedule = map['schedule'] is Map ? (map['schedule'] as Map).cast<String, dynamic>() : <String, dynamic>{};
       final time = schedule['time']?.toString() ?? '';
       final scheduleType = schedule['type']?.toString().toLowerCase() ?? '';
+      final day = schedule['day']?.toString().toLowerCase() ?? '';
       final repeatDaily = scheduleType == 'daily';
-      final scheduledAt = _scheduledAtForTime(time);
+      final scheduledAt = scheduleType == 'weekly' ? _scheduledAtForWeeklyTime(time, day) : _scheduledAtForTime(time);
       final enabled = map['enabled'] is bool ? map['enabled'] as bool : true;
 
       final content = map['content'] is Map ? (map['content'] as Map).cast<String, dynamic>() : <String, dynamic>{};
@@ -175,6 +176,45 @@ class InitNotificationsService {
     final hour = parts.isNotEmpty ? int.tryParse(parts[0]) ?? 0 : 0;
     final minute = parts.length > 1 ? int.tryParse(parts[1]) ?? 0 : 0;
     return DateTime(now.year, now.month, now.day, hour, minute);
+  }
+
+  DateTime _scheduledAtForWeeklyTime(String time, String day) {
+    final now = DateTime.now();
+    final parts = time.split(':');
+    final hour = parts.isNotEmpty ? int.tryParse(parts[0]) ?? 0 : 0;
+    final minute = parts.length > 1 ? int.tryParse(parts[1]) ?? 0 : 0;
+
+    final targetWeekday = _weekdayFromString(day);
+    final currentWeekday = now.weekday;
+
+    int daysToAdd = targetWeekday - currentWeekday;
+    if (daysToAdd < 0 || (daysToAdd == 0 && now.hour >= hour)) {
+      daysToAdd += 7;
+    }
+
+    final targetDate = now.add(Duration(days: daysToAdd));
+    return DateTime(targetDate.year, targetDate.month, targetDate.day, hour, minute);
+  }
+
+  int _weekdayFromString(String day) {
+    switch (day.toLowerCase()) {
+      case 'monday':
+        return DateTime.monday;
+      case 'tuesday':
+        return DateTime.tuesday;
+      case 'wednesday':
+        return DateTime.wednesday;
+      case 'thursday':
+        return DateTime.thursday;
+      case 'friday':
+        return DateTime.friday;
+      case 'saturday':
+        return DateTime.saturday;
+      case 'sunday':
+        return DateTime.sunday;
+      default:
+        return DateTime.friday;
+    }
   }
 
   String _localizedValue(dynamic raw, String defaultLocale) {
@@ -257,6 +297,8 @@ class InitNotificationsService {
         return Constants.almulkQuranNotificationId;
       case 'quran_albaqara':
         return Constants.albakraQuranNotificationId;
+      case 'quran_alkahf':
+        return Constants.alkahfQuranNotificationId;
     }
     return null;
   }

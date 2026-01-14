@@ -177,6 +177,17 @@ class MgMore extends ChangeNotifier {
           payload: {'surah': 'al_baqara', 'surahNumber': 2},
           deepLink: RoutesNames.quran.quranMain,
         );
+      case Constants.alkahfQuranNotificationId:
+        final isArabic = LocalizeAndTranslate.getLanguageCode() == 'ar';
+        return _NotificationMeta(
+          title: isArabic ? 'منبه سورة الكهف' : 'Surah Al-Kahf Alarm',
+          body:
+              isArabic
+                  ? 'من قرأ سورة الكهف يوم الجمعة أضاء له من النور ما بين الجمعتين.'
+                  : 'Whoever recites Surah Al-Kahf on Friday will have light between the two Fridays.',
+          payload: {'surah': 'al_kahf', 'surahNumber': 18},
+          deepLink: RoutesNames.quran.quranMain,
+        );
       default:
         throw ArgumentError('Notification meta is not defined for id=$notificationId');
     }

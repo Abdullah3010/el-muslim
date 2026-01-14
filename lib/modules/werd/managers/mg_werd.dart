@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:al_muslim/core/config/box_app_config/ds_app_config.dart';
 import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/string_extensions.dart';
 import 'package:al_muslim/core/services/notification/local_notification_service.dart';
@@ -100,6 +101,7 @@ class MgWerd extends ChangeNotifier {
       final now = DateTime.now();
       planStartDate = now;
       await _localDataSource.savePlanStartDate(now);
+      await _clearManuallyClearedFlag();
       await _ensureDefaultNotification();
       if (selectedOption != null) {
         await _localDataSource.saveSelectedPlan(selectedOption!);
@@ -178,6 +180,7 @@ class MgWerd extends ChangeNotifier {
     final plan = selectedOption;
     if (plan == null) return;
 
+    await _clearManuallyClearedFlag();
     final scheduledAt = _dateFromTime(time);
     final notification = _buildNotification(plan, scheduledAt);
     await _upsertNotification(notification);
@@ -211,6 +214,10 @@ class MgWerd extends ChangeNotifier {
       planDays: plan.planDays,
       notifications: List<MLocalNotification>.unmodifiable(updatedNotifications),
     );
+
+    if (updatedNotifications.isEmpty) {
+      await _setManuallyClearedFlag();
+    }
 
     await _notificationService.cancelNotification(notificationId);
     await _localDataSource.deleteNotification(notificationId);
@@ -293,7 +300,10 @@ class MgWerd extends ChangeNotifier {
 
     final notifications = plan.notifications;
     if (notifications.isEmpty) {
-      await _ensureDefaultNotification();
+      final wasManuallyClearedByUser = await _wasManuallyClearedByUser();
+      if (!wasManuallyClearedByUser) {
+        await _ensureDefaultNotification();
+      }
       return;
     }
 
@@ -411,5 +421,18 @@ class MgWerd extends ChangeNotifier {
     final expectedDay = daysSinceStart + 1;
     final lateDays = expectedDay - day.dayNumber;
     return lateDays > 0 ? lateDays : 0;
+  }
+
+  Future<bool> _wasManuallyClearedByUser() async {
+    final stored = DSAppConfig.getConfigValue(Constants.configKeys.werdNotificationsManuallyClearedFlag);
+    return stored?.toLowerCase() == 'true';
+  }
+
+  Future<void> _setManuallyClearedFlag() async {
+    await DSAppConfig.setConfigValue(Constants.configKeys.werdNotificationsManuallyClearedFlag, 'true');
+  }
+
+  Future<void> _clearManuallyClearedFlag() async {
+    await DSAppConfig.setConfigValue(Constants.configKeys.werdNotificationsManuallyClearedFlag, 'false');
   }
 }

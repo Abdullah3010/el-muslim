@@ -105,7 +105,7 @@
             "enabled": true,
             "schedule": {
                 "type": "daily",
-                "time": "10:00"
+                "time": "22:00"
             },
             "content": {
                 "title": {
@@ -163,6 +163,40 @@
             "meta": {
                 "category": "quran",
                 "surah_number": 2
+            }
+        },
+        {
+            "id": "quran_alkahf",
+            "type": "quran",
+            "enabled": true,
+            "schedule": {
+                "type": "weekly",
+                "day": "friday",
+                "time": "10:00"
+            },
+            "content": {
+                "title": {
+                    "ar": "سورة الكهف",
+                    "en": "Surah Al-Kahf"
+                },
+                "body": {
+                    "ar": "من قرأ سورة الكهف يوم الجمعة أضاء له من النور ما بين الجمعتين.\nاضغط للقراءة",
+                    "en": "Whoever recites Surah Al-Kahf on Friday will have light between the two Fridays.\nTap to read"
+                },
+                "sound": "default",
+                "channel_id": "al_muslim_local_notifications"
+            },
+            "payload": {
+                "action": "navigate",
+                "route": "/quran",
+                "params": {
+                    "surah": "al_kahf",
+                    "surahNumber": 18
+                }
+            },
+            "meta": {
+                "category": "quran",
+                "surah_number": 18
             }
         }
     ]

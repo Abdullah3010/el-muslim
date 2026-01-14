@@ -11,4 +11,5 @@ class CSTConfigKey {
   final String quranReadingTimeSeconds = 'quranReadingTimeSeconds';
   final String completedKhatmasCount = 'completedKhatmasCount';
   final String lastKhatmaCompletionDate = 'lastKhatmaCompletionDate';
+  final String werdNotificationsManuallyClearedFlag = 'werdNotificationsManuallyClearedFlag';
 }

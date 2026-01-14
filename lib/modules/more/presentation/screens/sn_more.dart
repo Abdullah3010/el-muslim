@@ -83,6 +83,13 @@ class SnMore extends StatelessWidget {
               Modular.get<MgIndex>().selectIndex(1);
             },
           ),
+          const WSettingsItemDivider(),
+          WSettingsRowItem(
+            title: 'Surah Al-Kahf'.translated,
+            onTap: () {
+              Modular.get<MgIndex>().selectIndex(17);
+            },
+          ),
 
           // ===== 3. Settings =====
           WSettingsSectionHeader(title: 'Settings'.translated),
@@ -190,6 +197,23 @@ class SnMore extends StatelessWidget {
             title: 'Surah Al-Baqara Time'.translated,
             icon: Assets.icons.clock.path,
             defaultTime: const TimeOfDay(hour: 7, minute: 26),
+          ),
+          const WSettingsItemDivider(),
+          AlarmEnableRow(
+            manager: mgMore,
+            notificationId: Constants.alkahfQuranNotificationId,
+            title: 'Surah Al-Kahf Alarm'.translated,
+            icon: Assets.icons.notification.path,
+            defaultTime: const TimeOfDay(hour: 10, minute: 0),
+          ),
+          const WSettingsItemDivider(),
+          AlarmTimeRow(
+            manager: mgMore,
+            notificationId: Constants.alkahfQuranNotificationId,
+            title: 'Surah Al-Kahf Time'.translated,
+            icon: Assets.icons.clock.path,
+            defaultTime: const TimeOfDay(hour: 10, minute: 0),
+            isFridayOnly: true,
           ),
 
           // ===== 7. Statistics =====

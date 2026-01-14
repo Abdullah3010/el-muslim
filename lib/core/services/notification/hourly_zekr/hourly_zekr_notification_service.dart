@@ -68,7 +68,7 @@ class HourlyZekrNotificationService {
 
   Future<bool> isEnabled() async {
     final stored = DSAppConfig.getConfigValue(_enabledKey);
-    if (stored == null || stored.isEmpty) return false;
+    if (stored == null || stored.isEmpty) return true;
     return stored.toLowerCase() == 'true';
   }
 
