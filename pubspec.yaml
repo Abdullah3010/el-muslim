@@ -92,7 +92,6 @@ flutter:
 
   assets:
     - assets/icons/
-    - assets/gifs/
     - assets/images/
     - assets/lang/
     - assets/fonts/
@@ -100,6 +99,7 @@ flutter:
     - assets/json/khatma/
     - assets/json/azkar/
     - assets/json/notifictaions/
+    - assets/audios/
     # - assets/quran_image/
 
   
