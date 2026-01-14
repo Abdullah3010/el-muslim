@@ -291,12 +291,15 @@ class _SnZekrState extends State<SnZekr> {
     const androidLink = 'https://example.com/android';
     const iosLink = 'https://example.com/ios';
 
-    return [
+    List<String> parts = [
       '$categoryLabel: $categoryName',
-      '$zekrLabel: ${zekr.zekr ?? ''}',
+      '$zekrLabel: ${zekr.zekr ?? '-'}',
       '$fadelLabel: ${fadelText.isEmpty ? '-' : fadelText}',
       '$countLabel: $countText',
       '$linksLabel:\n$androidLink\n$iosLink',
-    ].join('\n\n');
+    ];
+    parts.removeWhere((element) => element.contains('-'));
+
+    return parts.join('\n\n');
   }
 }
