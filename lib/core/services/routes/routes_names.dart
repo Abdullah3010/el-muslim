@@ -23,6 +23,8 @@ class MoreRoutes {
   static String get baseUrl => '${RoutesNames.baseUrl}more/';
 
   String get moreMain => baseUrl;
+  String get termsAndConditions => '${baseUrl}terms_conditions';
+  String get aboutApp => '${baseUrl}about_app';
 }
 
 class PrayerTimeRoutes {

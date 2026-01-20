@@ -6,7 +6,9 @@ import 'package:al_muslim/modules/azkar/presentation/screens/sn_zekr.dart';
 import 'package:al_muslim/modules/core/presentation/screens/sn_splash.dart';
 import 'package:al_muslim/modules/index/data/models/m_quran_index.dart';
 import 'package:al_muslim/modules/index/presentation/screens/sn_index.dart';
+import 'package:al_muslim/modules/more/presentation/screens/sn_about_app.dart';
 import 'package:al_muslim/modules/more/presentation/screens/sn_more.dart';
+import 'package:al_muslim/modules/more/presentation/screens/sn_terms_and_conditions.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_adhan_notifications.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_adhan_settings.dart';
 import 'package:al_muslim/modules/prayer_time/presentation/screens/sn_location_selection.dart';
@@ -49,6 +51,18 @@ class Routes {
       RoutesNames.more.moreMain,
       transition: TransitionType.fadeIn,
       child: (_) => const SnMore(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+    r.child(
+      RoutesNames.more.termsAndConditions,
+      transition: TransitionType.fadeIn,
+      child: (_) => const SnTermsAndConditions(),
+      guards: [EnsureKeyboardDismissed()],
+    );
+    r.child(
+      RoutesNames.more.aboutApp,
+      transition: TransitionType.fadeIn,
+      child: (_) => const SnAboutApp(),
       guards: [EnsureKeyboardDismissed()],
     );
 

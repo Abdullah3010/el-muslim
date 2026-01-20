@@ -7,6 +7,7 @@ import 'package:al_muslim/core/services/notification/init_notifications_service.
 import 'package:al_muslim/core/services/notification/local_notification_service.dart';
 import 'package:al_muslim/core/services/routes/routes_names.dart';
 import 'package:al_muslim/core/utils/helper/app_dialogs.dart';
+import 'package:al_muslim/core/utils/helper/url_helper.dart';
 import 'package:al_muslim/modules/quran/services/quran_reading_time_service.dart';
 import 'package:al_muslim/modules/werd/services/khatma_completion_service.dart';
 import 'package:al_muslim/core/widgets/w_settings_row_item.dart';
@@ -254,11 +255,20 @@ class SnMore extends StatelessWidget {
             onTap: () => WLanguageSelectorDialog.show(context),
           ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(title: 'Contact Us'.translated, onTap: () {}),
+          WSettingsRowItem(
+            title: 'Contact Us'.translated,
+            onTap: () => UrlHelper.lunch('mailto:almullaaly4@gmail.com'),
+          ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(title: 'About App'.translated, onTap: () {}),
+          WSettingsRowItem(
+            title: 'About App'.translated,
+            onTap: () => Modular.to.pushNamed(RoutesNames.more.aboutApp),
+          ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(title: 'Terms & Conditions'.translated, onTap: () {}),
+          WSettingsRowItem(
+            title: 'Terms & Conditions'.translated,
+            onTap: () => Modular.to.pushNamed(RoutesNames.more.termsAndConditions),
+          ),
           const WSettingsItemDivider(),
           WSettingsRowItem(title: 'Share App'.translated, trailing: Assets.icons.share.svg(), onTap: () {}),
           Constants.navbarHeight.verticalSpace,

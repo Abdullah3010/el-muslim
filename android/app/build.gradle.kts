@@ -5,6 +5,20 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+import java.util.Properties
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+val hasKeystoreProperties = keystorePropertiesFile.exists()
+if (hasKeystoreProperties) {
+    keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
+}
+
+fun getKeystoreProperty(name: String): String {
+    return keystoreProperties.getProperty(name)
+        ?: throw GradleException("Missing $name in key.properties")
+}
+
 android {
     namespace = "com.elmuslim.app"
     compileSdk = 36
@@ -31,11 +45,32 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (hasKeystoreProperties) {
+            create("release") {
+                keyAlias = getKeystoreProperty("keyAlias")
+                keyPassword = getKeystoreProperty("keyPassword")
+                val storeFilePath = getKeystoreProperty("storeFile")
+                val normalizedStoreFilePath =
+                    if (storeFilePath.startsWith("android/")) {
+                        storeFilePath.removePrefix("android/")
+                    } else {
+                        storeFilePath
+                    }
+                storeFile = rootProject.file(normalizedStoreFilePath)
+                storePassword = getKeystoreProperty("storePassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig =
+                signingConfigs.getByName(
+                    if (hasKeystoreProperties) "release" else "debug"
+                )
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
