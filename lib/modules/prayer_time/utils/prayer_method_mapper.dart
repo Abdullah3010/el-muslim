@@ -1,3 +1,33 @@
+/// Qatar-specific prayer time adjustments in minutes
+/// Fajr: +1, Dhuhr: +1, Asr: +2, Maghrib: +2, Isha: +2
+Map<String, int> getQatarPrayerAdjustments() {
+  return {'Fajr': 1, 'Dhuhr': 1, 'Asr': 2, 'Maghrib': 2, 'Isha': 2};
+}
+
+/// Returns true if the country code is Qatar (QA)
+bool isQatarCountryCode(String? code) {
+  if (code == null || code.trim().isEmpty) return false;
+  return code.trim().toUpperCase() == 'QA';
+}
+
+/// Adjusts a time string (HH:mm) by adding the specified minutes
+String adjustTimeByMinutes(String time, int minutes) {
+  if (time.isEmpty || minutes == 0) return time;
+
+  final parts = time.split(':');
+  if (parts.length != 2) return time;
+
+  final hour = int.tryParse(parts[0]);
+  final minute = int.tryParse(parts[1]);
+  if (hour == null || minute == null) return time;
+
+  final totalMinutes = hour * 60 + minute + minutes;
+  final newHour = (totalMinutes ~/ 60) % 24;
+  final newMinute = totalMinutes % 60;
+
+  return '${newHour.toString().padLeft(2, '0')}:${newMinute.toString().padLeft(2, '0')}';
+}
+
 int getPrayerMethodByCountryCode(String? code) {
   if (code == null || code.trim().isEmpty) {
     return 3;

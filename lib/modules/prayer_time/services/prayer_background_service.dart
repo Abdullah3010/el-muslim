@@ -130,11 +130,7 @@ class PrayerBackgroundService {
   bool _locationBoxReady = false;
 
   static const List<String> _prayerNames = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-  static const PPrayerTimeParams _defaultParams = PPrayerTimeParams(
-    lat: 30.04442,
-    lon: 31.235712,
-    method: 5,
-  );
+  static const PPrayerTimeParams _defaultParams = PPrayerTimeParams(lat: 30.04442, lon: 31.235712, method: 5);
 
   Future<void> initializeBackgroundSync() async {
     await _prepareStorage();
@@ -222,9 +218,30 @@ class PrayerBackgroundService {
     final normalizedDate = DateTime(date.year, date.month, date.day);
     final params = await _resolveParams();
     final response = await _remoteSource.fetchPrayerTimes(params, date: normalizedDate);
-    final entries = _buildPrayerEntries(response.times.raw, normalizedDate);
+
+    // Apply Qatar-specific prayer time adjustments
+    final countryCode = await _getLastResolvedCountryCode();
+    var timesRaw = response.times.raw;
+    if (isQatarCountryCode(countryCode)) {
+      final adjustments = getQatarPrayerAdjustments();
+      timesRaw = Map<String, String>.from(timesRaw);
+      for (final entry in adjustments.entries) {
+        if (timesRaw.containsKey(entry.key)) {
+          timesRaw[entry.key] = adjustTimeByMinutes(timesRaw[entry.key]!, entry.value);
+        }
+      }
+    }
+
+    final entries = _buildPrayerEntries(timesRaw, normalizedDate);
     await _scheduleNotifications(entries);
     await _updateAzkarNotifications(entries);
+  }
+
+  Future<String?> _getLastResolvedCountryCode() async {
+    await _ensureLocationBoxReady();
+    final stored = _locationStore.getCurrent();
+    if (stored == null) return null;
+    return _resolveCountryCode(stored.latitude, stored.longitude);
   }
 
   Future<void> _ensureLocationBoxReady() async {
@@ -238,11 +255,7 @@ class PrayerBackgroundService {
     if (stored == null) return _params;
     final countryCode = await _resolveCountryCode(stored.latitude, stored.longitude);
     final method = getPrayerMethodByCountryCode(countryCode);
-    return PPrayerTimeParams(
-      lat: stored.latitude,
-      lon: stored.longitude,
-      method: method,
-    );
+    return PPrayerTimeParams(lat: stored.latitude, lon: stored.longitude, method: method);
   }
 
   List<_PrayerEntry> _buildPrayerEntries(Map<String, String> raw, DateTime baseDate) {

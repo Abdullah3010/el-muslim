@@ -28,6 +28,16 @@ class MPrayerTime {
               : MPrayerTimezone.fromJson(json['timezone'] as Map<String, dynamic>? ?? {}),
     );
   }
+
+  MPrayerTime copyWith({MPrayerTimes? times}) {
+    return MPrayerTime(
+      times: times ?? this.times,
+      date: date,
+      qibla: qibla,
+      prohibitedTimes: prohibitedTimes,
+      timezone: timezone,
+    );
+  }
 }
 
 class MPrayerTimes {
@@ -81,6 +91,31 @@ class MPrayerTimes {
     final trimmed = value.trim();
     if (trimmed.isEmpty) return '';
     return trimmed.split(' ').first;
+  }
+
+  /// Creates a copy with adjusted prayer times based on the provided adjustments map
+  /// The map keys should be prayer names (e.g., 'Fajr', 'Dhuhr') and values are minutes to add
+  MPrayerTimes copyWithAdjustments(Map<String, int> adjustments, String Function(String, int) adjustFn) {
+    final adjustedRaw = Map<String, String>.from(raw);
+    for (final entry in adjustments.entries) {
+      if (adjustedRaw.containsKey(entry.key)) {
+        adjustedRaw[entry.key] = adjustFn(adjustedRaw[entry.key]!, entry.value);
+      }
+    }
+    return MPrayerTimes(
+      fajr: adjustments.containsKey('Fajr') ? adjustFn(fajr, adjustments['Fajr']!) : fajr,
+      sunrise: sunrise,
+      dhuhr: adjustments.containsKey('Dhuhr') ? adjustFn(dhuhr, adjustments['Dhuhr']!) : dhuhr,
+      asr: adjustments.containsKey('Asr') ? adjustFn(asr, adjustments['Asr']!) : asr,
+      sunset: sunset,
+      maghrib: adjustments.containsKey('Maghrib') ? adjustFn(maghrib, adjustments['Maghrib']!) : maghrib,
+      isha: adjustments.containsKey('Isha') ? adjustFn(isha, adjustments['Isha']!) : isha,
+      imsak: imsak,
+      midnight: midnight,
+      firstThird: firstThird,
+      lastThird: lastThird,
+      raw: adjustedRaw,
+    );
   }
 }
 

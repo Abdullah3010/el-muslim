@@ -146,7 +146,15 @@ class MgPrayerTime extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await _remoteSource.fetchPrayerTimes(_activeParams, date: _selectedDate);
+      var response = await _remoteSource.fetchPrayerTimes(_activeParams, date: _selectedDate);
+
+      // Apply Qatar-specific prayer time adjustments
+      if (isQatarCountryCode(_lastResolvedCountryCode)) {
+        final adjustments = getQatarPrayerAdjustments();
+        final adjustedTimes = response.times.copyWithAdjustments(adjustments, adjustTimeByMinutes);
+        response = response.copyWith(times: adjustedTimes);
+      }
+
       _currentData = response;
       _cache[cacheKey] = _currentData!;
       _status = PrayerTimeStatus.success;
