@@ -25,6 +25,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_library/quran_library.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SnMore extends StatelessWidget {
   const SnMore({super.key});
@@ -257,24 +258,40 @@ class SnMore extends StatelessWidget {
           const WSettingsItemDivider(),
           WSettingsRowItem(
             title: 'Contact Us'.translated,
-            onTap: () => UrlHelper.lunch('mailto:almullaaly4@gmail.com'),
+            onTap: () async {
+              try {
+                await UrlHelper.launchEmail('almullaaly4@gmail.com');
+              } catch (e) {
+                print(" ======>>>> Error launching email: $e");
+              }
+            },
           ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(
-            title: 'About App'.translated,
-            onTap: () => Modular.to.pushNamed(RoutesNames.more.aboutApp),
-          ),
+          WSettingsRowItem(title: 'About App'.translated, onTap: () => Modular.to.pushNamed(RoutesNames.more.aboutApp)),
           const WSettingsItemDivider(),
           WSettingsRowItem(
             title: 'Terms & Conditions'.translated,
             onTap: () => Modular.to.pushNamed(RoutesNames.more.termsAndConditions),
           ),
           const WSettingsItemDivider(),
-          WSettingsRowItem(title: 'Share App'.translated, trailing: Assets.icons.share.svg(), onTap: () {}),
+          WSettingsRowItem(
+            title: 'Share App'.translated,
+            trailing: Assets.icons.share.svg(),
+            onTap: _shareApp,
+          ),
           Constants.navbarHeight.verticalSpace,
         ],
       ),
     );
+  }
+
+  void _shareApp() {
+    final message = [
+      'share_app_message'.translated,
+      '${'share_app_android'.translated} ${Constants.androidAppLink}',
+      '${'share_app_ios'.translated} ${Constants.iosAppLink}',
+    ].join('\n');
+    Share.share(message, subject: 'Al-Muslim'.translated);
   }
 
   Future<void> _openQuranBookmarks(BuildContext context) async {

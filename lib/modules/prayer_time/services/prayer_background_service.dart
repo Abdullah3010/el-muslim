@@ -15,7 +15,9 @@ import 'package:al_muslim/core/services/notification/notification_box/m_notifica
 import 'package:al_muslim/core/services/notification/prayer_notifications_service.dart';
 import 'package:al_muslim/modules/prayer_time/data/params/p_prayer_time_params.dart';
 import 'package:al_muslim/modules/prayer_time/sources/remote/prayer_time_remote_source.dart';
+import 'package:al_muslim/modules/prayer_time/utils/prayer_method_mapper.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -132,7 +134,6 @@ class PrayerBackgroundService {
     lat: 30.04442,
     lon: 31.235712,
     method: 5,
-    school: 1,
   );
 
   Future<void> initializeBackgroundSync() async {
@@ -235,11 +236,12 @@ class PrayerBackgroundService {
   Future<PPrayerTimeParams> _resolveParams() async {
     final MLocationConfig? stored = _locationStore.getCurrent();
     if (stored == null) return _params;
+    final countryCode = await _resolveCountryCode(stored.latitude, stored.longitude);
+    final method = getPrayerMethodByCountryCode(countryCode);
     return PPrayerTimeParams(
       lat: stored.latitude,
       lon: stored.longitude,
-      method: _params.method,
-      school: _params.school,
+      method: method,
     );
   }
 
@@ -343,8 +345,18 @@ class PrayerBackgroundService {
     }
   }
 
+  Future<String?> _resolveCountryCode(double latitude, double longitude) async {
+    try {
+      final placemarks = await placemarkFromCoordinates(latitude, longitude);
+      if (placemarks.isEmpty) return null;
+      return placemarks.first.isoCountryCode;
+    } catch (_) {
+      return null;
+    }
+  }
+
   static Map<String, dynamic> _encodeParams(PPrayerTimeParams params) {
-    return {'lat': params.lat, 'lon': params.lon, 'method': params.method, 'school': params.school};
+    return {'lat': params.lat, 'lon': params.lon, 'method': params.method};
   }
 
   static PPrayerTimeParams? _decodeParams(Map<String, dynamic>? inputData) {
@@ -355,10 +367,9 @@ class PrayerBackgroundService {
     final lat = parseDouble(inputData['lat']);
     final lon = parseDouble(inputData['lon']);
     final method = parseInt(inputData['method']);
-    final school = parseInt(inputData['school']);
 
-    if (lat == null || lon == null || method == null || school == null) return null;
-    return PPrayerTimeParams(lat: lat, lon: lon, method: method, school: school);
+    if (lat == null || lon == null || method == null) return null;
+    return PPrayerTimeParams(lat: lat, lon: lon, method: method);
   }
 }
 

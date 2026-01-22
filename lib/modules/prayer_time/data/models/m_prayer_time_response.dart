@@ -14,12 +14,18 @@ class MPrayerTime {
   final MPrayerTimezone timezone;
 
   factory MPrayerTime.fromJson(Map<String, dynamic> json) {
+    final meta = json['meta'] as Map<String, dynamic>? ?? {};
+    final metaTimezone = meta['timezone']?.toString() ?? '';
+    final timingSource = json['timings'] as Map<String, dynamic>? ?? json['times'] as Map<String, dynamic>? ?? {};
     return MPrayerTime(
-      times: MPrayerTimes.fromJson(json['times'] as Map<String, dynamic>? ?? {}),
+      times: MPrayerTimes.fromJson(timingSource),
       date: MPrayerDate.fromJson(json['date'] as Map<String, dynamic>? ?? {}),
       qibla: MPrayerQibla.fromJson(json['qibla'] as Map<String, dynamic>? ?? {}),
       prohibitedTimes: MPrayerProhibitedTimes.fromJson(json['prohibited_times'] as Map<String, dynamic>? ?? {}),
-      timezone: MPrayerTimezone.fromJson(json['timezone'] as Map<String, dynamic>? ?? {}),
+      timezone:
+          metaTimezone.isNotEmpty
+              ? MPrayerTimezone.fromAladhan(metaTimezone)
+              : MPrayerTimezone.fromJson(json['timezone'] as Map<String, dynamic>? ?? {}),
     );
   }
 }
@@ -54,7 +60,7 @@ class MPrayerTimes {
   final Map<String, String> raw;
 
   factory MPrayerTimes.fromJson(Map<String, dynamic> json) {
-    final mapped = json.map((key, value) => MapEntry(key, (value ?? '').toString()));
+    final mapped = json.map((key, value) => MapEntry(key, _cleanTimeValue((value ?? '').toString())));
     return MPrayerTimes(
       fajr: mapped['Fajr'] ?? '',
       sunrise: mapped['Sunrise'] ?? '',
@@ -69,6 +75,12 @@ class MPrayerTimes {
       lastThird: mapped['Lastthird'] ?? '',
       raw: mapped,
     );
+  }
+
+  static String _cleanTimeValue(String value) {
+    final trimmed = value.trim();
+    if (trimmed.isEmpty) return '';
+    return trimmed.split(' ').first;
   }
 }
 
@@ -312,6 +324,10 @@ class MPrayerTimezone {
   final String name;
   final String utcOffset;
   final String abbreviation;
+
+  factory MPrayerTimezone.fromAladhan(String timezone) {
+    return MPrayerTimezone(name: timezone, utcOffset: '', abbreviation: '');
+  }
 
   factory MPrayerTimezone.fromJson(Map<String, dynamic> json) {
     return MPrayerTimezone(

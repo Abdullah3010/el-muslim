@@ -1,4 +1,5 @@
 import 'package:al_muslim/core/assets/assets.gen.dart';
+import 'package:al_muslim/core/constants/constants.dart';
 import 'package:al_muslim/core/extension/build_context.dart';
 import 'package:al_muslim/core/extension/color_extension.dart';
 import 'package:al_muslim/core/extension/num_ext.dart';
@@ -288,15 +289,13 @@ class _SnZekrState extends State<SnZekr> {
     final linksLabel = isArabic ? 'روابط التطبيق' : 'App links';
     final fadelText = (zekr.fadelZeker ?? []).map((line) => line.trim()).where((line) => line.isNotEmpty).join('\n');
     final countText = formatZekrCountText(zekr.count ?? 0);
-    const androidLink = 'https://example.com/android';
-    const iosLink = 'https://example.com/ios';
 
     List<String> parts = [
       '$categoryLabel: $categoryName',
       '$zekrLabel: ${zekr.zekr ?? '-'}',
       '$fadelLabel: ${fadelText.isEmpty ? '-' : fadelText}',
       '$countLabel: $countText',
-      '$linksLabel:\n$androidLink\n$iosLink',
+      '$linksLabel:\n${Constants.androidAppLink}\n${Constants.iosAppLink}',
     ];
     parts.removeWhere((element) => element.contains('-'));
 

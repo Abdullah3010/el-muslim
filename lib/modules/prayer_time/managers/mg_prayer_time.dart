@@ -18,9 +18,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
-import '../data/models/m_prayer_time_response.dart';
-import '../data/params/p_prayer_time_params.dart';
-import '../sources/remote/prayer_time_remote_source.dart';
+import 'package:al_muslim/modules/prayer_time/data/models/m_prayer_time_response.dart';
+import 'package:al_muslim/modules/prayer_time/data/params/p_prayer_time_params.dart';
+import 'package:al_muslim/modules/prayer_time/sources/remote/prayer_time_remote_source.dart';
+import 'package:al_muslim/modules/prayer_time/utils/prayer_method_mapper.dart';
 
 enum PrayerTimeStatus { initial, loading, success, error }
 
@@ -50,7 +51,7 @@ class MgPrayerTime extends ChangeNotifier {
     _prayerNotificationsService = prayerNotificationsService ?? PrayerNotificationsService();
   }
 
-  static const _defaultParams = PPrayerTimeParams(lat: 30.04442, lon: 31.235712, method: 5, school: 1);
+  static const _defaultParams = PPrayerTimeParams(lat: 30.04442, lon: 31.235712, method: 5);
   static final _cacheDateFormat = DateFormat('yyyy-MM-dd');
 
   final PrayerTimeRemoteSource _remoteSource;
@@ -73,6 +74,7 @@ class MgPrayerTime extends ChangeNotifier {
   String? _locationError;
   bool _isLocationLoading = false;
   MLocationConfig? _locationConfig;
+  String? _lastResolvedCountryCode;
   bool _autoDetectEnabled = true;
   String _nextPrayerName = '';
   Duration _nextPrayerCountdown = Duration.zero;
@@ -196,10 +198,10 @@ class MgPrayerTime extends ChangeNotifier {
     await _ensureLocationSettings();
     final candidate = await _resolveLocationCandidate();
     if (candidate == null) return;
-    await applyLocation(candidate);
+    await applyLocation(candidate, countryCode: _lastResolvedCountryCode);
   }
 
-  Future<void> applyLocation(MLocationConfig config) async {
+  Future<void> applyLocation(MLocationConfig config, {String? countryCode}) async {
     await _ensureLocationSettings();
     final resolved = config.copyWith(autoDetect: _autoDetectEnabled, updatedAt: DateTime.now());
     final changed =
@@ -207,7 +209,7 @@ class MgPrayerTime extends ChangeNotifier {
         (_locationConfig!.latitude - resolved.latitude).abs() > 0.0001 ||
         (_locationConfig!.longitude - resolved.longitude).abs() > 0.0001;
     _locationConfig = resolved;
-    _updateParamsFromLocation(resolved);
+    await _updateParamsFromLocation(resolved, countryCode: countryCode);
     await _locationStore.saveCurrent(resolved);
     _locationError = null;
     if (changed) {
@@ -241,6 +243,7 @@ class MgPrayerTime extends ChangeNotifier {
         return false;
       }
       final location = locations.first;
+      final countryCode = await _resolveCountryCodeByCoordinates(location.latitude, location.longitude);
       await applyLocation(
         MLocationConfig(
           latitude: location.latitude,
@@ -250,6 +253,7 @@ class MgPrayerTime extends ChangeNotifier {
           updatedAt: DateTime.now(),
           autoDetect: _autoDetectEnabled,
         ),
+        countryCode: countryCode,
       );
       return true;
     } catch (_) {
@@ -354,7 +358,7 @@ class MgPrayerTime extends ChangeNotifier {
   String _cacheKeyFor(DateTime date) {
     final latKey = _activeParams.lat.toStringAsFixed(3);
     final lonKey = _activeParams.lon.toStringAsFixed(3);
-    return '${_cacheDateFormat.format(date)}_${latKey}_$lonKey';
+    return '${_cacheDateFormat.format(date)}_${latKey}_${lonKey}_${_activeParams.method}';
   }
 
   Future<void> _ensureLocationSettings() async {
@@ -367,7 +371,7 @@ class MgPrayerTime extends ChangeNotifier {
     _autoDetectEnabled = stored?.autoDetect ?? true;
     if (stored != null) {
       _locationConfig = stored;
-      _updateParamsFromLocation(stored);
+      await _updateParamsFromLocation(stored);
       notifyListeners();
     }
   }
@@ -415,6 +419,7 @@ class MgPrayerTime extends ChangeNotifier {
       final placemark = placemarks.isNotEmpty ? placemarks.first : null;
       final city = placemark?.locality ?? placemark?.subAdministrativeArea ?? placemark?.administrativeArea ?? '';
       final country = placemark?.country ?? '';
+      _lastResolvedCountryCode = placemark?.isoCountryCode;
       return MLocationConfig(
         latitude: position.latitude,
         longitude: position.longitude,
@@ -432,13 +437,13 @@ class MgPrayerTime extends ChangeNotifier {
     }
   }
 
-  void _updateParamsFromLocation(MLocationConfig config) {
-    _activeParams = PPrayerTimeParams(
-      lat: config.latitude,
-      lon: config.longitude,
-      method: _defaultParams.method,
-      school: _defaultParams.school,
-    );
+  Future<void> _updateParamsFromLocation(MLocationConfig config, {String? countryCode}) async {
+    final resolvedCountryCode =
+        countryCode != null && countryCode.trim().isNotEmpty
+            ? countryCode
+            : await _resolveCountryCodeByCoordinates(config.latitude, config.longitude);
+    final method = getPrayerMethodByCountryCode(resolvedCountryCode);
+    _activeParams = PPrayerTimeParams(lat: config.latitude, lon: config.longitude, method: method);
   }
 
   Future<void> _ensureNotificationSettings() async {
@@ -462,6 +467,16 @@ class MgPrayerTime extends ChangeNotifier {
     }
     if (didUpdate) {
       notifyListeners();
+    }
+  }
+
+  Future<String?> _resolveCountryCodeByCoordinates(double latitude, double longitude) async {
+    try {
+      final placemarks = await placemarkFromCoordinates(latitude, longitude);
+      if (placemarks.isEmpty) return null;
+      return placemarks.first.isoCountryCode;
+    } catch (_) {
+      return null;
     }
   }
 
