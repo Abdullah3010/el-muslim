@@ -13,9 +13,11 @@ import 'package:al_muslim/modules/azkar/data/models/m_azkar_categories.dart';
 import 'package:al_muslim/modules/azkar/data/models/m_zekr.dart';
 import 'package:al_muslim/modules/azkar/managers/mg_azkar.dart';
 import 'package:al_muslim/modules/azkar/presentation/utils/azkar_count_formatter.dart';
+import 'package:al_muslim/modules/azkar/presentation/widgets/w_azkar_text_with_ayah.dart';
 import 'package:al_muslim/modules/azkar/presentation/widgets/w_grouped_zekr_list.dart';
 import 'package:al_muslim/modules/azkar/presentation/widgets/w_other_azkar_search_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -33,7 +35,6 @@ class SnZekr extends StatefulWidget {
 
 class _SnZekrState extends State<SnZekr> {
   final TextEditingController _searchController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -132,6 +133,7 @@ class _SnZekrState extends State<SnZekr> {
           final int maxCount = currentZekr.count ?? 0;
           if (manager.currentZekrCount < maxCount) {
             manager.updateCurrentZekrCount(manager.currentZekrCount + 1);
+            SystemSound.play(SystemSoundType.click);
             Future.delayed(const Duration(milliseconds: 150), () {
               if (manager.currentZekrCount >= maxCount) {
                 final nextIndex = currentIndex + 1;
@@ -149,7 +151,6 @@ class _SnZekrState extends State<SnZekr> {
           }
         }
       },
-
       child: Column(
         children: [
           16.heightBox,
@@ -178,10 +179,11 @@ class _SnZekrState extends State<SnZekr> {
                         color: context.theme.colorScheme.secondaryColor,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text(
-                        zekr.zekr ?? '',
+                      child: WAzkarTextWithAyah(
+                        text: zekr.zekr ?? '',
                         style: context.theme.textTheme.primary18W500.copyWith(height: 2.1),
-                        textAlign: TextAlign.start,
+                        ayahSymbolSize: 24,
+                        horizontalSpacing: 2.w,
                       ),
                     ),
                     23.heightBox,

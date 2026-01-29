@@ -1,276 +1,203 @@
-# Task: Integrate Aladhan Prayer Times API in Flutter (Dynamic Method by Lat/Lon)
+# Task: Render Quran Text with Inline Ayah Numbers (۝١) from Preformatted String
 
-You are an AI coding agent working inside a Flutter project.
+## Goal
+Implement a Flutter solution that renders Arabic Quranic text where ayah numbers are already embedded in the source string using parentheses (e.g. `(1)(2)(3)`), and dynamically replaces those markers at render-time with a styled **Ayah End Symbol (۝)** containing **Arabic-Indic digits (١٢٣)**.
 
-## 🎯 Goal
-Integrate **Aladhan Prayer Times API** into the Flutter app to fetch and display daily prayer times using:
-- **GPS coordinates (latitude / longitude)**
-- **Dynamic calculation method** based on the detected country from the user location
-
-API Documentation:
-- https://aladhan.com/prayer-times-api
+The original text string MUST remain unchanged.
 
 ---
 
-## ✅ Requirements (Must Do)
+## Input Example (From API / DB)
+```text
+قُلْ هُوَ ٱللَّهُ أَحَدٌ(1) ٱللَّهُ ٱلصَّمَدُ(2) لَمْ يَلِدْ وَلَمْ يُولَدْ(3)
+Expected Visual Output
+(1) → rendered as ۝١
 
-### 1) Dependencies
-Add these dependencies in `pubspec.yaml` (if not already installed):
-- `dio` (HTTP requests)
-- `geolocator` (GPS location)
-- `geocoding` (reverse geocoding: lat/lon → country code)
-- `intl` (optional formatting)
+(2) → rendered as ۝٢
 
-Example:
-```yaml
-dependencies:
-  dio: ^5.7.0
-  geolocator: ^13.0.2
-  geocoding: ^3.0.0
-  intl: ^0.19.0
-Then run:
+(3) → rendered as ۝٣
+
+Arabic text flows RTL correctly
 
-bash
-Copy code
-flutter pub get
-2) API Endpoint (By Lat/Lon)
-Use this endpoint:
+Ayah number is centered precisely inside the ۝ symbol
 
-GET https://api.aladhan.com/v1/timings
+Uses Quran-compatible Arabic font
 
-Query params:
+Constraints
+❌ Do NOT modify or preprocess the source string
 
-latitude
+❌ Do NOT generate ayah numbers automatically
 
-longitude
+✅ Parsing must be done at render-time
 
-method
+✅ Solution must support multi-digit numbers (12), (114), etc.
 
-Example:
+✅ RTL-safe
 
-bash
-Copy code
-https://api.aladhan.com/v1/timings?latitude=30.0444&longitude=31.2357&method=5
-3) Prayer Methods List (Use EXACT mapping below)
-The app must support these method IDs:
+✅ Reusable widget-based architecture
 
-0 - Jafari / Shia Ithna-Ashari
-1 - University of Islamic Sciences, Karachi
-2 - Islamic Society of North America
-3 - Muslim World League
-4 - Umm Al-Qura University, Makkah
-5 - Egyptian General Authority of Survey
-7 - Institute of Geophysics, University of Tehran
-8 - Gulf Region
-9 - Kuwait
-10 - Qatar
-11 - Majlis Ugama Islam Singapura, Singapore
-12 - Union Organization islamic de France
-13 - Diyanet İşleri Başkanlığı, Turkey
-14 - Spiritual Administration of Muslims of Russia
-15 - Moonsighting Committee Worldwide (requires shafaq parameter)
-16 - Dubai (experimental)
-17 - Jabatan Kemajuan Islam Malaysia (JAKIM)
-18 - Tunisia
-19 - Algeria
-20 - KEMENAG - Kementerian Agama Republik Indonesia
-21 - Morocco
-22 - Comunidade Islamica de Lisboa
-23 - Ministry of Awqaf, Islamic Affairs and Holy Places, Jordan
+Technical Stack
+Flutter (Stable)
 
-4) Dynamic Method Selection Logic (Country → Method)
-Implement a helper function:
+Dart
 
-Detect country code from lat/lon using reverse geocoding (Placemark.isoCountryCode)
+RichText + TextSpan + WidgetSpan
 
-Map country code to method based on common rules:
+Font: NotoNaskhArabic (or equivalent Quran-supporting font)
 
-Use this mapping:
+Implementation Steps
+1. Detect Ayah Markers
+Use RegExp to detect ayah markers in the format:
 
-EG → 5
+RegExp(r'\((\d+)\)')
+This captures:
 
-SA → 4
+Full match: (3)
 
-AE → 16
+Group(1): 3
 
-QA → 10
+2. Arabic-Indic Number Conversion Helper
+Implement a utility function to convert Western digits to Arabic-Indic digits.
 
-KW → 9
+String toArabicNumber(int number) {
+  const arabicDigits = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+  return number
+      .toString()
+      .split('')
+      .map((e) => arabicDigits[int.parse(e)])
+      .join();
+}
+3. Ayah Number Widget (۝ + number)
+Create a reusable widget that:
+
+Renders Unicode U+06DD (۝)
+
+Overlays the Arabic-Indic number inside it
+
+Allows fine-grained vertical alignment control
+
+class AyahNumber extends StatelessWidget {
+  final int number;
+  final double size;
+
+  const AyahNumber({
+    super.key,
+    required this.number,
+    this.size = 26,
+  });
 
-BH, OM → 8
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Text(
+          '\u06DD',
+          style: TextStyle(
+            fontFamily: 'NotoNaskhArabic',
+            fontSize: size,
+            height: 1,
+          ),
+        ),
+        Positioned(
+          top: size * 0.28,
+          child: Text(
+            toArabicNumber(number),
+            style: TextStyle(
+              fontFamily: 'NotoNaskhArabic',
+              fontSize: size * 0.38,
+              fontWeight: FontWeight.w600,
+              height: 1,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+4. Quran Text Parser → RichText Builder
+Convert the source string into a RichText widget by:
 
-TN → 18
+Iterating over RegExp matches
 
-DZ → 19
+Adding text segments as TextSpan
 
-MA → 21
+Replacing (n) markers with WidgetSpan(AyahNumber)
 
-JO → 23
+Widget buildQuranText(String text) {
+  final regex = RegExp(r'\((\d+)\)');
+  final spans = <InlineSpan>[];
 
-TR → 13
+  int lastIndex = 0;
 
-RU → 14
+  for (final match in regex.allMatches(text)) {
+    spans.add(
+      TextSpan(text: text.substring(lastIndex, match.start)),
+    );
 
-IR → 7
+    final number = int.parse(match.group(1)!);
 
-PK, IN, BD → 1
+    spans.add(
+      WidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: AyahNumber(number: number),
+      ),
+    );
 
-SG → 11
+    lastIndex = match.end;
+  }
 
-MY → 17
+  if (lastIndex < text.length) {
+    spans.add(
+      TextSpan(text: text.substring(lastIndex)),
+    );
+  }
 
-ID → 20
+  return RichText(
+    textDirection: TextDirection.rtl,
+    text: TextSpan(
+      style: const TextStyle(
+        fontFamily: 'NotoNaskhArabic',
+        fontSize: 22,
+        height: 1.8,
+        color: Colors.black,
+      ),
+      children: spans,
+    ),
+  );
+}
+Usage Example
+buildQuranText(
+  'قُلْ هُوَ ٱللَّهُ أَحَدٌ(1) ٱللَّهُ ٱلصَّمَدُ(2) لَمْ يَلِدْ وَلَمْ يُولَدْ(3)',
+);
+Acceptance Criteria
+ (n) is never rendered as plain text
 
-FR → 12
+ Ayah symbol ۝ renders correctly
 
-PT → 22
+ Numbers are Arabic-Indic (١٢٣)
 
-Default fallback → 3 (Muslim World League)
+ RTL layout is preserved
 
-Create a file like:
-lib/features/prayer_times/prayer_method_mapper.dart
+ Works with multi-digit ayah numbers
 
-With a function:
+ No mutation of source text
 
-dart
-Copy code
-int getPrayerMethodByCountryCode(String? code);
-5) Location Handling (Permissions + Errors)
-Implement a location service that:
+ Widget is reusable and stateless
 
-checks if location services are enabled
+Optional Enhancements (Out of Scope)
+Tap interaction on ayah numbers
 
-requests permission if needed
+Theme-aware coloring
 
-throws clear exceptions for:
+Support for alternative Quran fonts
 
-services disabled
+Caching spans for performance in long lists
 
-denied
+Notes for AI Agent
+Prioritize rendering correctness over string manipulation
 
-denied forever
+Assume text is Quranic Arabic (RTL by default)
 
-Recommended package: geolocator
-
-6) Create Prayer Times Model
-Create a model to parse response from:
-
-response.data["data"]["timings"]
-
-Extract at least:
-
-Fajr
-
-Dhuhr
-
-Asr
-
-Maghrib
-
-Isha
-
-Optional:
-
-Sunrise
-
-Imsak
-
-Midnight
-
-Also clean time values if they include timezone like "05:12 (EET)" by keeping only the HH:mm part.
-
-7) Create API Service (Dio)
-Create a service file:
-lib/features/prayer_times/prayer_times_service.dart
-
-It should include:
-
-baseUrl = https://api.aladhan.com/v1
-
-method to call /timings with lat/lon/method
-
-optional support for method 15 with shafaq
-
-Example signature:
-
-dart
-Copy code
-Future<PrayerTimesModel> getPrayerTimesByLocation({
-  required double lat,
-  required double lon,
-  required int method,
-  String? shafaq,
-});
-8) Build UI Screen
-Create a screen/page that:
-
-fetches current location
-
-detects country code
-
-selects method dynamically
-
-fetches prayer times
-
-displays prayer times in a clean list UI
-
-shows loading state
-
-shows error state
-
-supports pull-to-refresh (optional)
-
-File example:
-lib/features/prayer_times/prayer_times_screen.dart
-
-UI must show at least:
-
-Country code (if available)
-
-Selected method ID
-
-Prayer times list
-
-🧠 Additional Notes / Best Practices
-Keep code clean and structured (feature-based folders)
-
-Use try/catch and return meaningful error messages
-
-Avoid hardcoding city/country (use GPS only)
-
-Make sure the feature works on both Android and iOS
-
-Add iOS permission keys if missing (Info.plist):
-
-NSLocationWhenInUseUsageDescription
-
-Add Android permission in AndroidManifest if needed:
-
-ACCESS_FINE_LOCATION
-
-ACCESS_COARSE_LOCATION
-
-✅ Deliverables
-The implementation is considered complete when:
-
-App can request GPS permission and get lat/lon
-
-App can detect the country code from coordinates
-
-App chooses the correct prayer method dynamically
-
-App fetches prayer times from Aladhan API successfully
-
-App displays prayer times in the UI
-
-🔍 Output
-After finishing, provide:
-
-List of files created/modified
-
-Short explanation of how it works
-
-Example API call used
-
-Screenshot-friendly UI layout (simple and clean)
+Avoid assumptions about ayah separators other than (number)
 
