@@ -24,7 +24,8 @@ class Constants {
   static String prayTimeApiKey = '3cbJ9hkDgWoIex0tIhfM0wrcE9sazUhCotASgShkJy4bAnVT';
 
   static const String androidAppLink = 'https://play.google.com/store/apps/details?id=com.elmuslim.app';
-  static const String iosAppLink = 'https://apps.apple.com/us/app/al-muslim-%D8%A7%D9%84%D9%85%D8%B3%D9%84%D9%85/id6757352101';
+  static const String iosAppLink =
+      'https://apps.apple.com/us/app/al-muslim-%D8%A7%D9%84%D9%85%D8%B3%D9%84%D9%85/id6757352101';
 
   static const String termsArabicText =
       '1. باستخدامك لتطبيق المسلم، فإنك توافق على السماح للتطبيق باستخدام خدمة الموقع (GPS) لتحديد اتجاه القبلة بدقة.\n'

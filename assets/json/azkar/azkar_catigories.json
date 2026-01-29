@@ -1,17 +1,17 @@
 [
     {
-        "id": 2,
-        "arName": "أذكار المساء",
-        "enName": "Evening",
-        "filename": "evening_new.json",
-        "image": "evening.jpg"
-    },
-    {
         "id": 4,
         "arName": "أذكار الصباح",
         "enName": "Morning",
         "filename": "morning_new.json",
         "image": "morning.jpg"
+    },
+    {
+        "id": 2,
+        "arName": "أذكار المساء",
+        "enName": "Evening",
+        "filename": "evening_new.json",
+        "image": "evening.jpg"
     },
     {
         "id": 6,

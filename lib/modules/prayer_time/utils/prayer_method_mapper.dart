@@ -1,7 +1,7 @@
 /// Qatar-specific prayer time adjustments in minutes
-/// Fajr: +1, Dhuhr: +1, Asr: +2, Maghrib: +2, Isha: +2
+/// Fajr: -1, Asr: +2, Maghrib: +1, Isha: +1
 Map<String, int> getQatarPrayerAdjustments() {
-  return {'Fajr': 1, 'Dhuhr': 1, 'Asr': 2, 'Maghrib': 2, 'Isha': 2};
+  return {'Fajr': -1, 'Asr': 2, 'Maghrib': 1, 'Isha': 1};
 }
 
 /// Returns true if the country code is Qatar (QA)

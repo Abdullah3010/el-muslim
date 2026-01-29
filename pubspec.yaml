@@ -2,7 +2,7 @@ name: al_muslim
 description: "A new Flutter project."
 publish_to: 'none' 
 
-version: 1.0.0+14
+version: 1.0.2+18
 
 environment:
   sdk: ^3.7.2
