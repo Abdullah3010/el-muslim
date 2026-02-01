@@ -28,12 +28,17 @@ class _SnQiblaDirectionState extends State<SnQiblaDirection> {
   @override
   void initState() {
     super.initState();
+    Constants.talker.info('[SnQiblaDirection] initState called');
     _mgQibla = Modular.get<MgQibla>();
+    Constants.talker.info('[SnQiblaDirection] MgQibla obtained from Modular');
     try {
       _deviceSupportFuture = _mgQibla.deviceSupportFuture;
+      Constants.talker.info('[SnQiblaDirection] Device support future assigned');
       _mgQibla.refreshLocationStatus();
-    } catch (e) {
-      Constants.talker.error(" ======>> Error in Qibla Direction screen initState: $e");
+      Constants.talker.info('[SnQiblaDirection] refreshLocationStatus called');
+    } catch (e, stackTrace) {
+      Constants.talker.error('[SnQiblaDirection] Error in initState: $e');
+      Constants.talker.error('[SnQiblaDirection] StackTrace: $stackTrace');
     }
   }
 
@@ -74,20 +79,35 @@ class _SnQiblaDirectionState extends State<SnQiblaDirection> {
           FutureBuilder<bool?>(
             future: _deviceSupportFuture,
             builder: (_, snapshot) {
+              Constants.talker.debug(
+                '[SnQiblaDirection] FutureBuilder - connectionState: ${snapshot.connectionState}, hasData: ${snapshot.hasData}, hasError: ${snapshot.hasError}, data: ${snapshot.data}',
+              );
+
               if (snapshot.connectionState == ConnectionState.waiting) {
+                Constants.talker.info('[SnQiblaDirection] Device support check waiting...');
                 return const LoadingIndicator();
               }
 
               if (snapshot.hasError) {
+                Constants.talker.error('[SnQiblaDirection] Device support check error: ${snapshot.error}');
                 return Center(child: Text('Error: ${snapshot.error}'));
               }
 
+              Constants.talker.info('[SnQiblaDirection] Device support result: ${snapshot.data}');
+
               if (snapshot.data == true) {
+                Constants.talker.info('[SnQiblaDirection] Device supports compass - showing QiblahCompass');
                 return QiblahCompass(
                   locationStatusStream: _mgQibla.locationStatusStream,
-                  onRetry: () => _mgQibla.refreshLocationStatus(),
+                  onRetry: () {
+                    Constants.talker.info('[SnQiblaDirection] Retry button pressed');
+                    _mgQibla.refreshLocationStatus();
+                  },
                 );
               }
+              Constants.talker.warning(
+                '[SnQiblaDirection] Device does NOT support compass - snapshot.data=${snapshot.data}',
+              );
               return Center(
                 child: Text(
                   'Your device does not support compass functionality.'.translated,

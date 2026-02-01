@@ -154,5 +154,9 @@
     "You are late for your khatma by": "You are late for your khatma by",
     "days": "days",
     "zekr_single_time": "One time",
-    "azkar_search_other": "Search other azkar"
+    "azkar_search_other": "Search other azkar",
+    "qibla_loading_location": "Getting your location...",
+    "qibla_loading_calculating": "Calculating Qibla direction...",
+    "qibla_loading_compass": "Preparing compass...",
+    "qibla_loading_please_wait": "Please hold your device steady"
 }

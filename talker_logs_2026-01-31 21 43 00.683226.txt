@@ -1,0 +1,32 @@
+[info] | 21:42:36 314ms | LocalNotificationService initialized: true
+[info] | 21:42:36 321ms | Loaded 10 hourly azkar from JSON
+[info] | 21:42:36 332ms | Cancelled all hourly zekr notifications (7 AM - 11 PM)
+[info] | 21:42:36 523ms | Scheduled 17 hourly zekr notifications (7 AM - 11 PM, daily repeat)
+[info] | 21:42:46 308ms | [SnQiblaDirection] initState called
+[info] | 21:42:46 308ms | [Qibla] Checking device support - Platform: ios
+[info] | 21:42:46 308ms | [Qibla] iOS detected - returning true for compass support
+[info] | 21:42:46 309ms | [Qibla] refreshLocationStatus called - requestPermission: true
+[info] | 21:42:46 309ms | [SnQiblaDirection] MgQibla obtained from Modular
+[info] | 21:42:46 309ms | [SnQiblaDirection] Device support future assigned
+[info] | 21:42:46 309ms | [Qibla] refreshLocationStatus called - requestPermission: true
+[info] | 21:42:46 309ms | [SnQiblaDirection] refreshLocationStatus called
+[debug] | 21:42:46 312ms | [SnQiblaDirection] FutureBuilder - connectionState: ConnectionState.waiting, hasData: false, hasError: false, data: null
+[info] | 21:42:46 312ms | [SnQiblaDirection] Device support check waiting...
+[info] | 21:42:46 319ms | [Qibla] Location status - enabled: true, permission: LocationPermission.whileInUse
+[info] | 21:42:46 319ms | [Qibla] Emitting location status - enabled: true, permission: LocationPermission.whileInUse
+[info] | 21:42:46 320ms | [Qibla] Location status - enabled: true, permission: LocationPermission.whileInUse
+[info] | 21:42:46 320ms | [Qibla] Emitting location status - enabled: true, permission: LocationPermission.whileInUse
+[debug] | 21:42:46 323ms | [SnQiblaDirection] FutureBuilder - connectionState: ConnectionState.done, hasData: true, hasError: false, data: true
+[info] | 21:42:46 323ms | [SnQiblaDirection] Device support result: true
+[info] | 21:42:46 323ms | [SnQiblaDirection] Device supports compass - showing QiblahCompass
+[info] | 21:42:46 323ms | [QiblahCompass] initState called
+[info] | 21:42:46 323ms | [QiblahCompass] MgQibla obtained from Modular
+[debug] | 21:42:46 323ms | [QiblahCompass] build called
+[debug] | 21:42:46 323ms | [QiblahCompass] StreamBuilder - connectionState: ConnectionState.waiting, hasData: false, hasError: false
+[info] | 21:42:46 323ms | [QiblahCompass] Location stream waiting...
+[debug] | 21:42:52 977ms | [SnQiblaDirection] FutureBuilder - connectionState: ConnectionState.done, hasData: true, hasError: false, data: true
+[info] | 21:42:52 978ms | [SnQiblaDirection] Device support result: true
+[info] | 21:42:52 978ms | [SnQiblaDirection] Device supports compass - showing QiblahCompass
+[debug] | 21:42:52 978ms | [QiblahCompass] build called
+[debug] | 21:42:52 978ms | [QiblahCompass] StreamBuilder - connectionState: ConnectionState.waiting, hasData: false, hasError: false
+[info] | 21:42:52 978ms | [QiblahCompass] Location stream waiting...

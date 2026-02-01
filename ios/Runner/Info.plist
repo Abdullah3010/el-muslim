@@ -29,16 +29,20 @@
     <string>processing</string>
     <string>remote-notification</string>
   </array>
+  <key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>be.tramckrijte.workmanager.background.task</string>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We use your location to determine accurate prayer times and display your city.</string>
+	<string>We use your location to determine Qibla direction, accurate prayer times and display your city.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We use your location to show accurate prayer times and nearby mosques.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We use your location to determine Qibla direction and prayer times.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>We use motion sensors to show accurate compass direction for Qibla.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

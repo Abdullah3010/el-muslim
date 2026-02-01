@@ -155,5 +155,9 @@
     "You are late for your khatma by": "أنت متأخر عن ختمتك بـ",
     "days": "يوم",
     "zekr_single_time": "مره واحده",
-    "azkar_search_other": "ابحث في الاذكار"
+    "azkar_search_other": "ابحث في الاذكار",
+    "qibla_loading_location": "جارٍ تحديد موقعك...",
+    "qibla_loading_calculating": "جارٍ حساب اتجاه القبلة...",
+    "qibla_loading_compass": "جارٍ تجهيز البوصلة...",
+    "qibla_loading_please_wait": "يرجى تثبيت الجهاز"
 }
