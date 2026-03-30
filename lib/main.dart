@@ -56,8 +56,8 @@ void main() {
       await initNotificationsService.scheduleInitialNotificationsIfNeeded();
 
       final prayerBackgroundService = PrayerBackgroundService();
-      await prayerBackgroundService.initializeBackgroundSync();
-      await prayerBackgroundService.scheduleTodayPrayers();
+      prayerBackgroundService.initializeBackgroundSync();
+      prayerBackgroundService.scheduleTodayPrayers();
     } catch (error, stackTrace) {
       debugPrint('Failed to initialize background services: $error');
       debugPrintStack(stackTrace: stackTrace);
